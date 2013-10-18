@@ -1,0 +1,38 @@
+1/ On répartie les cours sur 1 semestre.
+2/ Associer PROF COURS CLASSES.
+3/ Etablir l'emploi du temps sur 1 semaine.
+
+On prend en compte 1 promo (3 classes) ; Uniquement des blocs de 4H ; Cours exceptionnel le jeudi après-midi et le samedi ; Pas de suite logique pour les cours (un cours doit être fait pour en faire un autre) ; Pas de contrainte de salle
+
+1/ Répartitions des cours sur le semestre : 
+
+	1.1 On calcule le nombre de semaines sur le semestre.
+
+	1.2 On essaye de faire des associations de 2 cours pour que le nombre de semaines de cours soit égal au nombre de semaines sur le semestre.
+
+	1.3 Le cours qui a le plus de semaines commence au début de l'année et l'autre va suivre pour terminer le semestre.
+
+	1.4 Si il reste des cours, on essaye de faire des associations de 3 cours pour que le nombre de semaines soit égal au nombre de semaines sur le semestre.
+
+	1.4 On répartit les cours comme sur le point 1.3.
+
+	1.5 Si il en reste on les répartit les uns à la suite des autres pour qu'ils puissent être continus sur l'année (avec les plus longs qui commencent au début de l'année et les plus courts qui finissent l'année) !!!!!!!! TROUVER UN BON ALGO POUR CA
+
+
+2/ Association Prof Cours Classes
+
+
+
+3/ Etablir l'emploi du temps sur 1 semaine
+
+	3.1 Dans l'emploi du temps on place tous les cours avec toutes leurs disponibilités (créneaux) -> correspondance créneaux / cours.
+
+	3.2 Si sur un créneaux il n'y a qu'un cours alors on fixe ce cours et on retire ce cours de tous les autres créneaux où il était. On répète cette opération jusqu'a ce qu'il n'y ait plus aucun créneaux avec 1 seul cours. Si un cours se retrouve tout seul sur 2 créneaux, 		alors on le choisir aléatoirement et on retire des autres.
+
+	3.3 On regarde le cours qui a le moins de créneaux possible. Et on le place sur le créneaux où il y a le moins d'autre cours dans celui-ci. On supprime le cours dans les autres créneaux existant. Si il y'a le même nombre de cours sur plusieurs, on en choisit 1 		aléatoirement. 
+Au fur et à mesure de cette opération on met à jour les créneaux disponible pour chacun des cours.
+
+	3.4 On répètes les opération 3.2 et 3.3 jusqu'a ce que tous les cours soit placés dans l'emploi du temps.
+
+	Si il y a un plantage (le cours ne peut être placé) On revient à la dernière étape où on a fait une décision aléatoire que l'on a fait, et on change la répartition.
+	Si ça ne marche toujours pas, on revient encore une étape en arrière qui a été faite en aléatoire.
