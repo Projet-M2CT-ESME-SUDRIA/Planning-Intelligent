@@ -1,0 +1,10 @@
+#Fichier Latex
+*.aux
+*.bbl
+*.blg
+*.dvi
+*.log
+*.toc
+*.synctex.gz
+
+*.DS_Store
