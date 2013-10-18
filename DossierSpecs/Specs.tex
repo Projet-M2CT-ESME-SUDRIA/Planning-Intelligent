@@ -1,0 +1,154 @@
+\documentclass[12pt,a4paper,french]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{fullpage}
+\usepackage[french]{babel}
+\usepackage[official]{eurosym}
+\usepackage{txfonts}
+\usepackage{graphicx}
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{color}
+\usepackage{setspace}
+\usepackage[nottoc, notlof, notlot]{tocbibind}
+
+\begin{document}
+
+	%---------------------------------%
+	%	PAGE DE GARDE	%
+	%--------------------------------%
+	\begin{titlepage}
+		\begin{center}
+			\begin{spacing}{2}
+				{ \Huge{ P.I. : PLANNING INTELLIGENT}}\\[1cm]
+			\end{spacing}
+			{ \Large{Dossier des Spécificitions}}\\[10cm]
+		
+			\textbf{Auteurs} : 
+					Corentin COUDRAY \\
+					Christophe JULIEN \\
+					Khanh An Noël TRAN \\ 
+			\textbf{Groupe} : M2\_9\\
+			\textbf{Date} : 20/10/2013\\[2 cm]
+		\end{center}
+		
+		% Bas de page %
+		\vfill 
+		\begin{minipage}[b]{0.3\linewidth}
+			\includegraphics[width=30mm]{logo.png}
+		\end{minipage}
+		\hfill
+		\begin{minipage}[b]{0.3\linewidth}
+			{\footnotesize{38 rue de Molière}}\\
+			{\footnotesize{94200 IVRY sur SEINE}}\\
+			{\footnotesize{Tel. : 01 56 20 62 00}}\\
+			{\footnotesize{Fax. : 01 56 20 62 52}}\\
+			{\footnotesize{http://www.esme.fr}}
+		\end{minipage}
+	\end{titlepage}
+	
+	%-------------------------%
+	%	SOMMAIRE	%
+	%-------------------------%
+	\renewcommand{\contentsname}{Sommaire}
+	\tableofcontents
+	\newpage
+
+	%--------------------------%
+	%	CONTEXTE	%	
+	%-------------------------%
+	\section{Contexte}
+
+		%					%
+		%	INTRODUCTION	%
+		%					%
+		\subsection{Introduction}
+			\paragraph{}
+				Ce projet a pour but la réalisation d'une application de production d'un emploi du temps, et ainsi de faciliter le travail de M. Maeso. En effet, chaque année, il doit créer manuellement l'intégralité des emplois du temps de l'école, en tenant compte de toutes les contraintes de disponibilités des professeurs, des salles, des élèves, etc.
+
+			\paragraph{}
+				Mais ce problème peut être généralisé à toutes les planifications horaires d'employés, comme dans les écoles, les hôpitaux et toutes autres entreprises ayant un roulement de personnel à organiser.
+		
+			\paragraph{}
+				La planification sous contraintes est la discipline des mathématiques appliquées consistant à ordonner diverses séquences ou évènements dans un espace-temps limité. Ces planifications impliquent un grand nombre de contraintes, qu'elles soient liées aux disponibilités de personnes, d'emplacements ou à tous autres problèmes divers et variés.
+
+			\paragraph{}
+				La réalisation d'une planification est à la fois longue et périlleuse. Il est très difficile de concilier l'ensemble des contraintes qui accompagnent cet ordonnancement et de pouvoir organiser cela de manière optimale. La mise en place d'un calendrier est souvent faite à la main ou de manière approximative avec d'autres applications.
+			
+			\paragraph{}
+				L'objectif de ce projet est donc de réaliser une application, permettant de générer une planification tenant compte de toutes les contraintes que l'on aura indiquées au préalable. Dans un premier temps, nous nous contenterons de générer un emploi du temps propre à l'école, quitte à élargir notre champ d'action si nous en avons le temps.
+
+
+		%					%
+		%	PROBLEMATIQUE	%
+		%					%	
+		\subsection{Problématique}
+			\paragraph{}
+				Les algorithmes nécessaires à l'élaboration de ce projet relèvent des problèmes dit "NP-complets". \\
+Les problèmes NP-complets sont des problèmes qui sont au minimum aussi difficiles que les problèmes NP. Ces derniers sont des problèmes de décision à temps polynomial. Ils vont être réalisables en listant l'ensemble des solutions puis en les testant. Le souci est que cela peut prendre énormément de temps en fonction de ce que l'on a en entrée du problème.
+			\paragraph{}
+				Les problèmes NP-complets peuvent avoir des solutions mais elles ne vont pas être trouvées de manière optimale. Le temps pour résoudre ces problèmes est de l'ordre exponentiel par rapport à ce que l'on a en entrée. On devra toujours se contenter d'une solution qui sera au mieux "satisfaisante''.
+				\cite{01-npComplet}
+
+	%----------------------------%
+	%	  EXISTANTS       %
+	%----------------------------%
+	\newpage
+	\section{Existants}
+		\paragraph{}
+			Aujourd'hui, il existe déjà des systèmes de planification informatique, mais ils correspondent toujours à des cas bien spécifiques : organisation du personnel médical dans un hôpital, organisation du personnel dans une base militaire, etc... Mais il semble impossible à l'heure actuelle d'imaginer un logiciel générique permettant de lister des contraintes et d'élaborer le planning correspondant et adapté quel que soit le milieu professionnel.
+
+		\paragraph{}
+			Ainsi, il nous faudra donc partir de rien. Nous pourrons tout de même nous inspirer des méthodes de résolution de ces plannings pour essayer de les adapter à notre problème.
+
+		\paragraph{}
+			Nous avons également trouvé des éléments de recherche :
+			\begin{itemize}
+				\item \textbf{\underline{Algorithme des colonies de fourmis : }} cet algorithme est basé sur le comportement réel des fourmis, qui parviennent, par le biais de rétroactions,  à trouver le chemin le plus court entre une source de nourriture et leur nid.
+				\cite{02-algoFourmis}
+				\item \textbf{\underline{Recherche tabou : }} cet algorithme consiste à partir d'une position donnée, et à explorer ensuite le voisinage pour choisir la position qui minimise la fonction objectif. Le mot 'tabou' vient du fait qu'une fois une position écartée, on ne peut plus y revenir. Cet algorithme procède donc par élimination jusqu'à trouver une solution convenable.
+				\cite{03-algoTabou}
+			\end{itemize}
+
+			\paragraph{}
+				Il existe probablement d'autres algorithmes de ce genre, dont nous aurons besoin pour aboutir à une solution convenable. Nous devrons employer des méthodes de résolution pas à pas, procédant par élimination, car il ne semble pas possible de créer un algorithme optimal qui génère un emploi du temps idéal, prenant en compte toutes les contraintes, et en les organisant de manière aussi intelligente que le ferait un être humain.
+
+	%--------------------------%
+	%	OBJECTIFS	%
+	%-------------------------%		
+	\newpage
+	\section{Objectifs}
+		
+		%						%
+		%	FONCTIONNALITES	%
+		%						%
+		\subsection{Fonctionnalités}
+			\paragraph{}
+				L'objectif de notre projet est de réaliser un planning en fonction des contraintes que l'on aura indiquées. Nous allons donc réaliser l'emploi du temps de notre école de la manière la plus optimale possible.
+
+			\paragraph{}
+				Dans notre cas, l'utilisateur entrera la liste des matières qui sont enseignées dans l'école avec les différentes caractéristiques qui les accompagnent comme le nombre d'heures ou encore l'occupation des salles. Le logiciel indiquera l'ensemble des professeurs avec les différentes matières qu'ils enseignent et leurs disponibilités. Puis, il notera la liste des promotions avec les cours qui leurs sont associés. Et enfin, la liste des salles qui vont être adaptées pour une liste de cours. En effet, certains professeurs peuvent dispenser plusieurs cours, et certains cours peuvent être dispensés par plusieurs professeurs. De même, certains cours comme les TP ne peuvent être dispensés que dans certaines salles spécifiques. Il faudra donc dresser des listes d'associations entre les différents éléments de notre emploi du temps.
+
+			\paragraph{}
+				Une fois toutes ces contraintes posées, l'emploi du temps va être généré en fonction de celles-ci. 
+
+
+		%			%
+		%	LIMITES	%
+		%			%
+		\subsection{Limites}
+			\paragraph{}
+				Le projet étant très complexe, ("np-complet''), nous ne pourrons pas faire un algorithme totalement optimisé. En effet, notre projet s'inscrit dans le cadre de l'heuristique. L'heuristique, est utilisée en Mathématiques Discrètes afin de trouver une solution réalisable, mais pas nécessairement optimale.
+
+			\paragraph{}
+				De plus, au regard du nombre de contraintes associées au problème, nous devrons avancer pas à pas et commencer par écarter un bon nombre d'entre elles pour nous faciliter la tâche. Ainsi, au fur et à mesure que le projet avancera, on le complexifiera en incluant toujours plus de contraintes. Mais, le temps imparti étant limité, nous ne savons pas s'il nous sera possible d'inclure tous les facteurs liés à la planification dans notre logiciel.
+
+%Références %
+\newpage
+\bibliographystyle{unsrt}
+\bibliography{biblio}
+
+
+\end{document}
