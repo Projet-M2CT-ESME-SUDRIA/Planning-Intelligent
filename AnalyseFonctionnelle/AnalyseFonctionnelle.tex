@@ -1,0 +1,287 @@
+\documentclass[12pt,a4paper,french]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{fullpage}
+\usepackage[french]{babel}
+\usepackage[official]{eurosym}
+\usepackage{txfonts}
+\usepackage{graphicx}
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{color}
+\usepackage{setspace}
+\usepackage[nottoc, notlof, notlot]{tocbibind}
+\usepackage{hyperref}
+
+
+% Création de la subsubsubsection %
+\titleclass{\subsubsubsection}{straight}[\subsection]
+\newcounter{subsubsubsection}
+\renewcommand\thesubsubsubsection{\thesubsubsection.\arabic{subsubsubsection}}
+\renewcommand\theparagraph{\thesubsubsubsection.\arabic{paragraph}}
+\titleformat{\subsubsubsection}
+  {\normalfont\normalsize\bfseries}{\thesubsubsubsection}{1em}{}
+\titlespacing*{\subsubsubsection}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+\makeatletter
+\renewcommand\paragraph{\@startsection{paragraph}{5}{\z@}%
+  {3.25ex \@plus1ex \@minus.2ex}%
+  {-1em}%
+  {\normalfont\normalsize\bfseries}}
+\renewcommand\subparagraph{\@startsection{subparagraph}{6}{\parindent}%
+  {3.25ex \@plus1ex \@minus .2ex}%
+  {-1em}%
+  {\normalfont\normalsize\bfseries}}
+\def\toclevel@subsubsubsection{4}
+\def\toclevel@paragraph{5}
+\def\toclevel@paragraph{6}
+\def\l@subsubsubsection{\@dottedtocline{4}{7em}{4em}}
+\def\l@paragraph{\@dottedtocline{5}{10em}{5em}}
+\def\l@subparagraph{\@dottedtocline{6}{14em}{6em}}
+\makeatother
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
+
+\begin{document}
+
+	%---------------------------------%
+	%	PAGE DE GARDE	%
+	%--------------------------------%
+	\begin{titlepage}
+		\begin{center}
+			\begin{spacing}{2}
+				{ \Huge{ P.I. : PLANNING INTELLIGENT}}\\[1cm]
+			\end{spacing}
+			{ \Large{Analyse Fonctionnelle}}\\[10cm]
+		
+			\textbf{Auteurs} : 
+					Corentin COUDRAY \\
+					Christophe JULIEN \\
+					Khanh An Noël TRAN \\ 
+			\textbf{Groupe} : M2\_9\\
+			\textbf{Date} : 01/11/2013\\[2 cm]
+		\end{center}
+		
+		% Bas de page %
+		\vfill 
+		\begin{minipage}[b]{0.3\linewidth}
+			\includegraphics[width=30mm]{logo.png}
+		\end{minipage}
+		\hfill
+		\begin{minipage}[b]{0.3\linewidth}
+			{\footnotesize{38 rue de Molière}}\\
+			{\footnotesize{94200 IVRY sur SEINE}}\\
+			{\footnotesize{Tel. : 01 56 20 62 00}}\\
+			{\footnotesize{Fax. : 01 56 20 62 52}}\\
+			{\footnotesize{http://www.esme.fr}}
+		\end{minipage}
+	\end{titlepage}
+	
+	%-------------------------%
+	%	SOMMAIRE	%
+	%-------------------------%
+	\renewcommand{\contentsname}{Sommaire}
+	\tableofcontents
+	\newpage
+	
+	%--------------------------------%
+	%	LES ACTEURS		%
+	%--------------------------------%
+	\section{Les acteurs}
+		
+		\paragraph{}
+			Il existe deux principaux types d'acteur pour notre logiciel :
+	
+		%-------------------------------------------------------------------%
+		%	PREMIER ACTEUR (SAISIE DES DONNEES)	%
+		%-------------------------------------------------------------------%
+		\subsection{Premier acteur : Saisie des données}
+		
+			\paragraph{}
+				Le rôle du premier acteur est de saisir toutes les données relatives aux professeurs, salles, et  élèves, et tous les paramètres nécessaires à une première simulation de l'emploi du temps.
+		
+		%-----------------------------------------------------------------------------------------------%
+		%	SECOND ACTEUR (MAINTENANCE DE L'EMPLOI DU TEMPS)	%					%-----------------------------------------------------------------------------------------------%
+		\subsection{Second acteur : Maintenance de l'emploi du temps}
+		
+			\paragraph{}
+				Etablir un emploi du temps est une bonne chose, mais il faut  également pouvoir le modifier au cours de l'année si des évènements imprévus doivent être rajoutés.
+			
+			\paragraph{}
+				Le rôle du deuxième acteur est donc de gérer la maintenance de l'emploi du temps au fur et à mesure que l'année avance. Il doit pouvoir rajouter des évènements dans l'emploi du temps des professeurs et/ou des élèves.
+				
+	%---------------------------------------%
+	%	CAS D'UTILISATION		%
+	%---------------------------------------%
+	\newpage
+	\section{Cas d'utilisation}
+	
+		%-------------------------------------------------------------------%
+		%	GENERATION DE L'EMPLOI DU TEMPS		%
+		%-------------------------------------------------------------------%
+		\subsection{Génération de l'emploi du temps}
+		
+			\begin{figure}[! ht ]
+				\centering
+				\begin{minipage}[t]{14 cm}
+					\centering
+					\fbox{
+						\includegraphics[width=140mm, height=140mm]{CasUtilisation1.png}
+					}
+					\caption {Diagramme cas d'utilisation, génération de l'emploi du temps}
+				\end{minipage}
+			\end{figure}
+			
+			%-------------------------%
+			%	OBJECTIF	%
+			%-------------------------%
+			\subsubsection{Objectif}
+				
+				\paragraph{}
+					L'objectif est de créer un emploi du temps à partir de données brutes entrées par l'utilisateur.
+
+			%-------------------------%
+			%	ACTEURS	%
+			%-------------------------%
+			\subsubsection{Acteurs}
+				
+				\paragraph{}
+					L'acteur est celui qui est chargé de la saisie des données.
+					
+			%------------------------------------------------------------------------------------------------------%
+			%	DONNEES ECHANGEES ET DESCRIPTION DES ENCHAINEMENTS	%
+			%------------------------------------------------------------------------------------------------------%
+			\subsubsection{Données échangées et description des enchaînements}
+				
+				\paragraph{}
+					L'acteur en question entre les différentes données propres aux professeurs, classes, salles, et matières. Pour chaque élément, il devra remplir des critères bien spécifiques:
+					\newline
+					\begin{itemize}
+						\item Pour chaque professeur, il doit entrer les matières que celui-ci enseigne et ses disponibilités dans la semaine. 
+						\item Pour chaque promotion, il doit entrer le programme qui devra être dispensé au cours de l'année (matières et nombre d'heures).
+						\item Pour chaque classe, il doit préciser la promotion à laquelle elle appartient.
+						\item Pour chaque salle, il doit entrer leur contenance et leur type (salle de TP info, salle de cours, etc...)
+					\end{itemize}
+					
+				\paragraph{}
+					Une fois que toutes les données ont été entrées, le logiciel génère automatiquement tous les emplois du temps de l'école. 
+		
+		%-------------------------------------------------------------------%
+		%	MAINTENANCE DE L'EMPLOI DU TEMPS	%
+		%-------------------------------------------------------------------%
+		\newpage
+		\subsection{Maintenance de l'emploi du temps}
+			
+			\begin{figure}[! ht ]
+				\centering
+				\begin{minipage}[t]{14 cm}
+					\centering
+					\fbox{
+						\includegraphics[width=140mm, height=80mm]{CasUtilisation2.png}
+					}
+					\caption {Diagramme cas d'utilisation, maintenance de l'emploi du temps}
+				\end{minipage}
+			\end{figure}
+			
+			%-------------------------%
+			%	OBJECTIF	%
+			%-------------------------%
+			\subsubsection{Objectif}
+				Pour une raison ou pour une autre, l'utilisateur peut être amené à rajouter un évènement dans l'emploi du temps. Le logiciel doit donc le permettre en tenant  compte des évènements déjà placés et des contraintes que cela implique, sans avoir à générer à nouveau tout l'emploi du temps. 
+				
+			%-------------------------%
+			%	ACTEURS	%
+			%-------------------------%
+			\subsubsection{Acteurs}
+				Le seul acteur à intervenir dans ce cas est celui chargé de la maintenance.
+			
+			%----------------------------------------------%
+			%	DONNEES ECHANGEES		%
+			%----------------------------------------------%
+			\subsubsection{Données échangées}
+				Pour placer un cours dans l'emploi du temps, le programme devra consulter les disponibilités de chaque élément:
+				\newline
+				\begin{itemize}
+					\item	Les disponibilités des professeurs ou des intervenants
+					\item Les disponibilités des élèves
+					\item Les disponibilités d'une salle convenant à l'évènement, et dont la capacité est suffisante pour accueillir tous les élèves.
+				\end{itemize}
+				
+			%------------------------------------------------------------%
+			%	DESCRIPTION DES ENCHAINEMENTS	%
+			%------------------------------------------------------------%
+			\subsubsection{Description des enchaînements}
+			
+				%--------------------------------%
+				%	PRE-CONDITION	%
+				%--------------------------------%
+				\subsubsubsection{Pré-condition}
+					
+					\paragraph{}
+						Lorsque l'utilisateur voudra rajouter un évènement, il lui faudra connaître les disponibilités de chacune des entités concernées. Il devra également savoir quelles classes sont concernées par l'évènement, si elles doivent recevoir l'évènement par classe ou par promo, etc...
+				%-------------------------%
+				%	SEQUENCE	%
+				%-------------------------%
+				\subsubsubsection{Séquence}
+				
+					\paragraph{}
+						L'utilisateur entre les disponibilités de chacun dans le programme, et celui-ci va chercher les différents créneaux possibles pour placer le cours. L'utilisateur aura alors deux possibilités : soit il laisse le programme placer automatiquement le cours, soit il demandera au programme d'afficher la liste des créneaux disponibles afin de placer manuellement le cours. Celui-ci n'aura qu'à choisir le créneau qui lui semble le plus adapté.
+						
+	%----------------------------------------------%
+	%	DIAGRAMME DE CONTEXTE	%
+	%----------------------------------------------%
+	\newpage
+	\section{Diagramme de contexte}
+		\begin{figure}[! ht ]
+			\centering
+			\begin{minipage}[t]{14 cm}
+				\centering
+				\fbox{
+					\includegraphics[width=140mm, height=120mm]{DiagrammeContexte.png}
+				}
+				\caption {Diagramme de contexte}
+			\end{minipage}
+		\end{figure}
+	
+	%------------------------------------------------------------%
+	%	ARCHITECTURE FONCTIONNELLE	%
+	%------------------------------------------------------------%
+	\newpage
+	\section{Architecture fonctionnelle}
+		\begin{figure}[! ht ]
+			\centering
+			\begin{minipage}[t]{14 cm}
+				\centering
+				\fbox{
+					\includegraphics[width=140mm, height=140mm]{ArchitectureFonctionnelle.png}
+				}
+				\caption {Architecture fonctionnelle}
+			\end{minipage}
+		\end{figure}
+	
+	%---------------------------------------%
+	%	MODELE DE DONNÉES	%
+	%---------------------------------------%
+	\newpage
+	\section{Modèle de données}
+		\begin{figure}[! ht ]
+			\centering
+			\begin{minipage}[t]{14 cm}
+				\centering
+				\fbox{
+					\includegraphics[width=140mm, height=80mm]{ModeleDonnees.png}
+				}
+				\caption {Modèle de données}
+			\end{minipage}
+		\end{figure}
+	
+	%				%
+	%	Gloassaire	%
+	%				%
+	\newpage
+	\addcontentsline{toc}{section}{Table des figures}
+	\listoffigures
+			
+\end{document}
