@@ -1,0 +1,221 @@
+\documentclass[12pt,a4paper,french]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{fullpage}
+\usepackage[french]{babel} 
+\usepackage[official]{eurosym}
+\usepackage{txfonts}
+\usepackage{graphicx}
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{color}
+\usepackage{setspace}
+\usepackage[nottoc, notlof, notlot]{tocbibind}
+\usepackage{hyperref}
+
+\usepackage[usenames,dvipsnames]{pstricks}
+\usepackage{epsfig}
+\usepackage{pst-grad} % For gradients
+\usepackage{pst-plot} % For axes
+ 
+
+\begin{document}
+
+\title{Formalisation -- Emploi du temps}
+\author{Coudray -- Julien -- Tran}
+\date{\today}
+\maketitle
+
+\section*{Formalisation des données}
+\begin{itemize}
+\item L'ensemble des cours du semestre est représenté par $W_{i,j}$ tels que $i$ la semaine donnée sur le semestre et $j$ le créneau dans la semaine compris entre 0 et 10.
+\item L'ensemble des professeurs $P_n$ est représenté par un mot binaire regroupant leurs disponibilités dans la semaine,  tel que $n$ compris entre 0 et $\mu$, avec $\mu$ le nombre de professeurs dans l'école.
+\item L'ensemble des promotions est représenté par $G_m$ avec m compris entre 0 et $\nu$, avec $\nu$ le nombre de promotion dans l'école.
+\item Pour chaque promotion $G_m$, un tableau $W_i$ lui est associé dans lequel nous allons retrouver pour un créneau occupé:  l'enseignant $P_x$, la matière $X_j$ et le numéro du cours.
+\item Un tableau de correspondance entre les matières et les professeurs.
+\end{itemize}
+
+\section*{Ebauche d'une solution pour une semaine et une promo donnée}
+\begin{itemize}
+\item Nous isolons tous $P_n$ ayant un seul bit à 1. La disponibilité du professeur étant unique, nous le plaçons sur le créneau.
+\item On met à jour les mots binaires pour chaque $P_n$
+\item Une fois qu'il n'y a plus de $P_n$ avec 1 seul bit à 1 on peut lancer le programme de résolution glouton.
+\end{itemize}
+
+\newpage
+\subsection*{Correspondance professeurs-créneaux}
+\scalebox{1} % Change this value to rescale the drawing.
+{
+\begin{pspicture}(0,-1.85)(13.94,1.85)
+\psline[linewidth=0.04cm](0.0,0.57)(13.88,0.65)
+\psline[linewidth=0.04cm](0.04,-0.19)(13.92,-0.15)
+\psline[linewidth=0.04cm](0.06,-0.99)(13.88,-0.95)
+\psline[linewidth=0.04cm](2.48,1.77)(2.48,-1.81)
+\psline[linewidth=0.04cm](3.48,1.77)(3.46,-1.79)
+\psline[linewidth=0.04cm](4.5,1.77)(4.52,-1.81)
+\usefont{T1}{ptm}{m}{n}
+\rput(1.2850391,0.175){$P_{1}$}
+\usefont{T1}{ptm}{m}{n}
+\rput(1.279541,-0.625){$P_{2}$}
+\usefont{T1}{ptm}{m}{n}
+\rput(2.9856544,1.155){$W_{i,1}$}
+\usefont{T1}{ptm}{m}{n}
+\rput(3.9201562,1.155){$W_{i,2}$}
+\usefont{T1}{ptm}{m}{n}
+\rput(4.9726853,1.155){$W_{i,3}$}
+\usefont{T1}{ptm}{m}{n}
+\rput(1.2920703,-1.425){$P_{3}$}
+\usefont{T1}{ptm}{b}{n}
+\rput(2.904336,0.135){1}
+\usefont{T1}{ptm}{b}{n}
+\rput(3.9369042,0.135){0}
+\usefont{T1}{ptm}{b}{n}
+\rput(4.9969044,0.135){0}
+\usefont{T1}{ptm}{b}{n}
+\rput(3.924336,-0.665){1}
+\usefont{T1}{ptm}{b}{n}
+\rput(3.904336,-1.485){1}
+\usefont{T1}{ptm}{b}{n}
+\rput(4.984336,-1.485){1}
+\usefont{T1}{ptm}{b}{n}
+\rput(4.9769044,-0.685){0}
+\usefont{T1}{ptm}{b}{n}
+\rput(2.9369042,-0.665){0}
+\usefont{T1}{ptm}{b}{n}
+\rput(2.9569044,-1.505){0}
+\usefont{T1}{ptm}{m}{n}
+\rput(1.6012988,1.475){Créneaux}
+\usefont{T1}{ptm}{m}{n}
+\rput(0.8807324,0.815){Professeurs}
+\psline[linewidth=0.04cm](2.5,0.57)(0.0,1.73)
+\psline[linewidth=0.04cm](5.52,1.77)(5.56,-1.79)
+\usefont{T1}{ptm}{m}{n}
+\rput(6.0013866,1.175){$W_{i,4}$}
+\psline[linewidth=0.04cm](6.5,1.79)(6.5,-1.79)
+\usefont{T1}{ptm}{m}{n}
+\rput(7.075762,1.155){$W_{i,5}$}
+\psline[linewidth=0.04cm](7.64,1.77)(7.66,-1.83)
+\usefont{T1}{ptm}{m}{n}
+\rput(8.180683,1.175){$W_{i,6}$}
+\psline[linewidth=0.04cm](8.66,1.77)(8.66,-1.83)
+\usefont{T1}{ptm}{m}{n}
+\rput(9.199629,1.195){$W_{i,7}$}
+\psline[linewidth=0.04cm](9.72,1.77)(9.74,-1.79)
+\usefont{T1}{ptm}{m}{n}
+\rput(10.237256,1.195){$W_{i,8}$}
+\psline[linewidth=0.04cm](10.72,1.81)(10.72,-1.81)
+\usefont{T1}{ptm}{m}{n}
+\rput(11.2198925,1.195){$W_{i,9}$}
+\psline[linewidth=0.04cm](11.66,1.83)(11.66,-1.77)
+\usefont{T1}{ptm}{m}{n}
+\rput(12.211211,1.195){$W_{i,10}$}
+\psline[linewidth=0.04cm](12.72,1.79)(12.7,-1.77)
+\usefont{T1}{ptm}{m}{n}
+\rput(13.255654,1.195){$W_{i,11}$}
+\usefont{T1}{ptm}{b}{n}
+\rput(5.984336,0.135){1}
+\usefont{T1}{ptm}{b}{n}
+\rput(7.044336,0.135){1}
+\usefont{T1}{ptm}{b}{n}
+\rput(9.184336,0.135){1}
+\usefont{T1}{ptm}{b}{n}
+\rput(10.244336,0.135){1}
+\usefont{T1}{ptm}{b}{n}
+\rput(11.124336,0.135){1}
+\usefont{T1}{ptm}{b}{n}
+\rput(5.964336,-0.645){1}
+\usefont{T1}{ptm}{b}{n}
+\rput(7.024336,-0.645){1}
+\usefont{T1}{ptm}{b}{n}
+\rput(8.164336,-0.665){1}
+\usefont{T1}{ptm}{b}{n}
+\rput(9.204336,-0.665){1}
+\usefont{T1}{ptm}{b}{n}
+\rput(13.224336,-0.645){1}
+\usefont{T1}{ptm}{b}{n}
+\rput(5.964336,-1.485){1}
+\usefont{T1}{ptm}{b}{n}
+\rput(12.144336,-1.485){1}
+\usefont{T1}{ptm}{b}{n}
+\rput(8.156904,0.115){0}
+\usefont{T1}{ptm}{b}{n}
+\rput(12.196904,0.135){0}
+\usefont{T1}{ptm}{b}{n}
+\rput(13.216905,0.135){0}
+\usefont{T1}{ptm}{b}{n}
+\rput(10.256905,-0.645){0}
+\usefont{T1}{ptm}{b}{n}
+\rput(11.156904,-0.665){0}
+\usefont{T1}{ptm}{b}{n}
+\rput(12.196904,-0.685){0}
+\usefont{T1}{ptm}{b}{n}
+\rput(7.0569043,-1.505){0}
+\usefont{T1}{ptm}{b}{n}
+\rput(8.176905,-1.485){0}
+\usefont{T1}{ptm}{b}{n}
+\rput(9.216905,-1.485){0}
+\usefont{T1}{ptm}{b}{n}
+\rput(10.216905,-1.465){0}
+\usefont{T1}{ptm}{b}{n}
+\rput(11.176905,-1.485){0}
+\usefont{T1}{ptm}{b}{n}
+\rput(13.236904,-1.485){0}
+\end{pspicture} 
+}
+\\
+$P_1$ = <10011011100>\\
+$P_2$ = <01011110001>\\
+$P_3$ = <01110000010>\\
+
+\subsection*{Correspondance professeurs-matières}
+\scalebox{1} % Change this value to rescale the drawing.
+{
+\begin{pspicture}(0,-1.82)(7.18,1.82)
+\psline[linewidth=0.04cm](0.0,0.6)(7.14,0.62)
+\psline[linewidth=0.04cm](0.04,-0.16)(7.16,-0.14)
+\psline[linewidth=0.04cm](0.06,-0.96)(7.12,-0.98)
+\psline[linewidth=0.04cm](2.48,1.8)(2.48,-1.78)
+\psline[linewidth=0.04cm](3.88,1.78)(3.92,-1.8)
+\psline[linewidth=0.04cm](5.26,1.78)(5.3,-1.78)
+\usefont{T1}{ptm}{m}{n}
+\rput(1.2850391,0.205){$P_1$}
+\usefont{T1}{ptm}{m}{n}
+\rput(1.279541,-0.595){$P_2$}
+\usefont{T1}{ptm}{m}{n}
+\rput(3.2514942,1.185){C++}
+\usefont{T1}{ptm}{m}{n}
+\rput(4.5933886,1.185){Algèbre}
+\usefont{T1}{ptm}{m}{n}
+\rput(6.023389,1.205){Analyse}
+\usefont{T1}{ptm}{m}{n}
+\rput(1.2920703,-1.395){$P_3$}
+\usefont{T1}{ptm}{b}{n}
+\rput(3.164336,0.165){1}
+\usefont{T1}{ptm}{b}{n}
+\rput(4.6169043,0.165){0}
+\usefont{T1}{ptm}{b}{n}
+\rput(6.0769043,0.165){0}
+\usefont{T1}{ptm}{b}{n}
+\rput(4.604336,-0.615){1}
+\usefont{T1}{ptm}{b}{n}
+\rput(4.584336,-1.475){1}
+\usefont{T1}{ptm}{b}{n}
+\rput(6.104336,-1.455){1}
+\usefont{T1}{ptm}{b}{n}
+\rput(6.0769043,-0.615){0}
+\usefont{T1}{ptm}{b}{n}
+\rput(3.1969042,-0.595){0}
+\usefont{T1}{ptm}{b}{n}
+\rput(3.1569042,-1.475){0}
+\usefont{T1}{ptm}{m}{n}
+\rput(1.6807324,1.505){Matières}
+\usefont{T1}{ptm}{m}{n}
+\rput(0.8407324,0.885){Professeurs}
+\psline[linewidth=0.04cm](2.5,0.6)(0.0,1.76)
+\end{pspicture} 
+}
+
+
+\end{document}
