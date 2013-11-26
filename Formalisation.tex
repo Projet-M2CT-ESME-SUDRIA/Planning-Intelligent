@@ -51,6 +51,15 @@
 \item On regarde si il y a un prof capable d'enseigner cette matière et disponible sur ce même créneau.
 \end{itemize}
 
+\section*{Pré-traitement}
+Nous effectuons un pré-traitement pour éviter des calculs qui n'aboutiront pas.
+Nous comparons le nombre de cours qui doivent être donnés par matière sur une semaine toutes classes confondues, avec le nombre de créneaux disponibles pour l'ensemble des profs donnant cette matière.
+\begin{itemize}
+\item Si le nombre de créneaux total des professeurs est supérieur au nombre de créneaux du cours alors il n'y a pas de pré-traitement à effectuer pour ce cours.
+\item Si le nombre de créneaux total des professeurs est égal au nombre de créneaux du cours alors on peut directement associer les classes aux créneaux du ou des professeurs
+\item Si le nombre de créneaux total des professeurs est inférieur au nombre de créneaux du cours alors nous ne pouvons pas aboutir à une solution. Il faut donc ajouter des professeurs ou des créneaux.
+\end{itemize}
+
 \newpage
 \subsection*{Correspondance professeurs-créneaux}
 \scalebox{1} % Change this value to rescale the drawing.
@@ -222,6 +231,7 @@ $P_3$ = <01110000010>\\
 \psline[linewidth=0.04cm](2.5,0.6)(0.0,1.76)
 \end{pspicture} 
 }
+
 
 
 \end{document}
