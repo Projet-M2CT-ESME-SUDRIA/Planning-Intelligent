@@ -11,3 +11,7 @@
 
 
 *.DS_Store
+/Planning0.1/build/
+/Planning0.1/dist/
+/Planning0.1/Makefile
+/Planning0.1/nbproject
