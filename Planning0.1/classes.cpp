@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "classes.h"
 
 using namespace std;
@@ -73,6 +75,16 @@ void prof::grant_lecture(course c, week& w, int index) {
 
     lecture l(c.get_id(), this->_id, w.get_id());
     w.add_lecture(index,l);
+}
+
+void prof::displayAvail() {
+    for (int i = 0; i < 22; i++) {
+        if (i == 21)
+            cout << this->_availabiliy.at(i) << endl;
+        else
+            cout << this->_availabiliy.at(i) << " , ";
+    }
+
 }
 
 

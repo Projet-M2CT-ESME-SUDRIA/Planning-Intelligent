@@ -74,6 +74,7 @@ public:
     prof(int id, std::string name, std::vector<int> availability);
     //index = creneaux
     void grant_lecture(course c, week &w, int index);
+    void displayAvail();
 
 };
 
