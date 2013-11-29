@@ -9,7 +9,7 @@
 *.lof
 *.synctex.gz
 
-
+*.dep.inc
 *.DS_Store
 /Planning0.1/build/
 /Planning0.1/dist/
