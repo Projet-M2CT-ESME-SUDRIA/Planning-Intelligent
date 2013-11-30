@@ -46,7 +46,7 @@ int main(int argc, char** argv) {
     vector<int> mineur_available (t3, t3 + sizeof(t3) / sizeof(int));
     
     //List of all prof of first semester of M1
-    prof ledoux(1, "Ledoux", v1);
+    prof p_ledoux(1, "Ledoux", v1);
     prof p_ait(2, "Ait", intern_available);
     prof p_gadot(3, "Gadot", v1);
     prof p_maizy(4, "Maizy", intern_available);
@@ -60,9 +60,24 @@ int main(int argc, char** argv) {
     prof p_mineur(11, "profMineur", mineur_available);
     prof p_vedel(12, "Vedel", v1);
     
-    p_herry.displayAvail();
-    p_vedel.displayAvail();
-    p_mineur.displayAvail();
+    //Add given course for all prof
+    
+    p_ledoux.add_given_course(c_elec_puissance);
+    p_ledoux.add_given_course(c_conversion_nrj);
+    p_ait.add_given_course(c_auto_lineaire);
+    p_gadot.add_given_course(c_elec_telecom);
+    p_maizy.add_given_course(c_tns);
+    p_bassi.add_given_course(c_comm_num);
+    p_bourbon.add_given_course(c_reseaux);
+    p_chenoune.add_given_course(c_prog_evol);
+    p_herry.add_given_course(c_unix);
+    p_touseau.add_given_course(c_microsys);
+    p_touseau.add_given_course(c_concept_circuit_num);
+    p_touseau.add_given_course(c_outil_dev_microsys);
+    p_gemal.add_given_course(c_microsys);
+    p_eden.add_given_course(c_anglais);
+    p_mineur.add_given_course(c_mineur);
+    p_vedel.add_given_course(c_suivi_proj);
     
     return 0;
 }

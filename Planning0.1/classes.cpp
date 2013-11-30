@@ -69,22 +69,16 @@ _id(id),_name(name), _availabiliy(availability){
     assert(_availabiliy.size()==22);
 }
 
+void prof::add_given_course(course c){
+    _given_courses[c.get_id()] = c;
+}
+
 void prof::grant_lecture(course c, week& w, int index) {
     assert(_availabiliy.at(index));
     this->_availabiliy.at(index)=0;
 
     lecture l(c.get_id(), this->_id, w.get_id());
     w.add_lecture(index,l);
-}
-
-void prof::displayAvail() {
-    for (int i = 0; i < 22; i++) {
-        if (i == 21)
-            cout << this->_availabiliy.at(i) << endl;
-        else
-            cout << this->_availabiliy.at(i) << " , ";
-    }
-
 }
 
 

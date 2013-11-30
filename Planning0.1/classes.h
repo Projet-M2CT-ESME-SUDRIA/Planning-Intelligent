@@ -72,9 +72,9 @@ public:
     
     prof();
     prof(int id, std::string name, std::vector<int> availability);
+    void add_given_course(course c);
     //index = creneaux
     void grant_lecture(course c, week &w, int index);
-    void displayAvail();
 
 };
 
