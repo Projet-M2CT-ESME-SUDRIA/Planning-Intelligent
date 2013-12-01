@@ -46,19 +46,34 @@ int main(int argc, char** argv) {
     vector<int> mineur_available (t3, t3 + sizeof(t3) / sizeof(int));
     
     //List of all prof of first semester of M1
-    prof p_ledoux(1, "Ledoux", v1);
-    prof p_ait(2, "Ait", intern_available);
-    prof p_gadot(3, "Gadot", v1);
-    prof p_maizy(4, "Maizy", intern_available);
-    prof p_bassi(5, "Bassi", intern_available);
-    prof p_bourbon(5, "Bourbon", v1);
-    prof p_chenoune(6, "Chenoune", intern_available);
-    prof p_herry(7, "Herry", intern_available);
-    prof p_touseau(8, "Touseau", intern_available);
-    prof p_gemal(9, "Gemal", intern_available);
-    prof p_eden(10, "Eden", intern_available);
-    prof p_mineur(11, "profMineur", mineur_available);
-    prof p_vedel(12, "Vedel", v1);
+    prof p_ledoux(1, "Ledoux");
+    prof p_ait(2, "Ait");
+    prof p_gadot(3, "Gadot");
+    prof p_maizy(4, "Maizy");
+    prof p_bassi(5, "Bassi");
+    prof p_bourbon(5, "Bourbon");
+    prof p_chenoune(6, "Chenoune");
+    prof p_herry(7, "Herry");
+    prof p_touseau(8, "Touseau");
+    prof p_gemal(9, "Gemal");
+    prof p_eden(10, "Eden");
+    prof p_mineur(11, "profMineur");
+    prof p_vedel(12, "Vedel");
+    
+    //Add availability for all prof
+    p_ledoux.add_availability(14, v1);
+    p_ait.add_availability(14, intern_available);
+    p_gadot.add_availability(14, v1);
+    p_maizy.add_availability(14, intern_available);
+    p_bassi.add_availability(14, intern_available);
+    p_bourbon.add_availability(14, v1);
+    p_chenoune.add_availability(14, intern_available);
+    p_herry.add_availability(14, intern_available);
+    p_touseau.add_availability(14, intern_available);
+    p_gemal.add_availability(14, intern_available);
+    p_eden.add_availability(14, intern_available);
+    p_mineur.add_availability(14, mineur_available);
+    p_vedel.add_availability(14, v1);
     
     //Add given course for all prof
     p_ledoux.add_given_course(c_elec_puissance);
@@ -99,20 +114,20 @@ int main(int argc, char** argv) {
     m1.add_course(c_suivi_proj);
     
     //Create all week for M1A
-    week w1(1, 1);
-    week w2(2, 1);
-    week w3(3, 1);
-    week w4(4, 1);
-    week w5(5, 1);
-    week w6(6, 1);
-    week w7(7, 1);
-    week w8(8, 1);
-    week w9(9, 1);
-    week w10(10, 1);
-    week w11(11, 1);
-    week w12(12, 1);
-    week w13(13, 1);
-    week w14(14, 1);
+    week w1(1, 1, 1);
+    week w2(2, 1, 2);
+    week w3(3, 1, 3);
+    week w4(4, 1, 4);
+    week w5(5, 1, 5);
+    week w6(6, 1, 6);
+    week w7(7, 1, 7);
+    week w8(8, 1, 8);
+    week w9(9, 1, 9);
+    week w10(10, 1, 10);
+    week w11(11, 1, 11);
+    week w12(12, 1, 12);
+    week w13(13, 1, 13);
+    week w14(14, 1, 14);
     
     //Add week to M1A
     m1.add_week(w1);
@@ -131,7 +146,7 @@ int main(int argc, char** argv) {
     m1.add_week(w14);
     
     p_ledoux.grant_lecture(c_elec_puissance, w1, 3);
-    p_ledoux.grant_lecture(c_elec_puissance, w1, 3);
+    p_ledoux.grant_lecture(c_elec_puissance, w2, 3);
    
     return 0;
 }
