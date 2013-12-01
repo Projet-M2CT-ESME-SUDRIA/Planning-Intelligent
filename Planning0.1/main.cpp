@@ -61,7 +61,6 @@ int main(int argc, char** argv) {
     prof p_vedel(12, "Vedel", v1);
     
     //Add given course for all prof
-    
     p_ledoux.add_given_course(c_elec_puissance);
     p_ledoux.add_given_course(c_conversion_nrj);
     p_ait.add_given_course(c_auto_lineaire);
@@ -79,6 +78,61 @@ int main(int argc, char** argv) {
     p_mineur.add_given_course(c_mineur);
     p_vedel.add_given_course(c_suivi_proj);
     
+    //Creation of one promo M1
+    promo m1(1, "M1A", 70);
+    
+    //Add course for M1A
+    m1.add_course(c_elec_puissance);
+    m1.add_course(c_conversion_nrj);
+    m1.add_course(c_auto_lineaire);
+    m1.add_course(c_elec_telecom);
+    m1.add_course(c_tns);
+    m1.add_course(c_comm_num);
+    m1.add_course(c_reseaux);
+    m1.add_course(c_prog_evol);
+    m1.add_course(c_unix);
+    m1.add_course(c_microsys);
+    m1.add_course(c_concept_circuit_num);
+    m1.add_course(c_outil_dev_microsys);
+    m1.add_course(c_anglais);
+    m1.add_course(c_mineur);
+    m1.add_course(c_suivi_proj);
+    
+    //Create all week for M1A
+    week w1(1, 1);
+    week w2(2, 1);
+    week w3(3, 1);
+    week w4(4, 1);
+    week w5(5, 1);
+    week w6(6, 1);
+    week w7(7, 1);
+    week w8(8, 1);
+    week w9(9, 1);
+    week w10(10, 1);
+    week w11(11, 1);
+    week w12(12, 1);
+    week w13(13, 1);
+    week w14(14, 1);
+    
+    //Add week to M1A
+    m1.add_week(w1);
+    m1.add_week(w2);
+    m1.add_week(w3);
+    m1.add_week(w4);
+    m1.add_week(w5);
+    m1.add_week(w6);
+    m1.add_week(w7);
+    m1.add_week(w8);
+    m1.add_week(w9);
+    m1.add_week(w10);
+    m1.add_week(w11);
+    m1.add_week(w12);
+    m1.add_week(w13);
+    m1.add_week(w14);
+    
+    p_ledoux.grant_lecture(c_elec_puissance, w1, 3);
+    p_ledoux.grant_lecture(c_elec_puissance, w1, 3);
+   
     return 0;
 }
 
