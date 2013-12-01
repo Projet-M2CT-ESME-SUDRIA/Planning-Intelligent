@@ -18,6 +18,10 @@ _id_course(id_course),_id_prof(id_prof), _id_week(id_week) {
     _id++;
 }
 
+int lecture::get_id_course() {
+    return _id_course;
+}
+
 
 /*********************/
 /*      Week         */
@@ -38,6 +42,13 @@ void week::add_lecture(int index, lecture l) {
     this->_lectures.insert(_lectures.begin()+index,l);
 }
 
+bool week::checkAvailability(int index) {
+    lecture l;
+    l = this->_lectures.at(index);
+    if (l.get_id_course() == -1)
+        return true;
+    return false;
+}
 
 
 /***********************/
@@ -74,11 +85,16 @@ void prof::add_given_course(course c){
 }
 
 void prof::grant_lecture(course c, week& w, int index) {
-    assert(_availabiliy.at(index));
-    this->_availabiliy.at(index)=0;
+    if (w.checkAvailability(index)) {
+        assert(_availabiliy.at(index));
+        this->_availabiliy.at(index)=0;
 
-    lecture l(c.get_id(), this->_id, w.get_id());
-    w.add_lecture(index,l);
+        lecture l(c.get_id(), this->_id, w.get_id());
+        w.add_lecture(index,l);
+        cout << "Cours ajoute au prof et a la classe" << endl;
+    }
+    else
+        cout << "La classe a deja un cours" << endl;
 }
 
 
@@ -93,6 +109,10 @@ _id(id), _name(name), _nb_students(nb_students){}
 
 void promo::add_course(course c) {
     _courses[c.get_id()] = c;
+}
+
+void promo::add_week(week w) {
+    _weeks[w.get_id()] = w;
 }
 
 course promo::get_course(int id) {
