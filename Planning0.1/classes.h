@@ -27,6 +27,7 @@ public:
     static int _id;
     lecture();
     lecture(int id_course, int id_prof, int id_week);
+    int get_id_course();
     
 };
 
@@ -43,6 +44,7 @@ public:
     week(int id, int id_promo);
     int get_id();
     void add_lecture(int index, lecture l);
+    bool checkAvailability(int index);
     
 };
 
@@ -91,6 +93,7 @@ public:
     promo();
     promo(int id, std::string name, int nb_students);
     void add_course(course c);
+    void add_week(week w);
     course get_course(int id);
     
 };
