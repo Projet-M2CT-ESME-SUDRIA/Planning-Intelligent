@@ -26,17 +26,23 @@ int lecture::get_id_course() {
 /*********************/
 /*      Week         */
 /*********************/
-week::week() : _id(0), _id_promo(0) {
+week::week() : _id(0), _id_promo(0), _num_week(0) {
     _lectures.resize(22);
 }
 
-week::week(int id, int id_promo) : _id(id),_id_promo(id_promo){
+week::week(int id, int id_promo, int num_week) :
+_id(id),_id_promo(id_promo), _num_week(num_week){
     _lectures.resize(22);
 }
 
 int week::get_id() {
     return _id;
 }
+
+int week::get_num_week() {
+    return _num_week;
+}
+
 
 void week::add_lecture(int index, lecture l) {
     this->_lectures.insert(_lectures.begin()+index,l);
@@ -71,23 +77,37 @@ string course::get_name() {
 /**********************/
 /*      Prof         */
 /*********************/
-prof::prof() :_id(-1), _name("unknown"){
-    assert(_availabiliy.size()==22);
+prof::prof() :_id(-1), _name("unknown"){}
+
+prof::prof(int id, string name) :
+_id(id),_name(name){}
+
+void prof::add_availability(int nb_weeks, std::vector<int> availability) {
+    for (int i = 0; i < nb_weeks; i++) {
+        _availabiliy[i+1] = availability;
+    }
 }
 
-prof::prof(int id, string name, vector<int> availability) :
-_id(id),_name(name), _availabiliy(availability){
-    assert(_availabiliy.size()==22);
+std::vector<int> prof::get_availability(int num_week) {
+    return _availabiliy[num_week];
 }
+
+void prof::set_availability(int num_week, int index) {
+    vector <int> availability = _availabiliy[num_week];
+    availability.at(index) = 0;
+}
+
 
 void prof::add_given_course(course c){
     _given_courses[c.get_id()] = c;
 }
 
 void prof::grant_lecture(course c, week& w, int index) {
+    vector<int> availability = this->get_availability(w.get_num_week());
     if (w.checkAvailability(index)) {
-        assert(_availabiliy.at(index));
-        this->_availabiliy.at(index)=0;
+        
+        assert(availability.at(index));
+        this->set_availability(w.get_num_week(), index);
 
         lecture l(c.get_id(), this->_id, w.get_id());
         w.add_lecture(index,l);
