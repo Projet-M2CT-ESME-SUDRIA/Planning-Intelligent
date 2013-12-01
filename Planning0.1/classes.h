@@ -36,13 +36,15 @@ class week {
     //One week per promo and per week in the year
     int _id;
     int _id_promo;
+    int _num_week;
     std::vector<lecture> _lectures;
 
 public:
 
     week();
-    week(int id, int id_promo);
+    week(int id, int id_promo, int num_week);
     int get_id();
+    int get_num_week();
     void add_lecture(int index, lecture l);
     bool checkAvailability(int index);
     
@@ -67,13 +69,16 @@ class prof{
     
     int _id;
     std::string _name;
-    std::vector<int> _availabiliy;
+    std::map<int, std::vector<int> > _availabiliy;
     std::map<int, course> _given_courses;
   
 public:
     
     prof();
-    prof(int id, std::string name, std::vector<int> availability);
+    prof(int id, std::string name);
+    void add_availability(int nb_weeks, std::vector <int> availability);
+    std::vector<int> get_availability(int num_week);
+    void set_availability(int num_week, int index);
     void add_given_course(course c);
     //index = creneaux
     void grant_lecture(course c, week &w, int index);
