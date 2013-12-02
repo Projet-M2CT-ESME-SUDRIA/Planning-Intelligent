@@ -34,15 +34,15 @@ public:
 class week {
     
     //One week per promo and per week in the year
-    int _id;
     int _id_promo;
     int _num_week;
     std::vector<lecture> _lectures;
 
 public:
 
+    static int _id;
     week();
-    week(int id, int id_promo, int num_week);
+    week(int id_promo, int num_week);
     int get_id();
     int get_num_week();
     void add_lecture(int index, lecture l);
@@ -52,14 +52,14 @@ public:
 
 class course {
     
-    int _id;
     std::string _name;
     int _nb_lectures;
     
 public:
     
+    static int _id;
     course();
-    course(int id, std::string name, int nb_lectures);
+    course(std::string name, int nb_lectures);
     int get_id();
     std::string get_name();
 
@@ -67,15 +67,15 @@ public:
 
 class prof{
     
-    int _id;
     std::string _name;
     std::map<int, std::vector<int> > _availabiliy;
     std::map<int, course> _given_courses;
   
 public:
     
+    static int _id;
     prof();
-    prof(int id, std::string name);
+    prof(std::string name);
     void add_availability(int nb_weeks, std::vector <int> availability);
     std::vector<int> get_availability(int num_week);
     void set_availability(int num_week, int index);
@@ -87,7 +87,6 @@ public:
 
 class promo{
     
-    int _id;
     int _nb_students;
     std::string _name;
     std::map<int, course> _courses;
@@ -95,8 +94,9 @@ class promo{
    
 public:
     
+    static int _id;
     promo();
-    promo(int id, std::string name, int nb_students);
+    promo(std::string name, int nb_students);
     void add_course(course c);
     void add_week(week w);
     course get_course(int id);

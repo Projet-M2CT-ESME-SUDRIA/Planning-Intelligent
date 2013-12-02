@@ -26,12 +26,17 @@ int lecture::get_id_course() {
 /*********************/
 /*      Week         */
 /*********************/
-week::week() : _id(0), _id_promo(0), _num_week(0) {
+
+int week::_id=0;
+
+week::week() : _id_promo(0), _num_week(0) {
+    _id++;
     _lectures.resize(22);
 }
 
-week::week(int id, int id_promo, int num_week) :
-_id(id),_id_promo(id_promo), _num_week(num_week){
+week::week(int id_promo, int num_week) :
+_id_promo(id_promo), _num_week(num_week){
+    _id++;
     _lectures.resize(22);
 }
 
@@ -60,10 +65,17 @@ bool week::checkAvailability(int index) {
 /***********************/
 /*      Course         */
 /***********************/
-course::course() : _id(-1), _name("unknown"), _nb_lectures(-1){}
 
-course::course(int id, string name, int nb_lectures) 
-:_id(id), _name(name), _nb_lectures(nb_lectures){}
+int course::_id=0;
+
+course::course() : _name("unknown"), _nb_lectures(-1){
+    _id++;
+}
+
+course::course(string name, int nb_lectures) 
+:_name(name), _nb_lectures(nb_lectures){
+    _id++;
+}
 
 int course::get_id() {
     return _id;
@@ -77,10 +89,16 @@ string course::get_name() {
 /**********************/
 /*      Prof         */
 /*********************/
-prof::prof() :_id(-1), _name("unknown"){}
 
-prof::prof(int id, string name) :
-_id(id),_name(name){}
+int prof::_id=0;
+
+prof::prof() :_name("unknown"){
+    _id++;
+}
+
+prof::prof(string name) : _name(name){
+    _id++;
+}
 
 void prof::add_availability(int nb_weeks, std::vector<int> availability) {
     for (int i = 0; i < nb_weeks; i++) {
@@ -122,10 +140,17 @@ void prof::grant_lecture(course c, week& w, int index) {
 /**********************/
 /*      Promo         */
 /**********************/
-promo::promo() :_id(-1), _name("unkonwn"), _nb_students(-1) {}
 
-promo::promo(int id, string name, int nb_students):
-_id(id), _name(name), _nb_students(nb_students){}
+int promo::_id=0;
+
+promo::promo() :_name("unkonwn"), _nb_students(-1) {
+    _id++;
+}
+
+promo::promo(string name, int nb_students):
+_name(name), _nb_students(nb_students){
+    _id++;
+}
 
 void promo::add_course(course c) {
     _courses[c.get_id()] = c;
