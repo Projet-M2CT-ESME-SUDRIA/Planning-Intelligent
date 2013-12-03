@@ -11,10 +11,14 @@
 
 using namespace std;
 
+
+bool sort_by_availability(prof a, prof b);
 /*
  * 
  */
 int main(int argc, char** argv) {
+    
+    vector<prof> vector_prof;
     
     // List of all courses for the first semester for M1
     course c_elec_puissance("Terminologie, fonctions et composants d'electronique de puissance ", 16);
@@ -93,6 +97,29 @@ int main(int argc, char** argv) {
     p_mineur.add_given_course(c_mineur);
     p_vedel.add_given_course(c_suivi_proj);
     
+    //Add all prof in the vector
+    vector_prof.push_back(p_ledoux);
+    vector_prof.push_back(p_ait);
+    vector_prof.push_back(p_gadot);
+    vector_prof.push_back(p_maizy);
+    vector_prof.push_back(p_bassi);
+    vector_prof.push_back(p_bourbon);
+    vector_prof.push_back(p_chenoune);
+    vector_prof.push_back(p_herry);
+    vector_prof.push_back(p_touseau);
+    vector_prof.push_back(p_gemal);
+    vector_prof.push_back(p_eden);
+    vector_prof.push_back(p_mineur);
+    vector_prof.push_back(p_vedel);
+    
+    //prof test;
+    sort(vector_prof.begin(), vector_prof.end(), sort_by_availability);
+    for (int i = 0; i < 13; i++) {
+
+        cout << vector_prof.at(i).get_name() << endl;
+
+    }
+    
     //Creation of one promo M1
     promo m1("M1A", 70);
     
@@ -149,5 +176,24 @@ int main(int argc, char** argv) {
     p_ledoux.grant_lecture(c_elec_puissance, w2, 3);
    
     return 0;
+}
+
+bool sort_by_availability(prof a, prof b) {
+    int cmpt_a = 0;
+    int cmpt_b = 0;
+    vector<int> availability_a = a.get_availability(1);
+    vector<int> availability_b = b.get_availability(1);
+    
+    for (int i = 0; i < 22; i++) {
+        if (availability_a.at(i) == 1)
+            cmpt_a ++;
+    }
+    
+    for (int i = 0; i < 22; i++) {
+        if (availability_b.at(i) == 1)
+            cmpt_b ++;
+    }
+
+    return cmpt_a < cmpt_b;    
 }
 
