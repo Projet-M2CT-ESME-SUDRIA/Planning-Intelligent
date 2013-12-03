@@ -72,8 +72,8 @@ course::course() : _name("unknown"), _nb_lectures(-1){
     _id++;
 }
 
-course::course(string name, int nb_lectures) 
-:_name(name), _nb_lectures(nb_lectures){
+course::course(int id_promo, string name, int nb_lectures) 
+:_id_promo(id_promo), _name(name), _nb_lectures(nb_lectures){
     _id++;
 }
 

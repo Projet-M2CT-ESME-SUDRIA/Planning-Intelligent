@@ -7,10 +7,11 @@
 
 #include <cstdlib>
 #include <iostream>
+#include <algorithm>
 #include "classes.h"
+#include "parseFile.h"
 
 using namespace std;
-
 
 bool sort_by_availability(prof a, prof b) {
     int cmpt_a = 0;
@@ -35,7 +36,7 @@ void test(){
     vector<prof> vector_prof;
     
     // List of all courses for the first semester for M1
-    course c_elec_puissance("Terminologie, fonctions et composants d'electronique de puissance ", 16);
+    /*course c_elec_puissance("Terminologie, fonctions et composants d'electronique de puissance ", 16);
     course c_conversion_nrj("Conversion de l'énergie", 38);
     course c_auto_lineaire("Automatique linéaire", 32);
     course c_elec_telecom("Electronique pour les telecoms", 26);
@@ -187,12 +188,18 @@ void test(){
     m1.add_week(w14);
     
     p_ledoux.grant_lecture(c_elec_puissance, w1, 3);
-    p_ledoux.grant_lecture(c_elec_puissance, w2, 3);
+    p_ledoux.grant_lecture(c_elec_puissance, w2, 3);*/
 }
-/*
- * 
- */
+
+void test2() {
+    //add_prof_to_db("Herry", "11111111111", "c, c++, iwa");
+    //add_courses_to_db("Algebre", "20", "1");
+    
+    vector<string> words;
+    
+    get_line("truc|machin|chose", words);
+}
 int main(int argc, char** argv) {
-   test(); 
+   test2(); 
     
 }
