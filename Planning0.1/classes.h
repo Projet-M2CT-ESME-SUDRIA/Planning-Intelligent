@@ -82,6 +82,7 @@ public:
     void add_given_course(course c);
     //index = creneaux
     void grant_lecture(course c, week &w, int index);
+    std::string get_name();
 
 };
 

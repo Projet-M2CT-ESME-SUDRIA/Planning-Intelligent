@@ -135,6 +135,9 @@ void prof::grant_lecture(course c, week& w, int index) {
         cout << "La classe a deja un cours" << endl;
 }
 
+string prof::get_name() {
+    return _name;
+}
 
 
 /**********************/
