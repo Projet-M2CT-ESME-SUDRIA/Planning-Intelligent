@@ -7,7 +7,6 @@
 
 #include <cstdlib>
 #include <iostream>
-#include <algorithm>
 #include "classes.h"
 #include "parseFile.h"
 
@@ -192,12 +191,9 @@ void test(){
 }
 
 void test2() {
-    //add_prof_to_db("Herry", "11111111111", "c, c++, iwa");
+    add_prof_to_db("Herry", "11111111111", "c, c++, iwa");
+    add_prof_to_db("Hagbe", "11111111111", "algèbre, analyse");
     //add_courses_to_db("Algebre", "20", "1");
-    
-    vector<string> words;
-    
-    get_line("truc|machin|chose", words);
 }
 int main(int argc, char** argv) {
    test2(); 

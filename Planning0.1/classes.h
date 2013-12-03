@@ -13,7 +13,7 @@
 #include <string>
 #include <cassert>
 #include <map>
-
+#include <algorithm>
 
 
 class lecture {
@@ -69,14 +69,14 @@ public:
 class prof{
     
     std::string _name;
-    std::map<int, std::vector<int> > _availabiliy;
+    std::map<int, std::vector<int> > _availability;
     std::map<int, course> _given_courses;
   
 public:
     
     static int _id;
     prof();
-    prof(std::string name);
+    prof(std::string name, std::map<int, std::vector<int> > availability, std::map<int, course> given_courses);
     void add_availability(int nb_weeks, std::vector <int> availability);
     std::vector<int> get_availability(int num_week);
     void set_availability(int num_week, int index);
