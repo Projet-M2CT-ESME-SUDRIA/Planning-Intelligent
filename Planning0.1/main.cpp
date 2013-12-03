@@ -12,12 +12,26 @@
 using namespace std;
 
 
-bool sort_by_availability(prof a, prof b);
-/*
- * 
- */
-int main(int argc, char** argv) {
+bool sort_by_availability(prof a, prof b) {
+    int cmpt_a = 0;
+    int cmpt_b = 0;
+    vector<int> availability_a = a.get_availability(1);
+    vector<int> availability_b = b.get_availability(1);
     
+    for (int i = 0; i < 22; i++) {
+        if (availability_a.at(i) == 1)
+            cmpt_a ++;
+    }
+    
+    for (int i = 0; i < 22; i++) {
+        if (availability_b.at(i) == 1)
+            cmpt_b ++;
+    }
+
+    return cmpt_a < cmpt_b;    
+}
+
+void test(){
     vector<prof> vector_prof;
     
     // List of all courses for the first semester for M1
@@ -174,26 +188,11 @@ int main(int argc, char** argv) {
     
     p_ledoux.grant_lecture(c_elec_puissance, w1, 3);
     p_ledoux.grant_lecture(c_elec_puissance, w2, 3);
-   
-    return 0;
 }
-
-bool sort_by_availability(prof a, prof b) {
-    int cmpt_a = 0;
-    int cmpt_b = 0;
-    vector<int> availability_a = a.get_availability(1);
-    vector<int> availability_b = b.get_availability(1);
+/*
+ * 
+ */
+int main(int argc, char** argv) {
+   test(); 
     
-    for (int i = 0; i < 22; i++) {
-        if (availability_a.at(i) == 1)
-            cmpt_a ++;
-    }
-    
-    for (int i = 0; i < 22; i++) {
-        if (availability_b.at(i) == 1)
-            cmpt_b ++;
-    }
-
-    return cmpt_a < cmpt_b;    
 }
-
