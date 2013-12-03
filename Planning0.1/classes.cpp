@@ -166,3 +166,7 @@ void promo::add_week(week w) {
 course promo::get_course(int id) {
     return _courses[id];
 }
+
+int promo::get_id() {
+    return _id;
+}

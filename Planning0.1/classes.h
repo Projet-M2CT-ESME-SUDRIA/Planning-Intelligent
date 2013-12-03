@@ -101,6 +101,7 @@ public:
     void add_course(course c);
     void add_week(week w);
     course get_course(int id);
+    int get_id();
     
 };
 

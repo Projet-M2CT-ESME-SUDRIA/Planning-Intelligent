@@ -141,20 +141,20 @@ int main(int argc, char** argv) {
     m1.add_course(c_suivi_proj);
     
     //Create all week for M1A
-    week w1(1, 1);
-    week w2(1, 2);
-    week w3(1, 3);
-    week w4(1, 4);
-    week w5(1, 5);
-    week w6(1, 6);
-    week w7(1, 7);
-    week w8(1, 8);
-    week w9(1, 9);
-    week w10(1, 10);
-    week w11(1, 11);
-    week w12(1, 12);
-    week w13(1, 13);
-    week w14(1, 14);
+    week w1(m1.get_id(), 1);
+    week w2(m1.get_id(), 2);
+    week w3(m1.get_id(), 3);
+    week w4(m1.get_id(), 4);
+    week w5(m1.get_id(), 5);
+    week w6(m1.get_id(), 6);
+    week w7(m1.get_id(), 7);
+    week w8(m1.get_id(), 8);
+    week w9(m1.get_id(), 9);
+    week w10(m1.get_id(), 10);
+    week w11(m1.get_id(), 11);
+    week w12(m1.get_id(), 12);
+    week w13(m1.get_id(), 13);
+    week w14(m1.get_id(), 14);
     
     //Add week to M1A
     m1.add_week(w1);
