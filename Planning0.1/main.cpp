@@ -217,29 +217,63 @@ void add_course() {
     add_course_to_db(id_promo, name, nb_hours);
 }
 
+void get_profs(vector<prof> &profs, vector<course> courses) {
+    
+    parse_profs(profs, courses);
+    
+    for(int i=0 ; i<profs.size() ; i++) {
+        profs[i].list_profs();
+    }
+}
+
+void get_courses(vector<course> &courses) {
+    
+    parse_courses(courses);
+    
+    for(int i=0 ; i<courses.size() ; i++) {
+        courses[i].list_courses();
+    }
+}
+
 void test2() {
     
     bool exit=false;
     int choice=0;
+    vector<course> courses;
+    vector<prof> profs;
     
     while(!exit) {
         
-        cout << "1. ajouter un prof" << endl;
-        cout << "2. ajouter un cours" << endl;
+        cout << "1. ajouter un cours" << endl;
+        cout << "2. ajouter un prof" << endl;
+        cout << "3. recuperer la liste des matieres" << endl;
+        cout << "4. recuperer la liste des profs" << endl;
         cout << "0. quitter" << endl;
         cin >> choice;
         
         switch(choice) {
             case 1:
-                add_prof();
+                add_course();
                 break;
                 
             case 2:
-                add_course();
+                add_prof();
+                break;
+                
+            case 3:
+                get_courses(courses);
+                break;
+                
+            case 4:
+                get_profs(profs, courses);
                 break;
                 
             case 0:
                 exit = true;
+                break;
+                
+            default:
+                exit=true;
                 break;
         }
     }

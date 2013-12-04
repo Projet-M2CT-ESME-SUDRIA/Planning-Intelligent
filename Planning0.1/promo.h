@@ -17,6 +17,7 @@
 
 class promo{
     
+    int _id;
     int _nb_students;
     std::string _name;
     std::map<int, course> _courses;
@@ -24,7 +25,7 @@ class promo{
    
 public:
     
-    static int _id;
+    static int _static_id;
     promo();
     promo(std::string name, int nb_students);
     void add_course(course c);

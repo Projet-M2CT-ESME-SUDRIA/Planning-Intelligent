@@ -4,15 +4,15 @@
 using namespace std;
 
 
-int promo::_id=0;
+int promo::_static_id=0;
 
 promo::promo() :_name("unkonwn"), _nb_students(-1) {
-    _id++;
+    _id=_static_id++;
 }
 
 promo::promo(string name, int nb_students):
 _name(name), _nb_students(nb_students){
-    _id++;
+    _id=_static_id++;
 }
 
 void promo::add_course(course c) {

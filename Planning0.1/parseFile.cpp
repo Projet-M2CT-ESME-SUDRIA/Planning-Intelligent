@@ -98,7 +98,7 @@ void add_prof_to_db(string name, string s_availability, string given_courses) {
     if(!check_unicity("prof.txt", line))
         return;
     
-    ofstream myStream ("prof.txt", ios::app);
+    ofstream myStream ("profs.txt", ios::app);
     
     if(myStream) {
         myStream << line << endl;
@@ -109,7 +109,7 @@ void add_prof_to_db(string name, string s_availability, string given_courses) {
 }
 
 //Récupère les données sur les profs
-void parse_prof(vector<prof> &profs, vector<course> courses) {
+void parse_profs(vector<prof> &profs, vector<course> courses) {
     
     vector<string> line;
     

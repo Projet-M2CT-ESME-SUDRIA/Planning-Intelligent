@@ -4,14 +4,14 @@
 
 using namespace std;
 
-int prof::_id=0;
+int prof::_static_id=0;
 
 prof::prof() :_name("unknown"){
-    _id++;
+    _id=_static_id++;
 }
 
 prof::prof(string name, map<int, vector<int> > availability, map<int, course> given_courses) : _name(name), _availability(availability), _given_courses(given_courses){
-    _id++;
+    _id=_static_id++;
 }
 
 void prof::add_availability(int nb_weeks, std::vector<int> availability) {
@@ -28,7 +28,6 @@ void prof::set_availability(int num_week, int index) {
     vector <int> availability = _availability[num_week];
     availability.at(index) = 0;
 }
-
 
 void prof::add_given_course(course c){
     _given_courses[c.get_id()] = c;
@@ -51,4 +50,10 @@ void prof::grant_lecture(course c, week& w, int index) {
 
 string prof::get_name() {
     return _name;
+}
+
+void prof::list_profs() {
+    
+    cout << "Professeur numero " << _id << endl;
+    cout << "\t Nom : " << _name << endl;
 }

@@ -17,13 +17,14 @@
 class week {
     
     //One week per promo and per week in the year
+    int _id;
     int _id_promo;
     int _num_week;
     std::vector<lecture> _lectures;
 
 public:
 
-    static int _id;
+    static int _static_id;
     week();
     week(int id_promo, int num_week);
     int get_id();

@@ -5,16 +5,16 @@ using namespace std;
 
 
 
-int week::_id=0;
+int week::_static_id=0;
 
 week::week() : _id_promo(0), _num_week(0) {
-    _id++;
+    _id=_static_id++;
     _lectures.resize(22);
 }
 
 week::week(int id_promo, int num_week) :
 _id_promo(id_promo), _num_week(num_week){
-    _id++;
+    _id=_static_id++;
     _lectures.resize(22);
 }
 

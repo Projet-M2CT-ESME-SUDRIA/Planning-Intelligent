@@ -14,13 +14,14 @@
 
 class lecture {
     
+    int _id;
     int _id_course;
     int _id_prof;
     int _id_week;
 
 public:
         
-    static int _id;
+    static int _static_id;
     lecture();
     lecture(int id_course, int id_prof, int id_week);
     int get_id_course();

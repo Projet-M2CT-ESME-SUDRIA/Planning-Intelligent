@@ -14,17 +14,19 @@
 
 class course {
     
+    int _id;
     int _id_promo;
     std::string _name;
     int _nb_lectures;
     
 public:
     
-    static int _id;
+    static int _static_id;
     course();
     course(int id_promo, std::string name, int nb_lectures);
     int get_id();
     std::string get_name();
+    void list_courses();
 
 };
 

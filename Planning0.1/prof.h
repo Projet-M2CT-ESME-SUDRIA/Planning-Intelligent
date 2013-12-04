@@ -17,13 +17,14 @@
 
 class prof{
     
+    int _id;
     std::string _name;
     std::map<int, std::vector<int> > _availability;
     std::map<int, course> _given_courses;
   
 public:
     
-    static int _id;
+    static int _static_id;
     prof();
     prof(std::string name, std::map<int, std::vector<int> > availability, std::map<int, course> given_courses);
     void add_availability(int nb_weeks, std::vector <int> availability);
@@ -33,6 +34,8 @@ public:
     //index = creneaux
     void grant_lecture(course c, week &w, int index);
     std::string get_name();
+    
+    void list_profs();
 
 };
 
