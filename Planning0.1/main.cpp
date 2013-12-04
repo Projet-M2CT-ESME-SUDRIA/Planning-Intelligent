@@ -7,7 +7,6 @@
 
 #include <cstdlib>
 #include <iostream>
-#include "classes.h"
 #include "parseFile.h"
 
 using namespace std;
@@ -190,12 +189,66 @@ void test(){
     p_ledoux.grant_lecture(c_elec_puissance, w2, 3);*/
 }
 
-void test2() {
-    add_prof_to_db("Herry", "11111111111", "c, c++, iwa");
-    add_prof_to_db("Hagbe", "11111111111", "algèbre, analyse");
-    //add_courses_to_db("Algebre", "20", "1");
-}
-int main(int argc, char** argv) {
-   test2(); 
+void add_prof() {
     
+    string name, availability, given_courses;
+    
+    cout << "Nom du prof" << endl;
+    cin >> name;
+    cout << "Disponibilites" << endl;
+    cin >> availability;
+    cout << "Cours donnes par le prof" << endl;
+    cin >> given_courses;
+    
+    add_prof_to_db(name, availability, given_courses);
+}
+
+void add_course() {
+    
+    string name, nb_hours, id_promo;
+    
+    cout << "ID de la promo correspondante" << endl;
+    cin >> id_promo;
+    cout << "Nom de la matiere" << endl;
+    cin >> name;
+    cout << "Nombre d'heures" << endl;
+    cin >> nb_hours;
+    
+    add_course_to_db(id_promo, name, nb_hours);
+}
+
+void test2() {
+    
+    bool exit=false;
+    int choice=0;
+    
+    while(!exit) {
+        
+        cout << "1. ajouter un prof" << endl;
+        cout << "2. ajouter un cours" << endl;
+        cout << "0. quitter" << endl;
+        cin >> choice;
+        
+        switch(choice) {
+            case 1:
+                add_prof();
+                break;
+                
+            case 2:
+                add_course();
+                break;
+                
+            case 0:
+                exit = true;
+                break;
+        }
+    }
+    
+    return;
+}
+
+int main(int argc, char* argv[]) {
+   test2(); 
+   
+   return 0;
 }
