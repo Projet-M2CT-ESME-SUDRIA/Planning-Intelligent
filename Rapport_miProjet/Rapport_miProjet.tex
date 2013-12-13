@@ -15,6 +15,7 @@
 \usepackage[nottoc, notlof, notlot]{tocbibind}
 \usepackage{hyperref}
 
+
 % Création de la subsubsubsection %
 \titleclass{\subsubsubsection}{straight}[\subsection]
 \newcounter{subsubsubsection}
@@ -81,22 +82,28 @@
 \newpage
 
 \section{Introduction}
-Ce projet a pour objectif la réalisation d'une application capable de générer un emploi du temps, et ainsi de faciliter le travail de M. Maeso. En effet, chaque année, il doit créer manuellement l'intégralité des emplois du temps de l'école, en tenant compte de toutes les contraintes de disponibilités des professeurs, des salles, des élèves, etc. L'application pourra lui faire gagner un temps non-négligeable dans son travail.\\
-
-Ce problème peut être généralisé à toutes les planifications horaires d'employés, comme dans les écoles, les hôpitaux et toutes autres entreprises ayant un roulement de personnel à organiser.\\
 
 La planification sous contraintes est la discipline des mathématiques appliquées consistant à ordonner diverses séquences ou évènements dans un espace-temps limité. Ces planifications impliquent un grand nombre de contraintes, qu'elles soient liées aux disponibilités de personnes, d'emplacements ou à tout autre type de problème.\\
 
 La réalisation d'une planification est longue et périlleuse. Il est très difficile de concilier l'ensemble des contraintes qui accompagnent cet ordonnancement et de leur organisation manière optimale. La mise en place d'un calendrier est souvent faite à la main ou de manière approximative avec d'autres applications.\\
 
-L'objectif de ce projet est donc de réaliser une application, permettant de générer une planification tenant compte de toutes les contraintes que l'on aura indiquées au préalable. Dans un premier temps, nous nous contenterons de générer un emploi du temps propre à l'école, quitte à élargir notre champ d'action si nous en avons le temps.
+L'objectif de ce projet est donc de réaliser une application, permettant de générer une planification tenant compte de toutes les contraintes que l'on aura indiquées au préalable. Dans un premier temps, nous nous contenterons de générer un emploi du temps propre à l'école, quitte à élargir notre champ d'action si nous en avons le temps.\\
+
+Ce problème peut être généralisé à toutes les planifications horaires d'employés, comme dans les écoles, les hôpitaux et toutes autres entreprises ayant un roulement de personnel à organiser.
 
 \newpage
-\section{Existant}
+\section{Contexte}
 
-Aujourd'hui, il existe déjà des systèmes de planification informatique, mais ils correspondent toujours à des cas bien spécifiques : organisation du personnel médical dans un hôpital, organisation du personnel dans une base militaire, etc... Mais il semble impossible à l'heure actuelle d'imaginer un logiciel générique permettant de lister des contraintes et d'élaborer le planning correspondant et adapté quel que soit le milieu professionnel.
-Ainsi, il nous faudra concevoir notre solution dans son ensemble. Nous pourrons tout de même nous inspirer des méthodes de résolution de ces plannings pour essayer de les adapter à notre problème.
-En l'occurrence, nous avons trouvé quelques pistes de recherche :
+Ce sujet a été proposé dans le but d'alléger le travail de M. Maeso. En effet, chaque année, il doit créer manuellement l'intégralité des emplois du temps de l'école, en tenant compte de toutes les contraintes de disponibilités des professeurs, des salles, des élèves et des matières. L'application pourra lui faire gagner un temps non-négligeable dans son travail.
+
+\newpage
+\section{Revue littéraire}
+
+Aujourd'hui, il existe déjà des systèmes de planification informatique, mais ils correspondent toujours à des cas bien spécifiques : organisation du personnel médical dans un hôpital, organisation du personnel dans une base militaire, etc. Mais il semble impossible à l'heure actuelle d'imaginer un logiciel générique permettant de lister des contraintes et d'élaborer le planning correspondant et adapté quel que soit le milieu professionnel.
+
+Ainsi, il nous faudra concevoir notre solution dans son ensemble. Nous pourrons tout de même nous inspirer des méthodes de résolution de ces plannings pour essayer de les adapter à notre problème.
+
+En l'occurrence, nous avons trouvé quelques pistes de recherche :
 \begin{itemize}
 \item Algorithme des colonies de fourmis : cet algorithme est basé sur le comportement réel des fourmis, qui parviennent, par le biais de rétroactions, à trouver le chemin le plus court entre une source de nourriture et leur nid.
 \cite{02-algoFourmis}
@@ -104,7 +111,8 @@ Aujourd'hui, il existe déjà des systèmes de planification informatique, mais ils
 \cite{03-algoTabou}
 \end{itemize}
 
-\paragraph{}Il existe probablement d'autres algorithmes de ce genre, dont nous aurons besoin pour aboutir à une solution convenable.
+\paragraph{}
+Il existe probablement d'autres algorithmes de ce genre, dont nous aurons besoin pour aboutir à une solution convenable.
 
 \newpage
 \section{Cahier des charges}
@@ -123,7 +131,7 @@ Le temps de résolution de ces problèmes augmente de manière exponentielle par ra
 Nous avons décidé de programmer ce projet en C++ car c'est un langage objet qui nous aidera à mieux organiser notre code, notamment grâce au système de classes, au polymorphisme, et l'héritage, etc. De plus, il s'agit d'un langage que nous avons beaucoup pratiqué durant notre cursus.
 Le Java répond également à ces critères, mais il est moins rapide, et un langage rapide est primordial pour une résolution raisonnable en temps de notre problème.
 
-\subsection{Réduction du problème}
+\subsection{Simplification du problème}
 Le problème étant très conséquent et très complexe, nous avons décidé de réduire le nombre de facteurs à prendre en compte. C'est pourquoi, nous ne nous occupons pas des salles dans un premier temps et nous générons l'emploi du temps sur une seule semaine. Au fur et à mesure que notre solution se consolidera, nous rajouterons de nouveaux paramètres pour le rapprocher petit à petit du cas réel.
 
 \subsection{Interface graphique}
@@ -167,13 +175,61 @@ Une salle sera définie par:
 \begin{itemize}
 \item son nom
 \item le nombre de place
-\item le type : salle de cours, salle de TP...
+\item le type : salle de cours, salle de TP
 \end{itemize}
 
 \newpage
-\section{Les limites}
-Le problème étant très complexe, ("np-complet"), nous ne pourrons pas faire un algorithme optimisé. En effet, notre projet s'inscrit dans le cadre de l'heuristique. L'heuristique, est utilisée en Mathématiques Discrètes afin de trouver une solution réalisable, mais pas nécessairement optimale.
-De plus, au regard du nombre de contraintes associées au problème, nous devrons commencer par une instance simple du problème, en écartant un maximum de contraintes pour nous faciliter la tâche. Ainsi, au fur et à mesure que le projet avancera, on le complexifiera en incluant de nouvelles contraintes, jusqu'à arriver aux conditions réelles. Mais, le temps imparti étant limité, nous ne savons pas s'il nous sera possible d'inclure tous les facteurs liés à la planification dans notre logiciel.
+\section{Représentation formelle}
+
+\newtheorem{definition}{Définition}
+\newtheorem{lemme}{Lemme}
+\newtheorem{proposition}{Proposition}
+\newtheorem{theoreme}{Thorme}
+\newtheorem{eg}{Exemple}
+\newcommand{\ds}{\displaystyle}
+
+
+
+Dans l'ensemble de notre travail, un certain nombre de concepts mathématiques apparaîtront de manière récurrente. Cette section rappelle de façon formelle ces principes\footnote{Il faudrait s'assurer de l'exactitude des différentes définitions}.\\
+
+Soit $\mathbb{E}$ un ensemble et  $\mathcal{R}$ une relation binaire sur les éléments de $\mathbb{E}$. 
+
+\begin{definition}{\emph{Ordre strict : }}
+$\mathbb{E}$ muni de $\mathcal{R}$ est une structure d'ordre strict si et seulement si $\mathcal{R}$ est antisymétrique, non réflexive et transitive.\\
+\end{definition}
+
+\begin{definition}{\emph{Ordre partiel :} }
+$\mathbb{E}$ muni de $\mathcal{R}$ est une structure d'ordre partiel quand une partie seulement des éléments de $\mathbb{E}$ sont soumis à une une relation d'ordre strict.\\
+\end{definition}
+
+\begin{definition}{\emph{Préordre :} }
+$\mathbb{E}$ muni de $\mathcal{R}$ est une structure de pré-ordre si et seulement si $\mathcal{R}$  est une relation binaire réflexive et transitive.\\
+\end{definition}
+
+
+
+$(\mathcal{X},\preceq)$ ordre partiel. \\
+$(\bigcup\mathcal{X},\prec)$ ordre strict. \\
+
+
+Le problème de l'organisation l'emploi du temps est la donnée de : 
+\begin{enumerate}
+\item Un ensemble de matières (une promotion) $\mathcal{X}:=\{X_{1},\dots, X_{n}\}$ muni d'un ordre partiel $\mathcal{O}$. \item Un ensemble de blocs ordonnés (ordre strict) $W$ correspondant à un ensemble de semaines de cours. Nous sommes convenus que $|W|:=k22$.\footnote{Considérant qu'un bloc est composé de quatre heures consécutives et considérant qu'une semaine est une juxtaposition de 22 blocs.}
+\item Un élément $X_{i_{i\in\overline{1,n}}}\in\mathcal{X}$ est un ensemble de cours muni d'un ordre strict sur des blocs de quatre heures quelle que soit la matière .i.e. quels que soient $i$, $i'$, deux indices de matière, et $j$, $j'$ deux indices de cours, on a $x_{i,j} \prec x_{i',j'}$ ou $x_{i,j} \succ x_{i',j'}$
+
+
+\end{enumerate} 
+
+\paragraph{Tâche : } Déterminer un ordre des $x_{i,j}$ ($i$ correspond un indice de matière, $j$ un indice de cours de la matière $X_{i}$) tel que les propriétés suivantes soient respectées.
+\begin{itemize}
+\item Tous les cours soient placés au sein des $k22$ blocs.
+\item l'ordre partiel sur les matières soit respecté
+\item l'ordre partiel sur les cours soit respecté
+\item un cours ne peut avoir lieu plus d'une fois une même semaine quelle que soit la matière.
+\item un cours occupe un même bloc sur l'ensemble des $k22$ blocs.
+\end{itemize}   
+
+On introduit un niveau de conflit compris entre $1$ et $n$. Il représente le nombre de profs disponibles pour enseigner une matière donnée\footnote{ce niveau de conflit peut vraisemblablement concerner les salles aussi}.
 
 \newpage
 \section{Les acteurs}        
@@ -214,7 +270,7 @@ L'acteur en question entre les différentes données propres aux professeurs, clas
 \item Pour chaque professeur, il doit entrer son nom, les matières que celui-ci enseigne et ses disponibilités dans la semaine. 
 \item Pour chaque matière, il doit entrer le nom de la matière, le programme qui devra être dispensé au cours de l'année (matières et nombre d'heures).
 \item Pour chaque classe, il doit préciser le nom de la classe, la promotion à laquelle elle appartient et le nombre d'élève que contient cette classe.
-\item Pour chaque salle, il doit entrer leur contenance et leur type (salle de TP info, salle de cours, etc...)
+\item Pour chaque salle, il doit entrer leur contenance et leur type (salle de TP info, salle de cours, etc.)
 \end{itemize}
                     
 Une fois que toutes les données ont été entrées, le logiciel génère tous les emplois du temps de l'école. 
@@ -249,7 +305,7 @@ Pour placer un cours dans l'emploi du temps, le programme consulte les disponibi
                 
 \subsubsection{Description des enchaînements}        
 \subsubsubsection{Pré-condition}
-Lorsque l'utilisateur désire rajouter un évènement, il lui faut connaître les disponibilités de chaque entité, et savoir quelles classes sont concernées par l'évènement, si elles doivent recevoir l'évènement par classe ou par promo, etc...
+Lorsque l'utilisateur désire rajouter un évènement, il lui faut connaître les disponibilités de chaque entité, et savoir quelles classes sont concernées par l'évènement, si elles doivent recevoir l'évènement par classe ou par promo, etc.
 
 \subsubsubsection{Séquence}
 L'utilisateur entre les disponibilités de chacun dans le programme, et celui-ci cherche les différents créneaux possibles pour placer le cours. L'utilisateur a alors deux possibilités : soit il laisse le programme placer automatiquement le cours, soit il demande au programme d'afficher la liste des créneaux disponibles afin de placer manuellement le cours. Celui-ci n'a alors qu'à choisir le créneau qui lui semble le plus adapté.
@@ -273,14 +329,17 @@ Chaque classe possède également un nombre d'élèves déterminant la taille minimum
 Chaque classe a une liste de cours qu'elle devra obligatoirement suivre.
 
 \subsection{Les matières}
-Une matière est définie par son nom, la promotion à laquelle elle est rattachée, et le nombre d'heures à enseigner. Dans le cas d'une matière commune à plusieurs promotions, on les distingue par des noms différents : un pour chacune des promotions (ex: Algèbre B1, Algèbre B2). 
+Une matière est définie par son nom, la promotion à laquelle elle est rattachée, et le nombre d'heures à enseigner. Dans le cas d'une matière commune à plusieurs promotions, on les distingue par des noms différents : un pour chacune des promotions (ex: Algèbre B1, Algèbre B2).
+
 De la même manière, on distingue les cours en classe entière, des cours en demi-groupes et des TPs.
 Cela implique un dernier paramètre qui détermine le type de salle dans laquelle la matière doit être enseignée (ex: un TP ne peut pas être fait dans un amphithéâtre).
 
 \subsection{Les salles}
 Une salle est définie par son nom, sa capacité (nombre de places), et son type.
 La capacité est un paramètre déterminant dans le choix de la salle à attribuer lors du placement d'un cours dans l'emploi du temps.
+
 De même, le type de la salle va de pair avec le type d'une matière explicité précédemment. Ces deux paramètres doivent concorder pour que la salle puisse être attribuée à un cours.
+
 Enfin, il faut également préciser dans quel bâtiment se trouve la salle: dans les locaux d'Ivry-sur-Seine, ou dans ceux de Montparnasse, car comme expliqué précédemment, les professeurs ne peuvent pas se permettre de donner de cours dans les deux locaux lors d'une même demi-journée.
 
 \subsection{Les semaines}
@@ -288,8 +347,9 @@ Chaque entité de notre emploi du temps (classes, professeurs, salles) doit être 
 Ces semaines sont être mises à jour à chaque fois qu'un nouveau cours sera ajouté au planning.
 
 \subsection{Les fichiers externes}
-Les données d'entrée à stocker dans les fichiers sont toutes celles que l'utilisateur devra saisir pour lancer le programme. C'est à dire les données sur les professeurs (nom, disponibilités, matières), sur les matières (nom, nombre d'heures, promotions associées) et les salles (nom, capacité, type, bâtiment).
-Chaque type de donnée est stockée dans un fichier séparé. Au sein du fichier, une ligne contient tous les paramètres d'un seul élément. Les données seront donc récupérées lignes par ligne à chaque exécution du programme.
+Les données d'entrée à stocker dans les fichiers sont toutes celles que l'utilisateur devra saisir pour lancer le programme. C'est à dire les données sur les professeurs (nom, disponibilités, matières), sur les matières (nom, nombre d'heures, promotions associées) et les salles (nom, capacité, type, bâtiment).\\
+
+Chaque type de donnée est stockée dans un fichier séparé. Au sein du fichier, une ligne contient tous les paramètres d'un seul élément. Les données seront donc récupérées lignes par ligne à chaque exécution du programme.\\
 
 Les données en sortie du problème, c'est à dire les emplois du temps de chaque éléments (classes, profs, salles) seront également dans des fichiers externe.
 
@@ -353,25 +413,50 @@ Chaque salle va avoir un type spécifique correspondant aux différents types de c
 \newpage
 \section{Etapes de résolution}
 \subsection{Simplification du problème}
-Comme expliqué précédemment, nous avons décidé de commencer notre projet en le réduisant au maximum, puis nous rajouterons des paramètres au fur et à mesure que le projet avance afin de se rapprocher petit à petit des conditions réelles.
-Cette manière de procéder nous permet de nous concentrer sur une seule contrainte à la fois, et donc d'optimiser la résolution de celle-ci.
-Nous allons donc commencer par considérer le cas d'une promotion, avec une seule classe, sur un semestre.
-Le problème peut alors se fragmenter en plusieurs points :
-\begin{itemize}
-\item répartir l'ensemble des cours sur les différentes semaines du semestre\item répartir les cours sur les différents créneaux d'une semaine\item éviter que plusieurs cours se superposent : 	\begin{itemize} 
-	\item[$\bullet$] une classe ne doit pas recevoir plus d'un cours sur un même créneau	\item[$\bullet$] plusieurs professeurs ne peuvent pas donner de cours sur un même créneau	\end{itemize}
-\item tenir compte des disponibilités des professeurs et de la classe lors de l'attribution d'un nouveau cours\item répartir en priorité les professeurs dont les disponibilités sont les moindres\item mettre à jour les disponibilités de chaque protagoniste dès l'ajout d'un cours\item lorsqu'un cours est présent sur plusieurs semaines consécutives, il doit se retrouver sur le même créneau.\end {itemize}
+Comme expliqué précédemment, nous avons décidé de commencer notre projet en le réduisant au maximum, puis nous rajouterons des paramètres au fur et à mesure que le projet avance afin de se rapprocher petit à petit des conditions réelles.\\
 
-\subsection{Considération de l'ensemble des classes d'une promotion}Lorsque nous aurons trouvé l'algorithme répondant à ces critères, nous pourrons considérer toutes les classes de la promotion.\\De nouvelles contraintes se posent :
-\begin{itemize}\item un professeur ne peut pas dispenser un même cours à deux classes différentes sur un même créneau\item vérifier que pour une matière donnée, l'ensemble des créneaux des professeurs qualifiés soit suffisant pour donner tous les cours\item la répartition du programme doit être homogène : toutes les classes doivent recevoir les mêmes cours sur une même semaine
+Cette manière de procéder nous permet de nous concentrer sur une seule contrainte à la fois, et donc d'optimiser la résolution de celle-ci.\\
+
+Nous allons donc commencer par considérer le cas d'une promotion, avec une seule classe, sur un semestre.\\
+
+Le problème peut alors se fragmenter en plusieurs points :
+\begin{itemize}
+\item répartir l'ensemble des cours sur les différentes semaines du semestre
+\item répartir les cours sur les différents créneaux d'une semaine
+\item éviter que plusieurs cours se superposent : 
+	\begin{itemize} 
+	\item[$\bullet$] une classe ne doit pas recevoir plus d'un cours sur un même créneau
+	\item[$\bullet$] plusieurs professeurs ne peuvent pas donner de cours sur un même créneau
+	\end{itemize}
+\item tenir compte des disponibilités des professeurs et de la classe lors de l'attribution d'un nouveau cours
+\item répartir en priorité les professeurs dont les disponibilités sont les moindres
+\item mettre à jour les disponibilités de chaque protagoniste dès l'ajout d'un cours
+\item lorsqu'un cours est présent sur plusieurs semaines consécutives, il doit se retrouver sur le même créneau.
+\end {itemize}
+
+\subsection{Considération de l'ensemble des classes d'une promotion}
+Lorsque nous aurons trouvé l'algorithme répondant à ces critères, nous pourrons considérer toutes les classes de la promotion.\\
+
+De nouvelles contraintes se posent :
+\begin{itemize}
+\item un professeur ne peut pas dispenser un même cours à deux classes différentes sur un même créneau
+\item vérifier que pour une matière donnée, l'ensemble des créneaux des professeurs qualifiés soit suffisant pour donner tous les cours
+\item la répartition du programme doit être homogène : toutes les classes doivent recevoir les mêmes cours sur une même semaine
 \end{itemize}
 
-\subsection{Considération de l'ensemble des promotions}Ensuite nous pourrons considérer la totalité des promotions. Il n'y a pas réellement de nouvelle contrainte, mais c'est à ce stade que l'algorithme de résolution va réellement être mis à l'épreuve, et que le temps d'exécution du programme va vraiment augmenter.
+\subsection{Considération de l'ensemble des promotions}
+Ensuite nous pourrons considérer la totalité des promotions. Il n'y a pas réellement de nouvelle contrainte, mais c'est à ce stade que l'algorithme de résolution va réellement être mis à l'épreuve, et que le temps d'exécution du programme va vraiment augmenter.
 
-\subsection{Considération des salles}Nous rajoutons ensuite la contrainte des salles. Ce nouveau paramètre va énormément compliquer le problème :\begin{itemize}
-\item vérifier qu'une salle ne reçoit qu'un seul cours par créneau\item vérifier qu'une salle a la capacité suffisante pour accueillir tous les élèves d'un cours donné\item vérifier qu'une salle contient les équipements adaptés au cours\end{itemize}
+\subsection{Considération des salles}
+Nous rajoutons ensuite la contrainte des salles. Ce nouveau paramètre va énormément compliquer le problème :
+\begin{itemize}
+\item vérifier qu'une salle ne reçoit qu'un seul cours par créneau
+\item vérifier qu'une salle a la capacité suffisante pour accueillir tous les élèves d'un cours donné
+\item vérifier qu'une salle contient les équipements adaptés au cours
+\end{itemize}
 
-\subsection{Cas réel}Enfin, les enseignants de l'ESME peuvent dispenser des cours dans les locaux d'Ivry-sur-Seine et de Montparnasse. Pour des raisons de timing, les professeurs ne doivent pas avoir de cours à donner dans les deux locaux sur une même demi-journée. Il faut donc introduire ce paramètre dans l'attribution des cours, ce qui va restreindre davantage le nombre de solutions du problème.
+\subsection{Cas réel}
+Enfin, les enseignants de l'ESME peuvent dispenser des cours dans les locaux d'Ivry-sur-Seine et de Montparnasse. Pour des raisons de timing, les professeurs ne doivent pas avoir de cours à donner dans les deux locaux sur une même demi-journée. Il faut donc introduire ce paramètre dans l'attribution des cours, ce qui va restreindre davantage le nombre de solutions du problème.
 
 \newpage
 \section{Méthode de résolution}
@@ -386,13 +471,13 @@ L'utilisateur doit saisir les données dans le programme. Ces données sont:
 \end{itemize}
 
 Il a le choix entre ajouter, modifier, supprimer chacun de ces paramètres. Il ne peut ajouter un paramètre déjà entré précédemment (ex: ajouter deux fois le même professeur dans le programme ne sera pas possible).
-Les paramètres sont inscrits dans des fichiers externes, et toutes les manipulations citées ci-dessus seront faites dans ces fichiers. Ainsi, l'utilisateur peut modifier le fichier depuis le programme ou directement en ouvrant le fichier.
 
-Une fois tous les paramètres entrés, il peut génèrer les emplois du temps. Ces emplois du temps sont également mis dans des fichiers externes.
+Les paramètres sont inscrits dans des fichiers externes, et toutes les manipulations citées ci-dessus seront faites dans ces fichiers. 
+
+Une fois tous les paramètres entrés, il peut générer les emplois du temps, qui sont également mis dans des fichiers externes.
 
 \subsection{Pré-traitement}
-Après que les données aient été saisies par l'utilisateur, nous effectuons un pré-traitement pour éviter des calculs inutiles qui n'aboutiront pas.
-Pour chaque matière, nous faisons la somme des cours qui doivent être donnés, toutes classes confondues, sur une même semaine. Cette somme doit nécessairement être inférieure ou égale au nombre de créneaux des professeurs qualifiés.
+Après que les données aient été saisies par l'utilisateur, nous effectuons un pré-traitement pour éviter des calculs inutiles qui n'aboutiront pas. Pour chaque matière, nous faisons la somme des cours qui doivent être donnés, toutes classes confondues, sur une même semaine. Cette somme doit nécessairement être inférieure ou égale au nombre de créneaux des professeurs qualifiés.
 
 \begin{itemize}
 \item Si le nombre de créneaux total des professeurs est supérieur au nombre de créneaux du cours alors il n'y a pas de pré-traitement à effectuer pour ce cours.
@@ -401,15 +486,36 @@ Pour chaque matière, nous faisons la somme des cours qui doivent être donnés, to
 \end{itemize}
 
 \subsection{Ebauche du traitement}
-Dans un premier temps, on trie les professeurs de manière croissante par rapport à leurs disponibilités. 
-Ensuite, nous prenons le premier professeur de la liste (c'est à dire celui ayant le moins de disponibilités). 
-Nous sélectionnons une matière, parmi celles qu'il enseigne, et nous comparons ses disponibilités à celles de la première classe ayant cette matière. Dès que nous trouvons un créneau disponible pour la classe et le professeur, on leur associe la matière et on met à jour leurs mots binaires afin que ce créneau ne soit plus utilisé.
-Nous répétons cette manoeuvre jusqu'à ce que toutes les matières aient été placées.
-Nous faisons ensuite de même pour une autre matière. Une fois que toutes les matières ont été faites, on passe au professeur suivant.
-Si une classe ou un professeur n'a pas pu se voir attribué toutes ces matières, nous signalons à l'utilisateur que le nombre de professeur est insuffisant.
-Notre méthode de résolution est dite gloutonne, c'est-à-dire que l'on remplie dès que nous pouvons sans regarder s'il y a un meilleur créneau après.
+Dans un premier temps, on trie les professeurs de manière croissante par rapport à leurs disponibilités. Ensuite, nous prenons le premier professeur de la liste (c'est-à-dire celui ayant le moins de disponibilités). 
 
-Comme vous avez pu le remarquer, les salles n'apparaissent nulle part dans le traitement. En effet, nous avons décidé que, pour commencer et pour nous faciliter la tâche, nous allons générer les emplois du temps sans nous préoccuper des salles. Nous inclurons le paramètre des salles plus tard, quand notre algorithme sera plus solide.
+Nous sélectionnons une matière, parmi celles qu'il enseigne, et nous comparons ses disponibilités à celles de la première classe ayant cette matière. Dès que nous trouvons un créneau commun à la classe et au professeur, on leur associe la matière et on met à jour le mot binaire de l'enseignant afin que ce créneau ne soit plus utilisé.
+
+Nous répétons cette opération jusqu'à ce que toutes les matières du professeur aient été placées. On passe ensuite au professeur suivant.
+
+Si toutes les matières d'une classe n'ont pu être placées, il s'agit d'un problème d'ordonnancement, et il faudra trouver une autre combinaison.
+
+Notre méthode de résolution est de type "glouton" : on effectue une association dès qu'elle est réalisable sans vérifier que c'est le meilleur compromis.\\
+
+\newpage
+\section{Discussions}
+
+Le problème étant vraisemblablement Np-difficile, nous doutons de la possibilité d'établir un algorithme de résolution exacte dans un temps raisonnable, étant donnée la taille des instances que nous avons observées. Nous avons considéré qu'une approche heuristique (voire métaheuristique), offrant une solution réalisable mais non nécessairement optimale, serait plus appropriée pour des raisons pratiques évidentes.\\
+
+Par ailleurs, au regard du nombre de contraintes associées au problème, nous devrons commencer par une définition simplifiée d'une "instance" du problème, en écartant un maximum de contraintes pour établir un cadre de résolution théorique clair : nous l'enrichirons tout au long de notre projet. La version tant théorique que logicielle présentée dans ce rapport reflète l'état de notre avancée et est de ce fait partielle.\\
+
+\newpage
+\section{Conclusion}
+
+Jusqu'à maintenant, nous avons mis en place un système permettant à l'utilisateur de saisir les données : il les rentre une à une dans la console, et elles sont automatiquement ajoutées dans un fichier externe. Celles-ci sont alors mises en relation par le programme au sein d'une architecture bien définie.\\
+
+Pour des raisons pratiques, nous avons décidé de réduire le nombre de contraintes à considérer de manière à commencer avec une instance plus simple du problème.\\
+
+Nous avons également réalisé une ébauche du traitement de placement d'un cours. Pour cela, nous effectuons un pré-traitement permettant d'écarter les associations qui n'aboutiront pas pour éviter les calculs inutiles.\\
+
+Ainsi, toute l'architecture permettant la modélisation de l'emploi du temps est faite. Il nous faut maintenant mettre en place les algorithmes qui mèneront à l'ordonnancement des multiples éléments de l'école. On pourra alors établir les différents emplois du temps. Pour se faire, il n'y aura qu'à modéliser les données de sortie.\\
+
+Enfin, le programme nécessitera des fonctions de maintenance pour mettre à jour l'emploi du temps tout au long de l'année.
+
 
 \newpage
 \addcontentsline{toc}{section}{Table des figures}
