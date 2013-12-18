@@ -27,11 +27,13 @@ public:
     
     static int _static_id;
     promo();
-    promo(std::string name, int nb_students);
+    promo(std::string name, int nb_students, std::map<int, course> courses);
     void add_course(course c);
     void add_week(week w);
     course get_course(int id);
     int get_id();
+    std::string get_name();
+    void list_promos();
     
 };
 

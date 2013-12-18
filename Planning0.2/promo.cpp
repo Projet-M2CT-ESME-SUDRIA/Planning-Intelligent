@@ -10,8 +10,8 @@ promo::promo() :_name("unkonwn"), _nb_students(-1) {
     _id=_static_id++;
 }
 
-promo::promo(string name, int nb_students):
-_name(name), _nb_students(nb_students){
+promo::promo(string name, int nb_students, map<int, course> courses):
+_name(name), _nb_students(nb_students), _courses(courses){
     _id=_static_id++;
 }
 
@@ -29,4 +29,19 @@ course promo::get_course(int id) {
 
 int promo::get_id() {
     return _id;
+}
+
+string promo::get_name() {
+    return _name;
+}
+
+void promo::list_promos() {
+    int i;
+    
+    cout << "Classe numero " << get_id() << endl;
+    cout << "\t Nom : " << get_name() << endl;
+    cout << "\t Cours : " << endl;
+    for(i = 0 ; i < _courses.size() ; i++) { 
+        cout << "\t\t" << _courses[i].get_name() << endl;
+    }
 }
