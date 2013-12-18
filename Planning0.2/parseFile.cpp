@@ -140,7 +140,7 @@ prof new_prof(string line, vector<course> courses) {
     {
         m_availability[0] = temp;
     
-         string s = words[2];
+        string s = words[2];
         vector<string> name = parse_line(s, ',');
         given_courses = retrieve_courses(name, courses);
     
@@ -158,7 +158,7 @@ bool check_availability(string s_availability) {
     bool a = true;
     
     //Availability doit faire 11 caractères
-    if(s_availability.size() != 11)
+    if(s_availability.size() != 22)
     {
         cout << "taille  " << s_availability.size() << endl;
         a = false;
@@ -252,7 +252,7 @@ map<int, course> retrieve_courses (vector<string> name, vector<course> &courses)
     
     for(i=0 ; i<name.size() ; i++) {
         for(j=0 ; j<courses.size() ; j++) {
-            if(courses[j].get_name() == name[i])
+            if(name[i].compare(courses[j].get_name()) == 0)
                 given_courses[courses[j].get_id()] = courses[j];
         }
     }
@@ -261,4 +261,66 @@ map<int, course> retrieve_courses (vector<string> name, vector<course> &courses)
         assert("failure");
     
     return given_courses;
+}
+
+/**********/
+/* Classe */
+/**********/
+
+//Fonction pour remplir le fichier de données des promotions
+void add_promo_to_db(string name, string nb_students, string courses, string nb_weeks) {
+    
+    string line = name + "|" + nb_students + "|" + courses + "|" + nb_weeks;
+    
+    if(!check_unicity("promos.txt", line))
+        return;
+    
+    ofstream myStream ("promos.txt", ios::app);
+    
+    if(myStream)
+        myStream << line << endl;
+    else
+        cout << "Impossible d'ouvrir le fichier de données" << endl;
+}
+
+//Récupère les données sur les promos
+void parse_promo(vector<promo> &promo, vector<course> &courses) {
+    
+    vector<string> line;
+    
+    line = read_file("promos.txt");
+    
+    for(int i=0 ; i<line.size() ; i++) {
+        promo.push_back(new_promo(line[i], courses));
+    }
+    
+}
+
+//Création d'une matière à partir d'une ligne du fichier de données
+promo new_promo(string line, vector<course> &courses) {
+    
+    vector<string> words;
+    map<int, course> course_followed;
+    map<int, week> weeks_semester;
+    int nb_weeks = 0;
+    int id_promo = -1;
+    int i;
+    
+    words = parse_line(line, '|');
+    
+    //Méthode pour pouvoir récupérer les cours suivis
+    string s = words[2];
+    vector<string> name = parse_line(s, ',');
+    course_followed = retrieve_courses(name, courses);
+    
+    promo p(words[0], string_to_int(words[1]), course_followed);
+    
+    //Méthode pour créer les semaines de la promo
+    nb_weeks = string_to_int(words[3]);
+    id_promo = p.get_id();
+    for(i = 0 ; i < nb_weeks ; i++) {
+        week w(id_promo, i+1);
+    }
+    
+    return p;
 }
