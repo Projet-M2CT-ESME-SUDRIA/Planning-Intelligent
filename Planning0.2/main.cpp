@@ -15,8 +15,8 @@ using namespace std;
 bool sort_by_availability(prof a, prof b) {
     int cmpt_a = 0;
     int cmpt_b = 0;
-    vector<int> availability_a = a.get_availability(1);
-    vector<int> availability_b = b.get_availability(1);
+    vector<int> availability_a = a.get_availability(0);
+    vector<int> availability_b = b.get_availability(0);
     
     for (int i = 0; i < 22; i++) {
         if (availability_a.at(i) == 1)
@@ -218,6 +218,21 @@ void add_course() {
     add_course_to_db(id_promo, name, nb_hours);
 }
 
+void add_promo() {
+    string name, nb_student, courses, nb_weeks;
+    
+    cout << "Nom de la classe" << endl;
+    cin >> name;
+    cout << "Nombre d'élève dans la classe" << endl;
+    cin >> nb_student;
+    cout << "Liste des cours suivis par la classe" << endl;
+    cin >> courses;
+    cout << "Nombre de semaine de cours" << endl;
+    cin >> nb_weeks;
+    
+    add_promo_to_db(name, nb_student, courses, nb_weeks);
+}
+
 void get_profs(vector<prof> &profs, vector<course> courses) {
     
     parse_profs(profs, courses);
@@ -234,6 +249,14 @@ void get_courses(vector<course> &courses) {
     for(int i=0 ; i<courses.size() ; i++) {
         courses[i].list_courses();
     }
+}
+
+void get_promos(vector<promo> &promos, vector<course> &courses) {
+    parse_promo(promos, courses);
+    
+    for(int i=0 ; i<promos.size() ; i++) {
+        promos[i].list_promos();
+    }  
 }
 
 void test2() {
@@ -282,8 +305,67 @@ void test2() {
     return;
 }
 
+void test3() {
+    
+    bool exit=false;
+    int choice=0;
+    int i = 0;
+    vector<course> courses;
+    vector<prof> profs;
+    vector<promo> promos;
+    
+    while(!exit) {
+        
+        cout << "1. ajouter un cours" << endl;
+        cout << "2. ajouter un prof" << endl;
+        cout << "3. ajouter une promo" << endl;
+        cout << "4. recuperer la liste des matieres" << endl;
+        cout << "5. recuperer la liste des profs" << endl;
+        cout << "6. recuperer la liste des classes" << endl;
+        cout << "0. quitter" << endl;
+        cin >> choice;
+        
+        switch(choice) {
+            case 1:
+                add_course();
+                break;
+                
+            case 2:
+                add_prof();
+                break;
+                
+            case 3:
+                add_promo();
+                break;
+                
+            case 4:
+                get_courses(courses);
+                break;
+                
+            case 5:
+                get_profs(profs, courses);
+                break;
+                
+            case 6:
+                get_promos(promos, courses);
+                break;
+                
+            case 0:
+                exit = true;
+                break;
+                
+            default:
+                exit=true;
+                break;
+        }
+    }
+    
+    return;
+                
+}
+
 int main(int argc, char* argv[]) {
-   test2(); 
+   test3(); 
    
    return 0;
 }
