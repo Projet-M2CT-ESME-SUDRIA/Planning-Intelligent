@@ -34,7 +34,7 @@ public:
     //index = creneaux
     void grant_lecture(course c, week &w, int index);
     std::string get_name();
-    
+    std::map<int,course> get_given_courses();
     void list_profs();
 
 };

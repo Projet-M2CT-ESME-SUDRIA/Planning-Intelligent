@@ -52,8 +52,17 @@ string prof::get_name() {
     return _name;
 }
 
+map<int, course> prof::get_given_courses() {
+    return _given_courses;
+}
+
 void prof::list_profs() {
-    
+    int i;
+    map<int,course> courses = get_given_courses();
     cout << "Professeur numero " << _id << endl;
     cout << "\t Nom : " << _name << endl;
+    cout << "\t Cours : " << endl;
+    for(i = 0 ; i < courses.size() ; i++) { 
+        cout << "\t\t" << courses[i].get_name() << endl;
+    }
 }
