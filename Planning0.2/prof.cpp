@@ -16,7 +16,7 @@ prof::prof(string name, map<int, vector<int> > availability, map<int, course> gi
 
 void prof::add_availability(int nb_weeks, std::vector<int> availability) {
     for (int i = 0; i < nb_weeks; i++) {
-        _availability[i+1] = availability;
+        _availability[i] = availability;
     }
 }
 
@@ -25,8 +25,7 @@ std::vector<int> prof::get_availability(int num_week) {
 }
 
 void prof::set_availability(int num_week, int index) {
-    vector <int> availability = _availability[num_week];
-    availability.at(index) = 0;
+    _availability[num_week].at(index) = 0;
 }
 
 void prof::add_given_course(course c){
