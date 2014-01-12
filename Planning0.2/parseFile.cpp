@@ -91,7 +91,7 @@ bool check_unicity(string filename, string line) {
 /************/
 
 //Fonction pour remplir le fichier de données des profs
-void add_prof_to_db(string name, string s_availability, string given_courses) {
+void add_prof_to_db(string name, string s_availability, string given_courses, string nb_weeks) {
     
     string line = name + "|" + s_availability + "|" + given_courses;
     
@@ -132,19 +132,25 @@ prof new_prof(string line, vector<course> courses) {
     if(check_availability(words[1]))
         assert("error");
     
-    map<int, vector<int> > m_availability;
+    map<int,vector<int> > m_availability;
     map<int, course> given_courses;
     
+    //Création de l'ensemble des disponibilités du profs
     vector<int> temp = fill_v_availability(words[1]);
     if (!temp.empty())
     {
-        m_availability[0] = temp;
+        for (int i = 0; i < string_to_int(words[3]) ; i++) {
+            m_availability[i] = temp;
+        }
+        
     
         string s = words[2];
         vector<string> name = parse_line(s, ',');
         given_courses = retrieve_courses(name, courses);
     
-        prof p(words[0], m_availability, given_courses);
+        prof p(words[0],m_availability, given_courses);
+        
+        
         return p;
     }
     else

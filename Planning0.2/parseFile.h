@@ -22,7 +22,7 @@ int string_to_int(std::string s);
 bool check_unicity(std::string filename, std::string line);
 
 //Profs
-void add_prof_to_db(std::string name, std::string s_availability, std::string courses);
+void add_prof_to_db(std::string name, std::string s_availability, std::string courses, std::string nb_weeks);
 void parse_profs(std::vector<prof> &profs, std::vector<course> courses);
 prof new_prof(std::string line, std::vector<course> courses);
 bool check_availability(std::string s_availability);
