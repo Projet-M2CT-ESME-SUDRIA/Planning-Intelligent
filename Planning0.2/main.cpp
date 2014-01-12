@@ -31,168 +31,9 @@ bool sort_by_availability(prof a, prof b) {
     return cmpt_a < cmpt_b;    
 }
 
-void test(){
-    vector<prof> vector_prof;
-    
-    // List of all courses for the first semester for M1
-    /*course c_elec_puissance("Terminologie, fonctions et composants d'electronique de puissance ", 16);
-    course c_conversion_nrj("Conversion de l'énergie", 38);
-    course c_auto_lineaire("Automatique linéaire", 32);
-    course c_elec_telecom("Electronique pour les telecoms", 26);
-    course c_tns("Traitement numerique du signal", 36);
-    course c_comm_num("Communication numerque", 36);
-    course c_reseaux("Les reseaux", 24);
-    course c_prog_evol("Programmation evoluee et langages", 32);
-    course c_unix("Unix", 20);
-    course c_microsys("Microsystemes", 34);
-    course c_concept_circuit_num("Conception circuits numeriques", 32);
-    course c_outil_dev_microsys("Outil developpement microsysteme", 12);
-    course c_anglais("Anglais", 26);
-    course c_mineur("Mineure manageriale", 44);
-    course c_suivi_proj("Plannification et suivi de projets", 20);
-    
-    //Creation of a vector for the availabilities of prof
-    int t1[] = {0,0,1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,0,0};
-    vector<int> v1 (t1, t1 + sizeof(t1) / sizeof(int));
-    
-    //Availabilities for intern prof
-    int t2[] = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
-    vector<int> intern_available (t2, t2 + sizeof(t2) / sizeof(int));
-    
-    //Availabilities for mineur classe:
-    int t3[] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1};
-    vector<int> mineur_available (t3, t3 + sizeof(t3) / sizeof(int));
-    
-    //List of all prof of first semester of M1
-    prof p_ledoux("Ledoux");
-    prof p_ait("Ait");
-    prof p_gadot("Gadot");
-    prof p_maizy("Maizy");
-    prof p_bassi("Bassi");
-    prof p_bourbon("Bourbon");
-    prof p_chenoune("Chenoune");
-    prof p_herry("Herry");
-    prof p_touseau("Touseau");
-    prof p_gemal("Gemal");
-    prof p_eden("Eden");
-    prof p_mineur("profMineur");
-    prof p_vedel("Vedel");
-    
-    //Add availability for all prof
-    p_ledoux.add_availability(14, v1);
-    p_ait.add_availability(14, intern_available);
-    p_gadot.add_availability(14, v1);
-    p_maizy.add_availability(14, intern_available);
-    p_bassi.add_availability(14, intern_available);
-    p_bourbon.add_availability(14, v1);
-    p_chenoune.add_availability(14, intern_available);
-    p_herry.add_availability(14, intern_available);
-    p_touseau.add_availability(14, intern_available);
-    p_gemal.add_availability(14, intern_available);
-    p_eden.add_availability(14, intern_available);
-    p_mineur.add_availability(14, mineur_available);
-    p_vedel.add_availability(14, v1);
-    
-    //Add given course for all prof
-    p_ledoux.add_given_course(c_elec_puissance);
-    p_ledoux.add_given_course(c_conversion_nrj);
-    p_ait.add_given_course(c_auto_lineaire);
-    p_gadot.add_given_course(c_elec_telecom);
-    p_maizy.add_given_course(c_tns);
-    p_bassi.add_given_course(c_comm_num);
-    p_bourbon.add_given_course(c_reseaux);
-    p_chenoune.add_given_course(c_prog_evol);
-    p_herry.add_given_course(c_unix);
-    p_touseau.add_given_course(c_microsys);
-    p_touseau.add_given_course(c_concept_circuit_num);
-    p_touseau.add_given_course(c_outil_dev_microsys);
-    p_gemal.add_given_course(c_microsys);
-    p_eden.add_given_course(c_anglais);
-    p_mineur.add_given_course(c_mineur);
-    p_vedel.add_given_course(c_suivi_proj);
-    
-    //Add all prof in the vector
-    vector_prof.push_back(p_ledoux);
-    vector_prof.push_back(p_ait);
-    vector_prof.push_back(p_gadot);
-    vector_prof.push_back(p_maizy);
-    vector_prof.push_back(p_bassi);
-    vector_prof.push_back(p_bourbon);
-    vector_prof.push_back(p_chenoune);
-    vector_prof.push_back(p_herry);
-    vector_prof.push_back(p_touseau);
-    vector_prof.push_back(p_gemal);
-    vector_prof.push_back(p_eden);
-    vector_prof.push_back(p_mineur);
-    vector_prof.push_back(p_vedel);
-    
-    //prof test;
-    sort(vector_prof.begin(), vector_prof.end(), sort_by_availability);
-    for (int i = 0; i < 13; i++) {
-
-        cout << vector_prof.at(i).get_name() << endl;
-
-    }
-    
-    //Creation of one promo M1
-    promo m1("M1A", 70);
-    
-    //Add course for M1A
-    m1.add_course(c_elec_puissance);
-    m1.add_course(c_conversion_nrj);
-    m1.add_course(c_auto_lineaire);
-    m1.add_course(c_elec_telecom);
-    m1.add_course(c_tns);
-    m1.add_course(c_comm_num);
-    m1.add_course(c_reseaux);
-    m1.add_course(c_prog_evol);
-    m1.add_course(c_unix);
-    m1.add_course(c_microsys);
-    m1.add_course(c_concept_circuit_num);
-    m1.add_course(c_outil_dev_microsys);
-    m1.add_course(c_anglais);
-    m1.add_course(c_mineur);
-    m1.add_course(c_suivi_proj);
-    
-    //Create all week for M1A
-    week w1(m1.get_id(), 1);
-    week w2(m1.get_id(), 2);
-    week w3(m1.get_id(), 3);
-    week w4(m1.get_id(), 4);
-    week w5(m1.get_id(), 5);
-    week w6(m1.get_id(), 6);
-    week w7(m1.get_id(), 7);
-    week w8(m1.get_id(), 8);
-    week w9(m1.get_id(), 9);
-    week w10(m1.get_id(), 10);
-    week w11(m1.get_id(), 11);
-    week w12(m1.get_id(), 12);
-    week w13(m1.get_id(), 13);
-    week w14(m1.get_id(), 14);
-    
-    //Add week to M1A
-    m1.add_week(w1);
-    m1.add_week(w2);
-    m1.add_week(w3);
-    m1.add_week(w4);
-    m1.add_week(w5);
-    m1.add_week(w6);
-    m1.add_week(w7);
-    m1.add_week(w8);
-    m1.add_week(w9);
-    m1.add_week(w10);
-    m1.add_week(w11);
-    m1.add_week(w12);
-    m1.add_week(w13);
-    m1.add_week(w14);
-    
-    p_ledoux.grant_lecture(c_elec_puissance, w1, 3);
-    p_ledoux.grant_lecture(c_elec_puissance, w2, 3);*/
-}
-
 void add_prof() {
     
-    string name, availability, given_courses;
+    string name, availability, given_courses, nb_weeks;
     
     cout << "Nom du prof" << endl;
     cin >> name;
@@ -200,8 +41,10 @@ void add_prof() {
     cin >> availability;
     cout << "Cours donnes par le prof" << endl;
     cin >> given_courses;
+    cout << "Nombre de semaine de cours" << endl;
+    cin >> nb_weeks;
     
-    add_prof_to_db(name, availability, given_courses);
+    add_prof_to_db(name, availability, given_courses, nb_weeks);
 }
 
 void add_course() {
@@ -305,6 +148,41 @@ void test2() {
     return;
 }
 
+void change_dispo(prof &profs) {
+    for (int i = 0; i < 6; i++) {
+        for (int j = 0; j < 22; j++) {
+            cout << profs.get_availability(i).at(j);
+        }
+        cout << endl;
+
+    }
+    cout << endl << endl;
+    profs.set_availability(0,1);
+
+    cout << endl;
+    for (int i = 0; i < 6; i++) {
+        for (int j = 0; j < 22; j++) {
+            cout << profs.get_availability(i).at(j);
+        }
+        cout << endl;
+
+    }
+                
+}
+
+void myRout(vector<course> &courses, vector<prof> &profs, vector<promo> &promos) {
+    std::map<int,course> testCourse;
+    //Pour chaque profs
+    for (int i = 0; i < profs.size(); i++) {
+        //Pour l'ensemble des cours qu'il donne
+        for (int j = 0; j < profs.at(i).get_given_courses().size(); j++) {
+            testCourse = profs.at(i).get_given_courses();
+            cout << testCourse[j].get_name() << endl;
+
+        }
+    }
+}
+
 void test3() {
     
     bool exit=false;
@@ -322,6 +200,8 @@ void test3() {
         cout << "4. recuperer la liste des matieres" << endl;
         cout << "5. recuperer la liste des profs" << endl;
         cout << "6. recuperer la liste des classes" << endl;
+        cout << "7. test modifications dispo" << endl;
+        cout << "8. test routine" << endl;
         cout << "0. quitter" << endl;
         cin >> choice;
         
@@ -348,6 +228,14 @@ void test3() {
                 
             case 6:
                 get_promos(promos, courses);
+                break;
+                
+            case 7:
+                change_dispo(profs.at(0));
+                break;
+                
+            case 8:
+                myRout(courses,profs,promos);
                 break;
                 
             case 0:
