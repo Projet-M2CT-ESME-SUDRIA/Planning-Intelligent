@@ -38,3 +38,7 @@ bool week::checkAvailability(int index) {
         return true;
     return false;
 }
+
+lecture week::get_lecture(int index) {
+    return _lectures.at(index);
+}

@@ -91,7 +91,7 @@ bool check_unicity(string filename, string line) {
 /************/
 
 //Fonction pour remplir le fichier de données des profs
-void add_prof_to_db(string name, string s_availability, string given_courses) {
+void add_prof_to_db(string name, string s_availability, string given_courses, string nb_weeks) {
     
     string line = name + "|" + s_availability + "|" + given_courses;
     
@@ -132,19 +132,25 @@ prof new_prof(string line, vector<course> courses) {
     if(check_availability(words[1]))
         assert("error");
     
-    map<int, vector<int> > m_availability;
-    map<int, course> given_courses;
+    map<int,vector<int> > m_availability;
+    vector<course> given_courses;
     
+    //Création de l'ensemble des disponibilités du profs
     vector<int> temp = fill_v_availability(words[1]);
     if (!temp.empty())
     {
-        m_availability[0] = temp;
+        for (int i = 0; i < string_to_int(words[3]) ; i++) {
+            m_availability[i] = temp;
+        }
+        
     
-         string s = words[2];
+        string s = words[2];
         vector<string> name = parse_line(s, ',');
         given_courses = retrieve_courses(name, courses);
     
-        prof p(words[0], m_availability, given_courses);
+        prof p(words[0],m_availability, given_courses);
+        
+        
         return p;
     }
     else
@@ -158,7 +164,7 @@ bool check_availability(string s_availability) {
     bool a = true;
     
     //Availability doit faire 11 caractères
-    if(s_availability.size() != 11)
+    if(s_availability.size() != 22)
     {
         cout << "taille  " << s_availability.size() << endl;
         a = false;
@@ -245,15 +251,15 @@ course new_course(string line) {
 }
 
 //Construit la map de matières d'un prof
-map<int, course> retrieve_courses (vector<string> name, vector<course> &courses) {
+vector<course> retrieve_courses (vector<string> name, vector<course> &courses) {
     
     int i,j;
-    map<int, course> given_courses;
+    vector<course> given_courses;
     
     for(i=0 ; i<name.size() ; i++) {
         for(j=0 ; j<courses.size() ; j++) {
-            if(courses[j].get_name() == name[i])
-                given_courses[courses[j].get_id()] = courses[j];
+            if(name[i].compare(courses[j].get_name()) == 0)
+                given_courses.push_back(courses[j]);
         }
     }
     
@@ -261,4 +267,66 @@ map<int, course> retrieve_courses (vector<string> name, vector<course> &courses)
         assert("failure");
     
     return given_courses;
+}
+
+/**********/
+/* Classe */
+/**********/
+
+//Fonction pour remplir le fichier de données des promotions
+void add_promo_to_db(string name, string nb_students, string courses, string nb_weeks) {
+    
+    string line = name + "|" + nb_students + "|" + courses + "|" + nb_weeks;
+    
+    if(!check_unicity("promos.txt", line))
+        return;
+    
+    ofstream myStream ("promos.txt", ios::app);
+    
+    if(myStream)
+        myStream << line << endl;
+    else
+        cout << "Impossible d'ouvrir le fichier de données" << endl;
+}
+
+//Récupère les données sur les promos
+void parse_promo(vector<promo> &promo, vector<course> &courses) {
+    
+    vector<string> line;
+    
+    line = read_file("promos.txt");
+    
+    for(int i=0 ; i<line.size() ; i++) {
+        promo.push_back(new_promo(line[i], courses));
+    }
+    
+}
+
+//Création d'une matière à partir d'une ligne du fichier de données
+promo new_promo(string line, vector<course> &courses) {
+    
+    vector<string> words;
+    vector<course> course_followed;
+    map<int, week> weeks_semester;
+    int nb_weeks = 0;
+    int id_promo = -1;
+    int i;
+    
+    words = parse_line(line, '|');
+    
+    //Méthode pour pouvoir récupérer les cours suivis
+    string s = words[2];
+    vector<string> name = parse_line(s, ',');
+    course_followed = retrieve_courses(name, courses);
+    
+    promo p(words[0], string_to_int(words[1]), course_followed);
+    
+    //Méthode pour créer les semaines de la promo
+    nb_weeks = string_to_int(words[3]);
+    id_promo = p.get_id();
+    for(i = 0 ; i < nb_weeks ; i++) {
+        week w(id_promo, i);
+    }
+    
+    return p;
 }

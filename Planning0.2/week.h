@@ -31,6 +31,7 @@ public:
     int get_num_week();
     void add_lecture(int index, lecture l);
     bool checkAvailability(int index);
+    lecture get_lecture(int index);
     
 };
 

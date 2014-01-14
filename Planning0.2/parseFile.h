@@ -22,7 +22,7 @@ int string_to_int(std::string s);
 bool check_unicity(std::string filename, std::string line);
 
 //Profs
-void add_prof_to_db(std::string name, std::string s_availability, std::string courses);
+void add_prof_to_db(std::string name, std::string s_availability, std::string courses, std::string nb_weeks);
 void parse_profs(std::vector<prof> &profs, std::vector<course> courses);
 prof new_prof(std::string line, std::vector<course> courses);
 bool check_availability(std::string s_availability);
@@ -33,7 +33,12 @@ std::map<int, std::vector<int> > fill_m_availability(int week, std::vector<int> 
 void add_course_to_db(std::string name, std::string nb_courses, std::string id_promo);
 void parse_courses(std::vector<course> &courses);
 course new_course(std::string line);
-std::map<int, course> retrieve_courses (std::vector<std::string> name, std::vector<course> &courses);
+std::vector<course> retrieve_courses (std::vector<std::string> name, std::vector<course> &courses);
+
+//Promo
+void add_promo_to_db(std::string name, std::string nb_students, std::string courses, std::string nb_weeks);
+void parse_promo(std::vector<promo> &promo, std::vector<course> &courses);
+promo new_promo(std::string line, std::vector<course> &courses);
 
 #endif	/* PARSEFILE_H */
 
