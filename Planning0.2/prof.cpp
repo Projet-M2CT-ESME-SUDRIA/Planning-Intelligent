@@ -58,6 +58,10 @@ vector<course> prof::get_given_courses() {
     return _given_courses;
 }
 
+course prof::get_course(int index) {
+    return _given_courses[index];
+}
+
 void prof::list_profs() {
     int i;
     vector<course> courses = get_given_courses();
@@ -71,4 +75,8 @@ void prof::list_profs() {
 
 int prof::is_available(int num_week, int index) {
     return _availability[num_week].at(index);
+}
+
+int prof::nb_courses(){
+    return _given_courses.size();
 }

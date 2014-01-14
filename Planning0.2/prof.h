@@ -35,8 +35,10 @@ public:
     int grant_lecture(course c, week &w, int index);
     std::string get_name();
     std::vector<course> get_given_courses();
+    course get_course(int index);
     void list_profs();
     int is_available(int num_week, int index);
+    int nb_courses();
 
 };
 
