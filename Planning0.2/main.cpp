@@ -60,7 +60,7 @@ void test3() {
                 break;
                 
             case 7:
-                rout1(profs,promos);
+                rout2(profs,promos);
                 break;
                 
             case 0:

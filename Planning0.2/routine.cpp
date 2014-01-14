@@ -56,15 +56,81 @@ void rout1(vector<prof> &profs, vector<promo> &promos) {
 //Amélioration, ajoute les cours sur plusieurs semaines
 void rout2(vector<prof> &profs, vector<promo> &promos) {
     
-    int nb_hours;
-    
     //On trie les profs par dispo
     sort(profs.begin(), profs.end(), sort_by_availability);
+    
     //Pour chaque profs
     for (int i = 0; i < profs.size(); i++) {
-        //Pour chaque cours
-        for (int j = 0; j < profs.at(i).get_given_courses().size() ; j++) {
-            nb_hours = profs.at(i).get_given_courses().at(j).get_nb_hours();
+        grant_lectures(profs.at(i), promos.at(0));
+    }
+    
+    display_weeks(promos.at(0));
+}
+
+void grant_lectures(prof &p, promo &c) {
+    
+    int nb_hours;
+    int index;
+    
+    for (int j = 0; j < p.get_given_courses().size() ; j++) {
+        nb_hours = p.get_given_courses().at(j).get_nb_hours();
+        
+        index = get_match_prof_promo(p, c, nb_hours);
+        if(index != -1) {
+            for (int l = 0; l < nb_hours/2; l++) {
+                p.grant_lecture(p.get_given_courses().at(j), c.get_week(l), index);
+            }
         }
+    }
+}
+
+int get_match_prof_promo(prof &p, promo &c, int nb_hours) {
+    int nb_avail_prof;
+    int nb_avail_promo;
+    
+    //Pour tous les créneaux
+    for (int k = 0; k < 22; k++) {
+        nb_avail_prof = 0;
+        nb_avail_promo = 0;
+        //Si le prof est dispo la première semaine sur le créneaux k
+        if (p.is_available(0,k)){
+            nb_avail_prof ++;
+            //on regarde si la classe est dispo la première semaine au créneau k
+            nb_avail_promo = cmpt_avail_promo(c, nb_avail_promo, 0, k);
+
+            //On regarde si ils sont dispo pour toutes les autres semaines.
+            for (int l = 1; l < nb_hours/2; l++) {
+                nb_avail_prof = cmpt_avail_prof(p, nb_avail_prof, l, k);
+                nb_avail_promo = cmpt_avail_promo(c, nb_avail_promo, l, k);
+            }
+            if (nb_avail_prof == nb_hours/2 &&  nb_avail_promo == nb_hours/2) {
+                return k;
+            } 
+        }
+    } 
+    return -1;
+}
+    
+
+int cmpt_avail_prof(prof &p, int nb_dispo_prof, int week, int index) {
+    if(p.is_available(week,index)) {
+        nb_dispo_prof ++;
+    }
+    return nb_dispo_prof;
+}
+
+int cmpt_avail_promo (promo &p, int nb_dispo_promo, int week, int index) {
+    if(p.is_available(week,index)) {
+        nb_dispo_promo ++;
+    }
+    return nb_dispo_promo;
+}
+
+void display_weeks(promo p) {
+    for (int i = 0; i < 6; i++) {
+        for (int j = 0; j < 22; j++) {
+            cout << p.get_week(i).get_lecture(j).get_id_course();
+        }
+        cout << endl;
     }
 }
