@@ -18,6 +18,7 @@
 class promo{
     
     int _id;
+    int _id_promo;
     int _nb_students;
     std::string _name;
     std::vector<course> _courses;
@@ -27,11 +28,12 @@ public:
     
     static int _static_id;
     promo();
-    promo(std::string name, int nb_students, std::vector<course> courses);
+    promo(int id_promo, std::string name, int nb_students, std::vector<course> courses);
     void add_course(course c);
     void add_week(week w);
     course get_course(int id);
     int get_id();
+    int get_id_promo();
     std::string get_name();
     void list_promos();
     week& get_week(int num_week);
