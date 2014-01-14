@@ -17,16 +17,17 @@ class course {
     int _id;
     int _id_promo;
     string _name;
-    int _nb_lectures;
+    int _nb_hours;
     
 public:
     
     static int _static_id;
     course();
-    course(int id_promo, std::string name, int nb_lectures);
+    course(int id_promo, std::string name, int nb_hours);
     int get_id();
     std::string get_name();
     void list_courses();
+    int get_nb_hours();
 
 };
 
