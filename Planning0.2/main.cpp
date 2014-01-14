@@ -171,15 +171,35 @@ void change_dispo(prof &profs) {
 }
 
 void myRout(vector<course> &courses, vector<prof> &profs, vector<promo> &promos) {
-    std::map<int,course> testCourse;
+    std::vector<course> testCourse;
     //Pour chaque profs
     for (int i = 0; i < profs.size(); i++) {
+        for (int j = 0; j < 22; j++) {
+            cout << profs.at(i).get_availability(0).at(j);
+        }
+        cout << endl;
+        
         //Pour l'ensemble des cours qu'il donne
         for (int j = 0; j < profs.at(i).get_given_courses().size(); j++) {
-            testCourse = profs.at(i).get_given_courses();
-            cout << testCourse[j].get_name() << endl;
-
+            //Pour toutes ces disponnibilité
+            for (int k = 0; k < 22; k++) {
+                //Si le prof est libre sur le créneau on ajoute le cours
+                if (profs.at(i).is_available(0,k)) {
+                    cout << "Le prof est libre au créneau : " << k << endl;
+                    if (profs.at(i).grant_lecture(profs.at(i).get_given_courses().at(j), promos.at(0).get_week(0), k)) {
+                        break;
+                    }    
+                }
+            }
         }
+        for (int j = 0; j < 22; j++) {
+            cout << profs.at(i).get_availability(0).at(j);
+        }
+        cout << endl;
+    }
+    
+    for (int j = 0; j < 22; j++) {
+        cout << promos.at(0).get_week(0).get_lecture(j).get_id_course() << endl;
     }
 }
 
