@@ -35,8 +35,10 @@ void add_course() {
 }
 
 void add_promo() {
-    string name, nb_student, courses, nb_weeks;
+    string id_promo, name, nb_student, courses, nb_weeks;
     
+    cout << "ID de la promotion" << endl;
+    cin >> id_promo;
     cout << "Nom de la classe" << endl;
     cin >> name;
     cout << "Nombre d'élève dans la classe" << endl;
@@ -46,7 +48,7 @@ void add_promo() {
     cout << "Nombre de semaine de cours" << endl;
     cin >> nb_weeks;
     
-    add_promo_to_db(name, nb_student, courses, nb_weeks);
+    add_promo_to_db(id_promo, name, nb_student, courses, nb_weeks);
 }
 
 void get_profs(vector<prof> &profs, vector<course> courses) {
