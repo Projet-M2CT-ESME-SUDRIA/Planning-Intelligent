@@ -274,9 +274,9 @@ vector<course> retrieve_courses (vector<string> name, vector<course> &courses) {
 /**********/
 
 //Fonction pour remplir le fichier de données des promotions
-void add_promo_to_db(string name, string nb_students, string courses, string nb_weeks) {
+void add_promo_to_db(string id_promo, string name, string nb_students, string courses, string nb_weeks) {
     
-    string line = name + "|" + nb_students + "|" + courses + "|" + nb_weeks;
+    string line = id_promo + "|" + name + "|" + nb_students + "|" + courses + "|" + nb_weeks;
     
     if(!check_unicity("promos.txt", line))
         return;
@@ -315,14 +315,14 @@ promo new_promo(string line, vector<course> &courses) {
     words = parse_line(line, '|');
     
     //Méthode pour pouvoir récupérer les cours suivis
-    string s = words[2];
+    string s = words[3];
     vector<string> name = parse_line(s, ',');
     course_followed = retrieve_courses(name, courses);
     
-    promo p(words[0], string_to_int(words[1]), course_followed);
+    promo p(string_to_int(words[0]), words[1], string_to_int(words[2]), course_followed);
     
     //Méthode pour créer les semaines de la promo
-    nb_weeks = string_to_int(words[3]);
+    nb_weeks = string_to_int(words[4]);
     id_promo = p.get_id();
     for(i = 0 ; i < nb_weeks ; i++) {
         week w(id_promo, i);
