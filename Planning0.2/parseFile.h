@@ -33,7 +33,7 @@ std::map<int, std::vector<int> > fill_m_availability(int week, std::vector<int> 
 void add_course_to_db(std::string name, std::string nb_courses, std::string id_promo);
 void parse_courses(std::vector<course> &courses);
 course new_course(std::string line);
-std::map<int, course> retrieve_courses (std::vector<std::string> name, std::vector<course> &courses);
+std::vector<course> retrieve_courses (std::vector<std::string> name, std::vector<course> &courses);
 
 //Promo
 void add_promo_to_db(std::string name, std::string nb_students, std::string courses, std::string nb_weeks);

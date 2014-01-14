@@ -133,7 +133,7 @@ prof new_prof(string line, vector<course> courses) {
         assert("error");
     
     map<int,vector<int> > m_availability;
-    map<int, course> given_courses;
+    vector<course> given_courses;
     
     //Création de l'ensemble des disponibilités du profs
     vector<int> temp = fill_v_availability(words[1]);
@@ -251,15 +251,15 @@ course new_course(string line) {
 }
 
 //Construit la map de matières d'un prof
-map<int, course> retrieve_courses (vector<string> name, vector<course> &courses) {
+vector<course> retrieve_courses (vector<string> name, vector<course> &courses) {
     
     int i,j;
-    map<int, course> given_courses;
+    vector<course> given_courses;
     
     for(i=0 ; i<name.size() ; i++) {
         for(j=0 ; j<courses.size() ; j++) {
             if(name[i].compare(courses[j].get_name()) == 0)
-                given_courses[courses[j].get_id()] = courses[j];
+                given_courses.push_back(courses[j]);
         }
     }
     
@@ -306,7 +306,7 @@ void parse_promo(vector<promo> &promo, vector<course> &courses) {
 promo new_promo(string line, vector<course> &courses) {
     
     vector<string> words;
-    map<int, course> course_followed;
+    vector<course> course_followed;
     map<int, week> weeks_semester;
     int nb_weeks = 0;
     int id_promo = -1;
@@ -325,7 +325,7 @@ promo new_promo(string line, vector<course> &courses) {
     nb_weeks = string_to_int(words[3]);
     id_promo = p.get_id();
     for(i = 0 ; i < nb_weeks ; i++) {
-        week w(id_promo, i+1);
+        week w(id_promo, i);
     }
     
     return p;
