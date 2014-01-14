@@ -49,3 +49,7 @@ void promo::list_promos() {
         cout << "\t\t" << _courses.at(i).get_name() << endl;
     }
 }
+
+int promo::is_available(int num_week, int index) {
+    return _weeks[num_week].checkAvailability(index);
+}
