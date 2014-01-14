@@ -23,6 +23,8 @@ void grant_lectures(prof &p, promo &c);
 int get_match_prof_promo(prof &p, promo &c, int nb_hours);
 void display_weeks(promo p);
 
+void best_connection(std::vector<prof> profs, std::vector<promo> promos, int num_week, int &prof_index, int &promo_index);
+int nb_connections(prof p, promo c, int num_week);
 
 #endif	/* ROUTINE_H */
 

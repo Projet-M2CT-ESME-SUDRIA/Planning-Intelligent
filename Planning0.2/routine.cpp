@@ -134,3 +134,43 @@ void display_weeks(promo p) {
         cout << endl;
     }
 }
+
+
+int link_prof_promo(prof p, promo c) {
+    
+    int i,j;
+    
+    for (i=0 ; i<p.nb_courses() ; i++) {
+        if(p.get_course(i).get_id_promo() == c.get_id_promo())
+            return 1;
+    }
+    
+    return 0;
+}
+
+void best_connection(vector<prof> profs, vector<promo> promos, int num_week, int &prof_index, int &promo_index) {
+    
+    int i,j,buf=23;
+    
+    for(i=0 ; i<profs.size() ; i++) {
+        for(j=0 ; j<promos.size() ; j++) {
+            if(nb_connections(profs[i], promos[j], num_week) < buf) {
+                buf = nb_connections(profs[i], promos[j], num_week);
+                prof_index = i;
+                promo_index = j;
+            }
+        }
+    }
+}
+
+int nb_connections(prof p, promo c, int num_week) {
+    
+    int i,j,nb;
+    
+    for(i=0 ; i<22 ; i++) {
+        if(p.is_available(num_week, i) && c.is_available(num_week, i))
+            nb++;
+    }
+    
+    return nb;
+}
