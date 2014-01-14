@@ -18,6 +18,10 @@ int course::get_id() {
     return _id;
 }
 
+int course::get_id_promo() {
+    return _id_promo;
+}
+
 string course::get_name() {
     return _name;
 }
