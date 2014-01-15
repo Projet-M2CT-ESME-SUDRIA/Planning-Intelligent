@@ -127,9 +127,9 @@ int cmpt_avail_promo (promo &p, int nb_dispo_promo, int week, int index) {
 }
 
 void display_weeks(promo p) {
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 15; i++) {
         for (int j = 0; j < 22; j++) {
-            cout << p.get_week(i).get_lecture(j).get_id_course();
+            cout << p.get_week(i).get_lecture(j).get_id_course() <<"   ";
         }
         cout << endl;
     }
