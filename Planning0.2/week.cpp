@@ -28,7 +28,7 @@ int week::get_num_week() {
 
 
 void week::add_lecture(int index, lecture l) {
-    this->_lectures.insert(_lectures.begin()+index,l);
+    this->_lectures.at(index) = l;
 }
 
 bool week::checkAvailability(int index) {
