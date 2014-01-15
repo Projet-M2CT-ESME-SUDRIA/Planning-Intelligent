@@ -326,6 +326,7 @@ promo new_promo(string line, vector<course> &courses) {
     id_promo = p.get_id();
     for(i = 0 ; i < nb_weeks ; i++) {
         week w(id_promo, i);
+        p.add_week(w);
     }
     
     return p;
