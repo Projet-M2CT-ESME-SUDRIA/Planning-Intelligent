@@ -39,6 +39,19 @@ public:
     void list_profs();
     int is_available(int num_week, int index);
     int nb_courses();
+    
+    int get_nb_availability(int num_week){
+        vector<int> A=_availability.at(num_week);
+        int buf=0;
+        for(vector<int>::iterator it=A.begin(); it!=A.end(); it++){
+            buf+=*it;
+        }
+        return buf;
+        
+    }
+    
+    
+    
 
 };
 
