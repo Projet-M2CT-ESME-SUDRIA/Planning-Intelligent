@@ -1,0 +1,1 @@
+1|M1A|50|composantElec,conversionNRJ,AutoLineaire,elecTelecom,TNS,comNum,Reseaux,C,unix,microsys,vhdl,outilDevMicro,anglais,mineur,suisiProjet|14

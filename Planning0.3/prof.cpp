@@ -1,0 +1,99 @@
+#include <iostream>
+#include <cassert>
+#include "prof.h"
+#include "promo.h"
+
+using namespace std;
+
+int prof::_static_id=0;
+
+prof::prof() :_name("unknown"){
+    _id=_static_id++;
+}
+
+prof::prof(string name, map<int, vector<int> > availability, vector<int> given_courses) : _name(name), _availability(availability), _id_given_courses(given_courses){
+    _id=_static_id++;
+}
+
+void prof::add_availability(int nb_weeks, std::vector<int> availability) {
+    for (int i = 0; i < nb_weeks; i++) {
+        _availability[i] = availability;
+    }
+}
+
+std::vector<int> prof::get_availability(int num_week) {
+    return _availability[num_week];
+}
+
+void prof::set_availability(int num_week, int index) {
+    _availability[num_week].at(index) = 0;
+}
+
+void prof::add_given_course(int id_c){
+    _id_given_courses.push_back(id_c);
+}
+
+int prof::grant_lecture(course c, week &w, int index) {
+    vector<int> availability = this->get_availability(w.get_num_week());
+    if (w.checkAvailability(index)) {
+        
+        //assert(availability.at(index));
+        this->set_availability(w.get_num_week(), index);
+
+        lecture l(c.get_id(), this->_id, w.get_id());
+        w.add_lecture(index,l);
+        cout << "Cours ajoute au prof et a la classe" << endl;
+        return 1;
+    }
+    else {
+        cout << "La classe a deja un cours" << endl;
+        return 0;
+    }
+}
+
+//int prof::grant(promo &p, int course_id, int first_week, int hour) {
+//    
+//    int i, nb_lectures;
+//    
+//    nb_lectures = _id_given_courses[course_id].get_nb_hours()/2;
+//    
+//    for(i=first_week ; i< nb_lectures ; i++) {
+//        lecture l(_id_given_courses[course_id].get_id(), _id, i);
+//        p.get_week(i).add_lecture(hour, l);
+//    }
+//}
+
+string prof::get_name() {
+    return _name;
+}
+
+vector<int> prof::get_given_courses() {
+    return _id_given_courses;
+}
+
+int prof::get_id_course(int index) {
+    return _id_given_courses[index];
+}
+
+void prof::list_profs() {
+    int i;
+    vector<int> courses = get_given_courses();
+    cout << "Professeur numero " << _id << endl;
+    cout << "\t Nom : " << _name << endl;
+    cout << "\t Cours : " << endl;
+    for(i = 0 ; i < courses.size() ; i++) { 
+        cout << "\t\tid: " << courses.at(i) << endl;
+    }
+}
+
+int prof::is_available(int num_week, int index) {
+    return _availability[num_week].at(index);
+}
+
+int prof::nb_courses(){
+    return _id_given_courses.size();
+}
+
+int prof::get_id(){
+    return _id;
+}
