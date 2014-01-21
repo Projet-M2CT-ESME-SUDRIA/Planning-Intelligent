@@ -35,3 +35,7 @@ void course::list_courses() {
 int course::get_nb_hours() {
     return _nb_hours;
 }
+
+/*void course::add_prof(prof &p){
+    _profs.push_back(p);
+}*/

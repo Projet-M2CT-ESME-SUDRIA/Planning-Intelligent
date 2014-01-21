@@ -43,9 +43,9 @@ public:
     int nb_courses();
     
     int get_nb_availability(int num_week){
-        vector<int> A=_availability.at(num_week);
+        std::vector<int> A=_availability.at(num_week);
         int buf=0;
-        for(vector<int>::iterator it=A.begin(); it!=A.end(); it++){
+        for(std::vector<int>::iterator it=A.begin(); it!=A.end(); it++){
             buf+=*it;
         }
         return buf;

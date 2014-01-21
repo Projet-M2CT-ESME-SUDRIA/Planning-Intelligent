@@ -11,13 +11,15 @@
 #include <vector>
 #include <map>
 #include <algorithm>
-using namespace std;
+#include <string>
+
 class course {
     
     int _id;
     int _id_promo;
-    string _name;
+    std::string _name;
     int _nb_hours;
+    //std::vector<prof> _profs;
     
 public:
     
@@ -29,6 +31,7 @@ public:
     std::string get_name();
     void list_courses();
     int get_nb_hours();
+    //void add_prof(prof &p);
 
 };
 

@@ -125,7 +125,7 @@ void parse_profs(vector<prof> &profs, vector<course> courses) {
 }
 
 //Création d'un prof à partir d'une ligne du fichier de données
-prof new_prof(string line, vector<course> courses) {
+prof new_prof(string line, vector<course> &courses) {
     
     vector<string> words = parse_line(line, '|');
     
@@ -258,8 +258,9 @@ vector<course> retrieve_courses (vector<string> name, vector<course> &courses) {
     
     for(i=0 ; i<name.size() ; i++) {
         for(j=0 ; j<courses.size() ; j++) {
-            if(name[i].compare(courses[j].get_name()) == 0)
+            if(name[i].compare(courses[j].get_name()) == 0) {
                 given_courses.push_back(courses[j]);
+            }
         }
     }
     
@@ -330,3 +331,10 @@ promo new_promo(string line, vector<course> &courses) {
     
     return p;
 }
+
+/*void add_prof_to_course(prof &p, vector<course> &given_courses){
+    
+    for(vector<int>::iterator it=given_courses.begin(); it!=given_courses.end(); it++){
+        given_courses[it].add_prof(p);
+    }
+}*/

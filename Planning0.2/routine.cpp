@@ -1,6 +1,7 @@
 #include <iostream>
 #include "routine.h"
 
+using namespace std;
 bool compare(prof &a, prof &b, int num_week){
     return a.get_nb_availability(num_week)>b.get_nb_availability(num_week);
 }
@@ -115,7 +116,6 @@ int get_match_prof_promo(prof &p, promo &c, int nb_hours) {
     return -1;
 }
     
-
 int cmpt_avail_prof(prof &p, int nb_dispo_prof, int week, int index) {
     if(p.is_available(week,index)) {
         nb_dispo_prof ++;
