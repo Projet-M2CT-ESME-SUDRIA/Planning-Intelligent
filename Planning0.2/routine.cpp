@@ -1,6 +1,10 @@
 #include <iostream>
 #include "routine.h"
 
+bool compare(prof &a, prof &b, int num_week){
+    return a.get_nb_availability(num_week)>b.get_nb_availability(num_week);
+}
+
 bool sort_by_availability(prof a, prof b) {
     int cmpt_a = 0;
     int cmpt_b = 0;
