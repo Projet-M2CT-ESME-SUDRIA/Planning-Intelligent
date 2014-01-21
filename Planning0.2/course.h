@@ -19,7 +19,7 @@ class course {
     int _id_promo;
     std::string _name;
     int _nb_hours;
-    //std::vector<prof> _profs;
+    std::vector<int> _id_profs;
     
 public:
     
@@ -31,7 +31,12 @@ public:
     std::string get_name();
     void list_courses();
     int get_nb_hours();
-    //void add_prof(prof &p);
+    void add_prof(int id_prof);
+    int get_id_prof(int index);
+    
+    int get_profs(){
+        return _id_profs.size();
+    }
 
 };
 

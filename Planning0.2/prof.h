@@ -41,6 +41,7 @@ public:
     void list_profs();
     int is_available(int num_week, int index);
     int nb_courses();
+    int get_id();
     
     int get_nb_availability(int num_week){
         std::vector<int> A=_availability.at(num_week);

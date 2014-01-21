@@ -93,3 +93,7 @@ int prof::is_available(int num_week, int index) {
 int prof::nb_courses(){
     return _given_courses.size();
 }
+
+int prof::get_id(){
+    return _id;
+}

@@ -40,7 +40,7 @@ void add_promo_to_db(std::string id_promo, std::string name, std::string nb_stud
 void parse_promo(std::vector<promo> &promo, std::vector<course> &courses);
 promo new_promo(std::string line, std::vector<course> &courses);
 
-//void add_prof_to_course(prof &p, std::vector<course> &given_courses);
+void add_prof_to_course(prof &p);
 
 
 #endif	/* PARSEFILE_H */

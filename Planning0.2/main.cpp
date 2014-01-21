@@ -60,7 +60,11 @@ void test3() {
                 break;
                 
             case 7:
-                rout3(profs,promos);
+                //rout2(profs,promos);
+                for(int i=0 ; i<courses.size() ; i++) {
+                    cout << "Prof : " << courses.at(i).get_profs() << endl;
+                    //cout<<courses.at(i).get_name()<<endl;
+                }
                 break;
                 
             case 0:

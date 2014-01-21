@@ -36,6 +36,10 @@ int course::get_nb_hours() {
     return _nb_hours;
 }
 
-/*void course::add_prof(prof &p){
-    _profs.push_back(p);
-}*/
+void course::add_prof(int id_prof){
+    _id_profs.push_back(id_prof);
+}
+
+int course::get_id_prof(int index) {
+    return _id_profs.at(index);
+}

@@ -3,7 +3,9 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <vector>
 #include "parseFile.h"
+#include "dataInitialisation.h"
 
 using namespace std;
 
@@ -150,11 +152,18 @@ prof new_prof(string line, vector<course> &courses) {
     
         prof p(words[0],m_availability, given_courses);
         
+        add_prof_to_course(p);
+        
+        cout << "*" << endl;
         
         return p;
     }
-    else
-        return prof();  
+    
+    prof p;
+    
+    cout << "**" << endl;
+    
+    return p;
 }
 
 //Vérifie si availability est bien conforme
@@ -233,7 +242,9 @@ void parse_courses(vector<course> &courses) {
     line = read_file("courses.txt");
     
     for(int i=0 ; i<line.size() ; i++) {
+        //cout << "line = " << line.at(i) << endl;
         courses.push_back(new_course(line[i]));
+        //cout << i << " size = " << courses.size() << endl;
     }
     
 }
@@ -332,9 +343,13 @@ promo new_promo(string line, vector<course> &courses) {
     return p;
 }
 
-/*void add_prof_to_course(prof &p, vector<course> &given_courses){
+void add_prof_to_course(prof &p){
     
-    for(vector<int>::iterator it=given_courses.begin(); it!=given_courses.end(); it++){
-        given_courses[it].add_prof(p);
+    int s=p.get_given_courses().size();
+    
+    cout << "s= "<<s << endl;
+    
+    for(int i=0 ; i<s ; i++) {
+        p.get_given_courses()[i].add_prof(p.get_id());
     }
-}*/
+}
