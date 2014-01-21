@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cassert>
 #include "prof.h"
+#include "promo.h"
 
 using namespace std;
 
@@ -47,6 +48,18 @@ int prof::grant_lecture(course c, week &w, int index) {
     else {
         cout << "La classe a deja un cours" << endl;
         return 0;
+    }
+}
+
+int prof::grant(promo &p, int course_id, int first_week, int hour) {
+    
+    int i, nb_lectures;
+    
+    nb_lectures = _given_courses[course_id].get_nb_hours()/2;
+    
+    for(i=first_week ; i< nb_lectures ; i++) {
+        lecture l(_given_courses[course_id].get_id(), _id, i);
+        p.get_week(i).add_lecture(hour, l);
     }
 }
 

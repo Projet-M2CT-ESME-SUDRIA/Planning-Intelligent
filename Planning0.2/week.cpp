@@ -28,7 +28,7 @@ int week::get_num_week() {
 
 
 void week::add_lecture(int index, lecture l) {
-    this->_lectures.at(index) = l;
+    this->_lectures.insert(_lectures.begin()+index,l);
 }
 
 bool week::checkAvailability(int index) {
@@ -41,4 +41,16 @@ bool week::checkAvailability(int index) {
 
 lecture week::get_lecture(int index) {
     return _lectures.at(index);
+}
+
+bool week::has_lecture(int id_course) {
+    
+    int i=0;
+    
+    for (i=0 ; i<_lectures.size() ; i++) {
+        if (id_course == _lectures[i].get_id_course())
+            return true;
+    }
+    
+    return false;
 }

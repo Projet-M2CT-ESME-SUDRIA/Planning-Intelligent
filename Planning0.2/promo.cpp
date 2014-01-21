@@ -58,3 +58,24 @@ void promo::list_promos() {
 int promo::is_available(int num_week, int index) {
     return _weeks[num_week].checkAvailability(index);
 }
+
+
+int promo::has_course(course c) {
+    
+    int i=0;
+    
+    for (i=0 ; i<_courses.size() ; i++) {
+        if(c.get_id() == _courses[i].get_id())
+            return 1;
+    }
+    
+    return 0;
+}
+
+int promo::has_course_received(course c, int week_index) {
+    
+    if(_weeks[week_index].has_lecture(c.get_id()))
+        return 1;
+    
+    return 0;
+}

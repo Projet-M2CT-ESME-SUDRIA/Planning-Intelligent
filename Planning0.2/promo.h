@@ -38,6 +38,8 @@ public:
     void list_promos();
     week& get_week(int num_week);
     int is_available(int num_week, int index);
+    int has_course(course c);
+    int has_course_received(course c, int week_index);
     
 };
 

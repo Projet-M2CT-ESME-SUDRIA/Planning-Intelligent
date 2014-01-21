@@ -14,6 +14,7 @@
 #include <algorithm>
 #include "week.h"
 #include "course.h"
+#include "promo.h"
 
 class prof{
     
@@ -33,6 +34,7 @@ public:
     void add_given_course(course c);
     //index = creneaux
     int grant_lecture(course c, week &w, int index);
+    int grant(promo &p, int course_id, int first_week, int hour);
     std::string get_name();
     std::vector<course> get_given_courses();
     course get_course(int index);

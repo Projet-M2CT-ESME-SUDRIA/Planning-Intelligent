@@ -307,7 +307,6 @@ promo new_promo(string line, vector<course> &courses) {
     
     vector<string> words;
     vector<course> course_followed;
-    map<int, week> weeks_semester;
     int nb_weeks = 0;
     int id_promo = -1;
     int i;
