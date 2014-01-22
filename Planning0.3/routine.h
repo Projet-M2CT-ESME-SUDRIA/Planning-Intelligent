@@ -14,13 +14,13 @@
 #include "promo.h"
 #include "week.h"
 
-bool sort_by_availability(prof a, prof b);
-void rout2(std::map<int, prof> &profs, std::map<int, promo> &promos, std::map<int, course> courses);
-int cmpt_avail_prof(prof &p, int nb_dispo_prof, int week, int index);
-int cmpt_avail_promo (promo &p, int nb_dispo_promo, int week, int index);
-void grant_lectures(prof &p, promo &c, std::map<int, course> courses);
-int get_match_prof_promo(prof &p, promo &c, int nb_hours);
-void display_weeks(promo p);
+bool sort_by_availability(Prof a, Prof b);
+void rout2(std::map<int, Prof> &profs, std::map<int, Promo> &promos, std::map<int, Course> courses);
+int cmpt_avail_prof(Prof &p, int nb_dispo_prof, int num_week, int index);
+int cmpt_avail_promo (Promo &p, int nb_dispo_promo, int num_week, int index);
+void grant_lectures(Prof &p, Promo &c, std::map<int, Course> courses);
+int get_match_prof_promo(Prof &p, Promo &c, int nb_hours);
+void display_weeks(Promo p);
 
 //void best_connection(std::vector<prof> profs, std::vector<promo> promos, int num_week, int &prof_index, int &promo_index);
 //int nb_connections(prof p, promo c, int num_week);

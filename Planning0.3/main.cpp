@@ -16,9 +16,9 @@ using namespace std;
 
 void test3() {
     
-    map<int, course> courses;
-    map<int, prof> profs;
-    map<int, promo> promos;
+    map<int, Course> courses;
+    map<int, Prof> profs;
+    map<int, Promo> promos;
     
     get_courses(courses);
     get_profs(profs, courses);

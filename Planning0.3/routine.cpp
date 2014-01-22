@@ -2,11 +2,11 @@
 #include "routine.h"
 
 using namespace std;
-bool compare(prof &a, prof &b, int num_week){
+bool compare(Prof &a, Prof &b, int num_week){
     return a.get_nb_availability(num_week)>b.get_nb_availability(num_week);
 }
 
-bool sort_by_availability(prof a, prof b) {
+bool sort_by_availability(Prof a, Prof b) {
     int cmpt_a = 0;
     int cmpt_b = 0;
     vector<int> availability_a = a.get_availability(0);
@@ -26,7 +26,7 @@ bool sort_by_availability(prof a, prof b) {
 }
 
 //Amélioration, ajoute les cours sur plusieurs semaines
-void rout2(map<int, prof> &profs, map<int, promo> &promos, map<int, course> courses) {
+void rout2(map<int, Prof> &profs, map<int, Promo> &promos, map<int, Course> courses) {
     
     //On trie les profs par dispo
 //    sort(profs.begin(), profs.end(), sort_by_availability);
@@ -39,7 +39,7 @@ void rout2(map<int, prof> &profs, map<int, promo> &promos, map<int, course> cour
     display_weeks(promos.at(0));
 }
 
-void grant_lectures(prof &p, promo &c, map<int, course> courses) {
+void grant_lectures(Prof &p, Promo &c, map<int, Course> courses) {
     
     int nb_hours;
     int index;
@@ -56,7 +56,7 @@ void grant_lectures(prof &p, promo &c, map<int, course> courses) {
     }
 }
 
-int get_match_prof_promo(prof &p, promo &c, int nb_hours) {
+int get_match_prof_promo(Prof &p, Promo &c, int nb_hours) {
     int nb_avail_prof;
     int nb_avail_promo;
     
@@ -83,21 +83,21 @@ int get_match_prof_promo(prof &p, promo &c, int nb_hours) {
     return -1;
 }
     
-int cmpt_avail_prof(prof &p, int nb_dispo_prof, int week, int index) {
+int cmpt_avail_prof(Prof &p, int nb_dispo_prof, int week, int index) {
     if(p.is_available(week,index)) {
         nb_dispo_prof ++;
     }
     return nb_dispo_prof;
 }
 
-int cmpt_avail_promo (promo &p, int nb_dispo_promo, int week, int index) {
+int cmpt_avail_promo (Promo &p, int nb_dispo_promo, int week, int index) {
     if(p.is_available(week,index)) {
         nb_dispo_promo ++;
     }
     return nb_dispo_promo;
 }
 
-void display_weeks(promo p) {
+void display_weeks(Promo p) {
     for (int i = 0; i < 14; i++) {
         for (int j = 0; j < 22; j++) {
             cout << p.get_week(i).get_lecture(j).get_id_course() << " ";
@@ -107,7 +107,7 @@ void display_weeks(promo p) {
 }
 
 //Permet de savoir si un prof et une classe ont AU MOINS un cours en commun
-int link_prof_promo(map<int, course> courses, prof p, promo c) {
+int link_prof_promo(map<int, Course> courses, Prof p, Promo c) {
     
     int i,j;
     

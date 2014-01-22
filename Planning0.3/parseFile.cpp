@@ -110,7 +110,7 @@ void add_prof_to_db(string name, string s_availability, string given_courses, st
 }
 
 //Récupère les données sur les profs
-void parse_profs(map<int, prof> &profs, map<int, course> courses) {
+void parse_profs(map<int, Prof> &profs, map<int, Course> courses) {
     
     vector<string> line;
     
@@ -124,7 +124,7 @@ void parse_profs(map<int, prof> &profs, map<int, course> courses) {
 }
 
 //Création d'un prof à partir d'une ligne du fichier de données
-void new_prof(string line, map<int, prof> &profs, map<int, course> &courses) {
+void new_prof(string line, map<int, Prof> &profs, map<int, Course> &courses) {
     
     vector<string> words = parse_line(line, '|');
     
@@ -147,9 +147,9 @@ void new_prof(string line, map<int, prof> &profs, map<int, course> &courses) {
         vector<string> name = parse_line(s, ',');
         given_courses = retrieve_courses(name, courses);
     
-        prof p(words[0],m_availability, given_courses);
+        Prof p(words[0],m_availability, given_courses);
         
-        profs.insert(pair<int, prof>(p.get_id(), p));
+        profs.insert(pair<int, Prof>(p.get_id(), p));
         
     }
     
@@ -224,7 +224,7 @@ void add_course_to_db(string name, string nb_courses, string id_promo) {
 }
 
 //Récupère les données sur les matières
-void parse_courses(map<int, course> &courses) {
+void parse_courses(map<int, Course> &courses) {
     
     vector<string> line;
     
@@ -236,16 +236,16 @@ void parse_courses(map<int, course> &courses) {
 }
 
 //Création d'une matière à partir d'une ligne du fichier de données
-void new_course(string line, map<int, course> &courses) {
+void new_course(string line, map<int, Course> &courses) {
     
     vector<string> words;
     words = parse_line(line, '|');
-    course c(string_to_int(words[0]), words[1], string_to_int(words[2]));
-    courses.insert(pair<int, course>(c.get_id(), c));
+    Course c(string_to_int(words[0]), words[1], string_to_int(words[2]));
+    courses.insert(pair<int, Course>(c.get_id(), c));
 }
 
 //Construit la map de matières d'un prof
-vector<int> retrieve_courses (vector<string> name, map<int, course> &courses) {
+vector<int> retrieve_courses (vector<string> name, map<int, Course> &courses) {
     
     int i,j;
     vector<int> given_courses;
@@ -285,7 +285,7 @@ void add_promo_to_db(string id_promo, string name, string nb_students, string co
 }
 
 //Récupère les données sur les promos
-void parse_promo(map<int, promo> &promos, map<int, course> &courses) {
+void parse_promo(map<int, Promo> &promos, map<int, Course> &courses) {
     
     vector<string> line;
     
@@ -299,7 +299,7 @@ void parse_promo(map<int, promo> &promos, map<int, course> &courses) {
 }
 
 //Création d'une matière à partir d'une ligne du fichier de données
-void new_promo(string line, map<int, promo> &promos, map<int, course> &courses) {
+void new_promo(string line, map<int, Promo> &promos, map<int, Course> &courses) {
     
     vector<string> words;
     vector<int> course_followed;
@@ -314,20 +314,20 @@ void new_promo(string line, map<int, promo> &promos, map<int, course> &courses) 
     vector<string> name = parse_line(s, ',');
     course_followed = retrieve_courses(name, courses);
     
-    promo p(string_to_int(words[0]), words[1], string_to_int(words[2]), course_followed);
+    Promo p(string_to_int(words[0]), words[1], string_to_int(words[2]), course_followed);
     
     //Méthode pour créer les semaines de la promo
     nb_weeks = string_to_int(words[4]);
     id_promo = p.get_id();
     for(i = 0 ; i < nb_weeks ; i++) {
-        week w(id_promo, i);
+        Week w(id_promo, i);
         p.add_week(w);
     }
     
-    promos.insert(pair<int, promo>(p.get_id(), p));
+    promos.insert(pair<int, Promo>(p.get_id(), p));
 }
 
-void add_prof_to_course(prof p, map<int,course> &c){
+void add_prof_to_course(Prof p, map<int,Course> &c){
     
     int s=p.get_given_courses().size();
     int id_c = 0;

@@ -13,7 +13,7 @@
 #include <algorithm>
 #include <string>
 
-class course {
+class Course {
     
     int _id;
     int _id_promo;
@@ -26,8 +26,8 @@ public:
     
     //Initialisation
     static int _static_id;
-    course();
-    course(int id_promo, std::string name, int nb_hours);
+    Course();
+    Course(int id_promo, std::string name, int nb_hours);
     
     //Getter
     int get_id();

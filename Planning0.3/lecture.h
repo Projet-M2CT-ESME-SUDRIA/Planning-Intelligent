@@ -12,7 +12,7 @@
 #include <map>
 #include <algorithm>
 
-class lecture {
+class Lecture {
     
     int _id;
     int _id_course;
@@ -23,8 +23,8 @@ public:
         
     //Initialisation
     static int _static_id;
-    lecture();
-    lecture(int id_course, int id_prof, int id_week);
+    Lecture();
+    Lecture(int id_course, int id_prof, int id_week);
     
     //Getter
     int get_id_course();

@@ -16,7 +16,7 @@
 #include "course.h"
 #include "promo.h"
 
-class prof{
+class Prof{
     
     int _id;
     std::string _name;
@@ -27,8 +27,8 @@ public:
     
     //Initialisation
     static int _static_id;
-    prof();
-    prof(std::string name, std::map<int, std::vector<int> > availability, std::vector<int> given_courses);
+    Prof();
+    Prof(std::string name, std::map<int, std::vector<int> > availability, std::vector<int> given_courses);
     
     //Getter
     std::vector<int> get_availability(int num_week);
@@ -46,7 +46,7 @@ public:
     void add_given_course(int id_c);
     
     //Random functions
-    int grant_lecture(course c, week &w, int index);
+    int grant_lecture(Course c, Week &w, int index);
     
     //Affichage
     void list_profs();

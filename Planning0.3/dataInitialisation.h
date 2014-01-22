@@ -17,9 +17,9 @@
 void add_prof();
 void add_course();
 void add_promo();
-void get_profs(std::map<int, prof> &profs, std::map<int, course> courses);
-void get_courses(std::map<int, course> &courses);
-void get_promos(std::map<int, promo> &promos, std::map<int, course> &courses);
+void get_profs(std::map<int, Prof> &profs, std::map<int, Course> courses);
+void get_courses(std::map<int, Course> &courses);
+void get_promos(std::map<int, Promo> &promos, std::map<int, Course> &courses);
 
 
 #endif	/* DATAINITIALISATION_H */

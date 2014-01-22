@@ -11,7 +11,7 @@
 #include <vector>
 #include "prof.h"
 
-int nb_prof_ok(std::vector<prof> &profs, std::vector<promo> &promos);
+int nb_prof_ok(std::vector<Prof> &profs, std::vector<Promo> &promos);
 
 #endif	/* PRE_TRAITEMENTS_H */
 

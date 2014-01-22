@@ -3,19 +3,19 @@
 
 
 //Initialisation
-int lecture::_static_id =0;
+int Lecture::_static_id =0;
 
-lecture::lecture() : _id_course(-1),_id_prof(-1) {
+Lecture::Lecture() : _id_course(-1),_id_prof(-1) {
     _id=_static_id++;
 }
 
-lecture::lecture(int id_course, int id_prof, int id_week):
+Lecture::Lecture(int id_course, int id_prof, int id_week):
 _id_course(id_course),_id_prof(id_prof), _id_week(id_week) {
     _id=_static_id++;
 }
 
 
 //Getter
-int lecture::get_id_course() {
+int Lecture::get_id_course() {
     return _id_course;
 }

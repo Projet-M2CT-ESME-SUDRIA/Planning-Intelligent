@@ -51,7 +51,7 @@ void add_promo() {
     add_promo_to_db(id_promo, name, nb_student, courses, nb_weeks);
 }
 
-void get_profs(map<int, prof> &profs, map<int, course> courses) {
+void get_profs(map<int, Prof> &profs, map<int, Course> courses) {
     
     parse_profs(profs, courses);
     
@@ -60,7 +60,7 @@ void get_profs(map<int, prof> &profs, map<int, course> courses) {
     }
 }
 
-void get_courses(map<int, course> &courses) {
+void get_courses(map<int, Course> &courses) {
     
     parse_courses(courses);
     int size_course = courses.size();
@@ -69,7 +69,7 @@ void get_courses(map<int, course> &courses) {
     }
 }
 
-void get_promos(map<int, promo> &promos, map<int, course> &courses) {
+void get_promos(map<int, Promo> &promos, map<int, Course> &courses) {
     parse_promo(promos, courses);
     
     for(int i=0 ; i<promos.size() ; i++) {
