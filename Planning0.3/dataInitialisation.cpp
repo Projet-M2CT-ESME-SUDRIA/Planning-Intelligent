@@ -55,7 +55,7 @@ void get_profs(map<int, Prof> &profs, map<int, Course> courses) {
     
     parse_profs(profs, courses);
     
-    for(map<int, prof>::iterator it=profs.begin() ; it!=profs.end() ; it++) {
+    for(map<int, Prof>::iterator it=profs.begin() ; it!=profs.end() ; it++) {
         (*it).second.list_profs();
     }
 }
@@ -63,7 +63,7 @@ void get_profs(map<int, Prof> &profs, map<int, Course> courses) {
 void get_courses(map<int, Course> &courses) {
     
     parse_courses(courses);
-    for(map<int, course>::iterator it=courses.begin() ; it!=courses.end() ; it++) {
+    for(map<int, Course>::iterator it=courses.begin() ; it!=courses.end() ; it++) {
         (*it).second.list_courses();
     }
 }
@@ -71,7 +71,7 @@ void get_courses(map<int, Course> &courses) {
 void get_promos(map<int, Promo> &promos, map<int, Course> &courses) {
     parse_promo(promos, courses);
     
-    for(map<int, promo>::iterator it=promos.begin() ; it!=promos.end() ; it++) {
+    for(map<int, Promo>::iterator it=promos.begin() ; it!=promos.end() ; it++) {
         (*it).second.list_promos();
     }  
 }

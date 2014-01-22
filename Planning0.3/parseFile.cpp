@@ -250,7 +250,7 @@ vector<int> retrieve_courses (vector<string> name, map<int, Course> &courses) {
     vector<int> given_courses;
     
     for(vector<string>::iterator it_name=name.begin(); it_name!=name.end() ; it_name++) {
-        for(map<int, course>::iterator it_course=courses.begin(); it_course!=courses.end() ; it_course++) {
+        for(map<int, Course>::iterator it_course=courses.begin(); it_course!=courses.end() ; it_course++) {
             if((*it_name).compare((*it_course).second.get_name()) == 0) {
                 given_courses.push_back((*it_course).second.get_id());
             }

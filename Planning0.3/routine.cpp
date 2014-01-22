@@ -32,7 +32,7 @@ void rout2(map<int, Prof> &profs, map<int, Promo> &promos, map<int, Course> cour
 //    sort(profs.begin(), profs.end(), sort_by_availability);
     
     //Pour chaque profs
-    for (map<int, prof>::iterator it=profs.begin(); it!=profs.end(); it++) {
+    for (map<int, Prof>::iterator it=profs.begin(); it!=profs.end(); it++) {
         grant_lectures((*it).second, promos.at(0), courses);
     }
     
