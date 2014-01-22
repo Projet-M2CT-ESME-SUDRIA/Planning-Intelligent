@@ -43,8 +43,8 @@ bool week::has_lecture(int id_course) {
     
     int i=0;
     
-    for (i=0 ; i<_lectures.size() ; i++) {
-        if (id_course == _lectures[i].get_id_course())
+    for (vector<lecture>::iterator it=_lectures.begin(); it!=_lectures.end() ; it++) {
+        if (id_course == (*it).get_id_course())
             return true;
     }
     

@@ -55,7 +55,7 @@ int string_to_int(string s) {
     int number=0;
 
     //On compare au code ascii pour vérifier qu'il s'agit bien d'un chiffre
-    for(int i=0 ; i<s.size() ; i++) {
+    for(string::iterator it=s.begin() ; it!=s.end() ; it++) {
         if((int)s[0]>57 || ((int)s[0]<48)) {
             assert("failure");
         }
@@ -115,10 +115,9 @@ void parse_profs(map<int, prof> &profs, map<int, course> courses) {
     vector<string> line;
     
     line = read_file("profs.txt");
-    
-    for(int i=0 ; i<line.size() ; i++)
+    for(vector<string>::iterator it=line.begin() ; it!=line.end() ; it++)
     {
-        new_prof(line[i], profs, courses);
+        new_prof(*it, profs, courses);
     }
     
 }
@@ -170,8 +169,8 @@ bool check_availability(string s_availability) {
     
     //Availability n'est composée que de 0 ou de 1 
     if (a)
-         for(int i=0 ; i<s_availability.size() ; i++)
-                if(s_availability.at(i) != '0' && s_availability.at(i) != '1')
+          for(string::iterator it=s_availability.begin() ; it!=s_availability.end() ; it++)
+                if(*it != '0' && *it != '1')
                 {
                         a = false;
                         break;
@@ -192,8 +191,8 @@ vector<int> fill_v_availability(string s_availability) {
     }
     else
     {
-        for(int i=0 ; i<s_availability.size() ; i++)
-            if(s_availability.at(i) == '0')
+        for(string::iterator it=s_availability.begin() ; it!=s_availability.end()  ; it++)
+            if(*it == '0')
                 v_availability.push_back(0);
             else
                 v_availability.push_back(1);
@@ -229,8 +228,8 @@ void parse_courses(map<int, course> &courses) {
     vector<string> line;
     
     line = read_file("courses.txt");
-    for(int i=0 ; i<line.size() ; i++) {
-        new_course(line[i], courses);
+    for(vector<string>::iterator it=line.begin() ; it!=line.end() ; it++) {
+        new_course(*it, courses);
     }
     
 }
@@ -250,10 +249,10 @@ vector<int> retrieve_courses (vector<string> name, map<int, course> &courses) {
     int i,j;
     vector<int> given_courses;
     
-    for(i=0 ; i<name.size() ; i++) {
-        for(j=0 ; j<courses.size() ; j++) {
-            if(name[i].compare(courses[j].get_name()) == 0) {
-                given_courses.push_back(courses[j].get_id());
+    for(vector<string>::iterator it_name=name.begin(); it_name!=name.end() ; it_name++) {
+        for(map<int, course>::iterator it_course=courses.begin(); it_course!=courses.end() ; it_course++) {
+            if((*it_name).compare((*it_course).second.get_name()) == 0) {
+                given_courses.push_back((*it_course).second.get_id());
             }
         }
     }
@@ -291,9 +290,9 @@ void parse_promo(map<int, promo> &promos, map<int, course> &courses) {
     
     line = read_file("promos.txt");
     
-    for(int i=0 ; i<line.size() ; i++) {
+    for(vector<string>::iterator it=line.begin(); it!=line.end() ; it++) {
         //promo.push_back(new_promo(line[i], courses));
-        new_promo(line[i], promos, courses);
+        new_promo(*it, promos, courses);
     }
     
 }

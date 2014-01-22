@@ -32,8 +32,8 @@ void rout2(map<int, prof> &profs, map<int, promo> &promos, map<int, course> cour
 //    sort(profs.begin(), profs.end(), sort_by_availability);
     
     //Pour chaque profs
-    for (int i = 0; i < profs.size(); i++) {
-        grant_lectures(profs.at(i), promos.at(0), courses);
+    for (map<int, prof>::iterator it=profs.begin(); it!=profs.end(); it++) {
+        grant_lectures((*it).second, promos.at(0), courses);
     }
     
     display_weeks(promos.at(0));
@@ -44,7 +44,9 @@ void grant_lectures(prof &p, promo &c, map<int, course> courses) {
     int nb_hours;
     int index;
     
-    for (int j = 0; j < p.get_given_courses().size() ; j++) {
+    
+    int nb_given_course =  p.get_given_courses().size();
+    for (int j = 0; j < nb_given_course ; j++) {
         nb_hours = courses.at(p.get_id_course(j)).get_nb_hours();
         
         index = get_match_prof_promo(p, c, nb_hours);
@@ -109,9 +111,9 @@ void display_weeks(promo p) {
 //Permet de savoir si un prof et une classe ont AU MOINS un cours en commun
 int link_prof_promo(map<int, course> courses, prof p, promo c) {
     
-    int i,j;
-    
-    for (i=0 ; i<p.nb_courses() ; i++) {
+    int i;
+    int nb_courses = p.nb_courses();
+    for (i=0 ; i<nb_courses ; i++) {
         if(courses.at(p.get_id_course(i)).get_id_promo() == c.get_id_promo())
             return 1;
     }

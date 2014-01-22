@@ -61,8 +61,8 @@ void promo::list_promos() {
     cout << "Promotion numero " << get_id_promo() << endl;
     cout << "\t Nom : " << get_name() << endl;
     cout << "\t Cours : " << endl;
-    for(i = 0 ; i < _id_courses.size() ; i++) { 
-        cout << "\t\t" << _id_courses.at(i) << endl;
+    for(vector<int> ::iterator it=_id_courses.begin(); it!=_id_courses.end() ; it++) { 
+        cout << "\t\t" << *it << endl;
     }
 }
 

@@ -91,12 +91,12 @@ int prof::grant_lecture(course c, week &w, int index) {
 
 //Affichage
 void prof::list_profs() {
-    int i;
-    vector<int> courses = get_given_courses();
+    /*int i;
+    vector<int> courses = get_given_courses();*/
     cout << "Professeur numero " << _id << endl;
     cout << "\t Nom : " << _name << endl;
     cout << "\t Cours : " << endl;
-    for(i = 0 ; i < courses.size() ; i++) { 
-        cout << "\t\tid: " << courses.at(i) << endl;
+    for(vector<int>::iterator it=get_given_courses().begin() ; it!=get_given_courses().end() ; it++) { 
+        cout << "\t\tid: " << *it << endl;
     }
 }
