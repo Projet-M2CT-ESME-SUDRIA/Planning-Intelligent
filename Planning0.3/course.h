@@ -23,20 +23,25 @@ class course {
     
 public:
     
+    
+    //Initialisation
     static int _static_id;
     course();
     course(int id_promo, std::string name, int nb_hours);
+    
+    //Getter
     int get_id();
     int get_id_promo();
     std::string get_name();
-    void list_courses();
     int get_nb_hours();
-    void add_prof(int id_prof);
-    int get_id_prof(int index);
+    int get_id_prof(int index);    
+    int get_profs();
     
-    int get_profs(){
-        return _id_profs.size();
-    }
+    //Setter
+    void add_prof(int id_prof);
+    
+    //Affichage
+    void list_courses();
 
 };
 

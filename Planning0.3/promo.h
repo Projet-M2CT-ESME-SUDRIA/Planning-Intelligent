@@ -26,18 +26,28 @@ class promo{
    
 public:
     
+    //Initialisation
     static int _static_id;
     promo();
     promo(int id_promo, std::string name, int nb_students, std::vector<int> courses);
-    void add_course(int id_c);
-    void add_week(week w);
+    
+    //Getter
     int get_course(int id);
     int get_id();
     int get_id_promo();
     std::string get_name();
-    void list_promos();
-    week& get_week(int num_week);
     int is_available(int num_week, int index);
+    
+    //Setter
+    void add_course(int id_c);
+    void add_week(week w);
+    
+    //Affichage
+    void list_promos();
+    
+    //Random function
+    week& get_week(int num_week);
+    
     //int has_course(course c);
     //int has_course_received(course c, int week_index);
     

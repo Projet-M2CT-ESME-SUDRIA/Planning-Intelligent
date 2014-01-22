@@ -1,6 +1,8 @@
 #include <iostream>
 #include "lecture.h"
 
+
+//Initialisation
 int lecture::_static_id =0;
 
 lecture::lecture() : _id_course(-1),_id_prof(-1) {
@@ -12,6 +14,8 @@ _id_course(id_course),_id_prof(id_prof), _id_week(id_week) {
     _id=_static_id++;
 }
 
+
+//Getter
 int lecture::get_id_course() {
     return _id_course;
 }

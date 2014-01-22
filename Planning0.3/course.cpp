@@ -3,6 +3,8 @@
 
 using namespace std;
 
+
+//Initialisation
 int course::_static_id=0;
 
 course::course() : _name("unknown"), _nb_hours(-1){
@@ -14,6 +16,8 @@ course::course(int id_promo, string name, int nb_hours)
     _id = _static_id++;
 }
 
+
+//Getter
 int course::get_id() {
     return _id;
 }
@@ -26,20 +30,27 @@ string course::get_name() {
     return _name;
 }
 
-void course::list_courses() {
-    cout << "Matiere numero " << _id << endl;
-    cout << "\t intitule : " << _name << endl;
-    cout << "\t nombre d'heures : " << _nb_hours << endl;
-}
-
 int course::get_nb_hours() {
     return _nb_hours;
 }
 
+int course::get_id_prof(int index) {
+    return _id_profs.at(index);
+}
+
+int course::get_profs(){
+        return _id_profs.size();
+}
+
+
+//Setter
 void course::add_prof(int id_prof){
     _id_profs.push_back(id_prof);
 }
 
-int course::get_id_prof(int index) {
-    return _id_profs.at(index);
+//Affichage
+void course::list_courses() {
+    cout << "Matiere numero " << _id << endl;
+    cout << "\t intitule : " << _name << endl;
+    cout << "\t nombre d'heures : " << _nb_hours << endl;
 }

@@ -3,7 +3,7 @@
 
 using namespace std;
 
-
+//Initialisation
 int promo::_static_id=0;
 
 promo::promo() :_name("unkonwn"), _nb_students(-1) {
@@ -15,14 +15,8 @@ _id_promo(id_promo), _name(name), _nb_students(nb_students), _id_courses(courses
     _id=_static_id++;
 }
 
-void promo::add_course(int id_c) {
-    _id_courses.push_back(id_c);
-}
 
-void promo::add_week(week w) {
-    _weeks[w.get_id()] = w;
-}
-
+//Getter
 int promo::get_course(int id) {
     return _id_courses[id];
 }
@@ -43,6 +37,23 @@ week& promo::get_week(int num_week) {
     return _weeks[num_week];
 }
 
+int promo::is_available(int num_week, int index) {
+    return _weeks[num_week].checkAvailability(index);
+}
+
+
+
+//Setter
+void promo::add_course(int id_c) {
+    _id_courses.push_back(id_c);
+}
+
+void promo::add_week(week w) {
+    _weeks[w.get_id()] = w;
+}
+
+
+//Affichage
 void promo::list_promos() {
     int i;
     
@@ -55,9 +66,7 @@ void promo::list_promos() {
     }
 }
 
-int promo::is_available(int num_week, int index) {
-    return _weeks[num_week].checkAvailability(index);
-}
+
 
 
 //int promo::has_course(course c) {

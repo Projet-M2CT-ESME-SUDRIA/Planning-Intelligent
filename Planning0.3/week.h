@@ -24,16 +24,21 @@ class week {
 
 public:
 
+    //Initialisation
     static int _static_id;
     week();
     week(int id_promo, int num_week);
+    
+    //Getter
     int get_id();
     int get_num_week();
-    void add_lecture(int index, lecture l);
     bool checkAvailability(int index);
     lecture get_lecture(int index);
     bool has_lecture(int id_course);
     
+    //Setter
+    void add_lecture(int index, lecture l);
+
 };
 
 
