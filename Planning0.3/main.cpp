@@ -10,20 +10,25 @@
 #include "parseFile.h"
 #include "dataInitialisation.h"
 #include "routine.h"
+#include "school.h"
 
 
 using namespace std;
 
 void test3() {
     
-    map<int, Course> courses;
+    /*map<int, Course> courses;
     map<int, Prof> profs;
     map<int, Promo> promos;
     
     get_courses(courses);
     get_profs(profs, courses);
     get_promos(promos, courses);
-    rout2(profs,promos, courses);
+    rout2(profs,promos, courses);*/
+    
+    School s;
+    
+    s.display();
     
     return;
                 
