@@ -63,8 +63,8 @@ void get_profs(map<int, prof> &profs, map<int, course> courses) {
 void get_courses(map<int, course> &courses) {
     
     parse_courses(courses);
-    
-    for(int i=0 ; i<courses.size() ; i++) {
+    int size_course = courses.size();
+    for(int i=0 ; i<size_course ; i++) {
         courses[i].list_courses();
     }
 }

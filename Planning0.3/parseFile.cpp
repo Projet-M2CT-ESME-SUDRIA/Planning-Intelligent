@@ -116,18 +116,15 @@ void parse_profs(map<int, prof> &profs, map<int, course> courses) {
     
     line = read_file("profs.txt");
     
-    prof p;
     for(int i=0 ; i<line.size() ; i++)
     {
-        p = new_prof(line[i], courses);
-        if (p.get_name().compare("unknown"))
-            profs[p.get_id()] = p;
+        new_prof(line[i], profs, courses);
     }
     
 }
 
 //Création d'un prof à partir d'une ligne du fichier de données
-prof new_prof(string line, map<int, course> &courses) {
+void new_prof(string line, map<int, prof> &profs, map<int, course> &courses) {
     
     vector<string> words = parse_line(line, '|');
     
@@ -152,18 +149,10 @@ prof new_prof(string line, map<int, course> &courses) {
     
         prof p(words[0],m_availability, given_courses);
         
-        add_prof_to_course(p, courses);
+        profs.insert(pair<int, prof>(p.get_id(), p));
         
-        cout << "*" << endl;
-        
-        return p;
     }
     
-    prof p;
-    
-    cout << "**" << endl;
-    
-    return p;
 }
 
 //Vérifie si availability est bien conforme
@@ -240,7 +229,6 @@ void parse_courses(map<int, course> &courses) {
     vector<string> line;
     
     line = read_file("courses.txt");
-    
     for(int i=0 ; i<line.size() ; i++) {
         new_course(line[i], courses);
     }
@@ -253,7 +241,7 @@ void new_course(string line, map<int, course> &courses) {
     vector<string> words;
     words = parse_line(line, '|');
     course c(string_to_int(words[0]), words[1], string_to_int(words[2]));
-    courses[c.get_id()] = c;
+    courses.insert(pair<int, course>(c.get_id(), c));
 }
 
 //Construit la map de matières d'un prof
@@ -336,7 +324,7 @@ void new_promo(string line, map<int, promo> &promos, map<int, course> &courses) 
         p.add_week(w);
     }
     
-    promos[p.get_id()] = p;
+    promos.insert(pair<int, promo>(p.get_id(), p));
 }
 
 void add_prof_to_course(prof p, map<int,course> &c){
