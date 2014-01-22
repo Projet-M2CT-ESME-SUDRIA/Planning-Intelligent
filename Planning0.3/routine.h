@@ -20,6 +20,7 @@ int cmpt_avail_prof(Prof &p, int nb_dispo_prof, int num_week, int index);
 int cmpt_avail_promo (Promo &p, int nb_dispo_promo, int num_week, int index);
 void grant_lectures(Prof &p, Promo &c, std::map<int, Course> courses);
 int get_match_prof_promo(Prof &p, Promo &c, int nb_hours);
+int get_match_prof_promo2(Prof &p, Promo &c, int nb_hours);
 void display_weeks(Promo p);
 
 //void best_connection(std::list<prof> profs, std::list<promo> promos, int num_week, int &prof_index, int &promo_index);

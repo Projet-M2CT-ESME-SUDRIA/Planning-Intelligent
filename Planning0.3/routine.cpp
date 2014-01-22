@@ -46,18 +46,42 @@ void grant_lectures(Prof &p, Promo &c, map<int, Course> courses) {
     int index;
     
     int nb_given_course =  p.get_given_courses().size();
+    
+    list<int> given_courses = p.get_given_courses();
+    list<int>::iterator it = given_courses.begin();
+    
     for (int j = 0; j < nb_given_course ; j++) {
         nb_hours = courses.at(p.get_id_course(j)).get_nb_hours();
         
-        index = get_match_prof_promo(p, c, nb_hours);
-        if(index != -1) {
-            for (int l = 0; l < nb_hours/2; l++) {
+        advance(it, j);
+
+        //Si le nombre de cours de 2h est plus grand que le nombre de semaine
+        //on va placer des cours de 4h
+        if (nb_hours > 14*2) {
+            index = get_match_prof_promo2(p, c, nb_hours);
+            
+            if(index != -1) {
+                for (int l = 0; l < nb_hours/4; l++) {
+
+                    p.grant_lecture(courses.at(*it), c.get_week(l), index);
+                    p.grant_lecture(courses.at(*it), c.get_week(l), index+1);
+                }
+                if (nb_hours%4 != 0) {
+
+                    p.grant_lecture(courses.at(*it), c.get_week((nb_hours/4)), index);
+                    
+                }
+            }
+        }
+        else {
+            index = get_match_prof_promo(p, c, nb_hours);
+        
+            if(index != -1) {
+                for (int l = 0; l < nb_hours/2; l++) {
                 
-                list<int> given_courses = p.get_given_courses();
-                list<int>::iterator it = given_courses.begin();
-                advance(it, j);
-                
-                p.grant_lecture(courses.at(*it), c.get_week(l), index);
+                    p.grant_lecture(courses.at(*it), c.get_week(l), index);
+                    
+                }
             }
         }
     }
@@ -87,6 +111,42 @@ int get_match_prof_promo(Prof &p, Promo &c, int nb_hours) {
             } 
         }
     } 
+    return -1;
+}
+
+int get_match_prof_promo2(Prof &p, Promo &c, int nb_hours) {
+    int nb_avail_prof;
+    int nb_avail_promo;
+    
+    for (int k = 0; k < 22; k++) {
+        nb_avail_prof = 0;
+        nb_avail_promo = 0;
+        
+        //Si le prof est dispo la première semaine sur le créneaux k
+        if (p.is_available(0,k) && p.is_available(0,k+1)){
+            nb_avail_prof = 2;
+            
+            nb_avail_promo = cmpt_avail_promo(c, nb_avail_promo, 0, k);
+            nb_avail_promo = cmpt_avail_promo(c, nb_avail_promo, 0, k+1);
+            
+            for (int l = 1; l < nb_hours/4; l++) {
+                nb_avail_prof = cmpt_avail_prof(p, nb_avail_prof, l, k);
+                nb_avail_prof = cmpt_avail_prof(p, nb_avail_prof, l, k+1);
+                nb_avail_promo = cmpt_avail_promo(c, nb_avail_promo, l, k);
+                nb_avail_promo = cmpt_avail_promo(c, nb_avail_promo, l, k+1);
+            }
+            if(nb_hours%4 != 0) {
+                nb_avail_prof = cmpt_avail_prof(p, nb_avail_prof, (nb_hours/4), k);
+                nb_avail_promo = cmpt_avail_promo(c, nb_avail_promo, (nb_hours/4), k);
+            }
+            
+            
+            if (nb_avail_prof == nb_hours/2 &&  nb_avail_promo == nb_hours/2) {
+                return k;
+            } 
+        }
+        k++;
+    }
     return -1;
 }
     
