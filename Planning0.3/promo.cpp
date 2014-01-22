@@ -55,7 +55,6 @@ void Promo::add_week(Week w) {
 
 //Affichage
 void Promo::list_promos() {
-    int i;
     
     cout << "Classe numero " << get_id() << endl;
     cout << "Promotion numero " << get_id_promo() << endl;

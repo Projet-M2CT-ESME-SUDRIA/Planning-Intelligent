@@ -246,7 +246,6 @@ void new_course(string line, map<int, Course> &courses) {
 //Construit la map de matières d'un prof
 vector<int> retrieve_courses (vector<string> name, map<int, Course> &courses) {
     
-    int i,j;
     vector<int> given_courses;
     
     for(vector<string>::iterator it_name=name.begin(); it_name!=name.end() ; it_name++) {

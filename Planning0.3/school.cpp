@@ -57,21 +57,15 @@ void School::parse_promos() {
 
 void School::display(){
     
-    int i,s;
-    
-    s=_profs.size();
-    
-    for(i=0 ; i<s ; i++) {
-        _profs[i].list_profs();
+    for(map<int, Prof>::iterator it=_profs.begin() ; it!=_profs.end() ; it++) {
+        (*it).second.list_profs();
     }
     
-    s=_courses.size();
-    for(i=0 ; i<s ; i++) {
-        _courses[i].list_courses();
+    for(map<int, Course>::iterator it=_courses.begin() ; it!=_courses.end() ; it++) {
+        (*it).second.list_courses();
     }
     
-    s=_promos.size();
-    for(i=0 ; i<s ; i++) {
-        _promos[i].list_promos();
+    for(map<int, Promo>::iterator it=_promos.begin() ; it!=_promos.end() ; it++) {
+        (*it).second.list_promos();
     }
 }

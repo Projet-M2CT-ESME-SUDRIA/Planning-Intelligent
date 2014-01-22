@@ -73,7 +73,7 @@ void Prof::add_given_course(int id_c){
 
 //Random function
 int Prof::grant_lecture(Course c, Week &w, int index) {
-    vector<int> availability = this->get_availability(w.get_num_week());
+   
     if (w.checkAvailability(index)) {
         
         //assert(availability.at(index));
