@@ -24,10 +24,9 @@ void School::parse_profs() {
     vector<string> line;
     
     line = read_file("profs.txt");
-    
-    for(int i=0 ; i<line.size() ; i++)
+    for(vector<string>::iterator it=line.begin() ; it!=line.end() ; it++)
     {
-        new_prof(line[i], _profs, _courses);
+        new_prof(*it, _profs, _courses);
     }
     
 }
@@ -37,8 +36,8 @@ void School::parse_courses() {
     vector<string> line;
     
     line = read_file("courses.txt");
-    for(int i=0 ; i<line.size() ; i++) {
-        new_course(line[i], _courses);
+    for(vector<string>::iterator it=line.begin() ; it!=line.end() ; it++) {
+        new_course(*it, _courses);
     }
     
 }
@@ -49,29 +48,30 @@ void School::parse_promos() {
     
     line = read_file("promos.txt");
     
-    for(int i=0 ; i<line.size() ; i++) {
+    for(vector<string>::iterator it=line.begin(); it!=line.end() ; it++) {
         //promo.push_back(new_promo(line[i], courses));
-        new_promo(line[i], _promos, _courses);
+        new_promo(*it, _promos, _courses);
     }
     
 }
 
 void School::display(){
     
-    int s;
+    int i,s;
     
     s=_profs.size();
-    for(int i=0 ; i<s ; i++) {
+    
+    for(i=0 ; i<s ; i++) {
         _profs[i].list_profs();
     }
     
     s=_courses.size();
-    for(int i=0 ; i<s ; i++) {
+    for(i=0 ; i<s ; i++) {
         _courses[i].list_courses();
     }
     
     s=_promos.size();
-    for(int i=0 ; i<s ; i++) {
+    for(i=0 ; i<s ; i++) {
         _promos[i].list_promos();
     }
 }
