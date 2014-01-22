@@ -42,7 +42,6 @@ int prof::grant_lecture(course c, week &w, int index) {
 
         lecture l(c.get_id(), this->_id, w.get_id());
         w.add_lecture(index,l);
-        cout << "Cours ajoute au prof et a la classe" << endl;
         return 1;
     }
     else {
