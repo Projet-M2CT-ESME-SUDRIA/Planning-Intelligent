@@ -14,8 +14,8 @@ using namespace std;
 
 School::School(){
     
-    parse_profs();
     parse_courses();
+    parse_profs();
     parse_promos();
 }
 
