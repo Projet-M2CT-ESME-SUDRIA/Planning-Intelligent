@@ -7,6 +7,7 @@
 
 #include "school.h"
 #include "parseFile.h"
+#include "routine.h"
 #include <iostream>
 
 using namespace std;
@@ -21,10 +22,10 @@ School::School(){
 
 void School::parse_profs() {
     
-    vector<string> line;
+    list<string> line;
     
     line = read_file("profs.txt");
-    for(vector<string>::iterator it=line.begin() ; it!=line.end() ; it++)
+    for(list<string>::iterator it=line.begin() ; it!=line.end() ; it++)
     {
         new_prof(*it, _profs, _courses);
     }
@@ -33,10 +34,10 @@ void School::parse_profs() {
 
 void School::parse_courses() {
     
-    vector<string> line;
+    list<string> line;
     
     line = read_file("courses.txt");
-    for(vector<string>::iterator it=line.begin() ; it!=line.end() ; it++) {
+    for(list<string>::iterator it=line.begin() ; it!=line.end() ; it++) {
         new_course(*it, _courses);
     }
     
@@ -44,11 +45,11 @@ void School::parse_courses() {
 
 void School::parse_promos() {
     
-    vector<string> line;
+    list<string> line;
     
     line = read_file("promos.txt");
     
-    for(vector<string>::iterator it=line.begin(); it!=line.end() ; it++) {
+    for(list<string>::iterator it=line.begin(); it!=line.end() ; it++) {
         //promo.push_back(new_promo(line[i], courses));
         new_promo(*it, _promos, _courses);
     }
@@ -68,4 +69,9 @@ void School::display(){
     for(map<int, Promo>::iterator it=_promos.begin() ; it!=_promos.end() ; it++) {
         (*it).second.list_promos();
     }
+}
+
+
+void School::rout(){
+    rout2(_profs, _promos, _courses);
 }

@@ -1,5 +1,6 @@
 #include <iostream>
 #include "promo.h"
+#include "parseFile.h"
 
 using namespace std;
 
@@ -10,7 +11,7 @@ Promo::Promo() :_name("unkonwn"), _nb_students(-1) {
     _id=_static_id++;
 }
 
-Promo::Promo(int id_promo, string name, int nb_students, vector<int> courses):
+Promo::Promo(int id_promo, string name, int nb_students, list<int> courses):
 _id_promo(id_promo), _name(name), _nb_students(nb_students), _id_courses(courses){
     _id=_static_id++;
 }
@@ -18,7 +19,7 @@ _id_promo(id_promo), _name(name), _nb_students(nb_students), _id_courses(courses
 
 //Getter
 int Promo::get_course(int id) {
-    return _id_courses[id];
+    return at(_id_courses,id);
 }
 
 int Promo::get_id() {
@@ -60,7 +61,7 @@ void Promo::list_promos() {
     cout << "Promotion numero " << get_id_promo() << endl;
     cout << "\t Nom : " << get_name() << endl;
     cout << "\t Cours : " << endl;
-    for(vector<int> ::iterator it=_id_courses.begin(); it!=_id_courses.end() ; it++) { 
+    for(list<int> ::iterator it=_id_courses.begin(); it!=_id_courses.end() ; it++) { 
         cout << "\t\t" << *it << endl;
     }
 }

@@ -29,19 +29,22 @@ int Week::get_num_week() {
 
 bool Week::checkAvailability(int index) {
     Lecture l;
-    l = this->_lectures.at(index);
+    l = get_lecture(index);
     if (l.get_id_course() == -1)
         return true;
     return false;
 }
 
 Lecture Week::get_lecture(int index) {
-    return _lectures.at(index);
+    
+    list<Lecture>::iterator it = _lectures.begin();
+    advance(it, index);
+    return *it;
 }
 
 bool Week::has_lecture(int id_course) {
     
-    for (vector<Lecture>::iterator it=_lectures.begin(); it!=_lectures.end() ; it++) {
+    for (list<Lecture>::iterator it=_lectures.begin(); it!=_lectures.end() ; it++) {
         if (id_course == (*it).get_id_course())
             return true;
     }
@@ -52,7 +55,12 @@ bool Week::has_lecture(int id_course) {
 
 //Setter
 void Week::add_lecture(int index, Lecture l) {
-    this->_lectures.insert(_lectures.begin()+index,l);
+    list<Lecture>::iterator it = _lectures.begin();
+    
+    advance(it,index);
+    
+    *it = l;
+    //this->_lectures.insert(_lectures.begin()+index,l);
 }
 
 

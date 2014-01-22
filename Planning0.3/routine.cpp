@@ -1,5 +1,6 @@
 #include <iostream>
 #include "routine.h"
+#include "parseFile.h"
 
 using namespace std;
 bool compare(Prof &a, Prof &b, int num_week){
@@ -9,16 +10,16 @@ bool compare(Prof &a, Prof &b, int num_week){
 bool sort_by_availability(Prof a, Prof b) {
     int cmpt_a = 0;
     int cmpt_b = 0;
-    vector<int> availability_a = a.get_availability(0);
-    vector<int> availability_b = b.get_availability(0);
+    list<int> availability_a = a.get_availability(0);
+    list<int> availability_b = b.get_availability(0);
     
     for (int i = 0; i < 22; i++) {
-        if (availability_a.at(i) == 1)
+        if (at(availability_a,i) == 1)
             cmpt_a ++;
     }
     
     for (int i = 0; i < 22; i++) {
-        if (availability_b.at(i) == 1)
+        if (at(availability_b,i) == 1)
             cmpt_b ++;
     }
 
@@ -44,7 +45,6 @@ void grant_lectures(Prof &p, Promo &c, map<int, Course> courses) {
     int nb_hours;
     int index;
     
-    
     int nb_given_course =  p.get_given_courses().size();
     for (int j = 0; j < nb_given_course ; j++) {
         nb_hours = courses.at(p.get_id_course(j)).get_nb_hours();
@@ -52,7 +52,12 @@ void grant_lectures(Prof &p, Promo &c, map<int, Course> courses) {
         index = get_match_prof_promo(p, c, nb_hours);
         if(index != -1) {
             for (int l = 0; l < nb_hours/2; l++) {
-                p.grant_lecture(courses.at(p.get_given_courses().at(j)), c.get_week(l), index);
+                
+                list<int> given_courses = p.get_given_courses();
+                list<int>::iterator it = given_courses.begin();
+                advance(it, j);
+                
+                p.grant_lecture(courses.at(*it), c.get_week(l), index);
             }
         }
     }
@@ -122,7 +127,7 @@ int link_prof_promo(map<int, Course> courses, Prof p, Promo c) {
 }
 
 //Donne le couple prof-classe qui a LE MOINS de disponibilités en commun sur une semaine donnée
-//void best_connection(vector<prof> profs, vector<promo> promos, int num_week, int &prof_index, int &promo_index) {
+//void best_connection(list<prof> profs, list<promo> promos, int num_week, int &prof_index, int &promo_index) {
 //    
 //    int i,j,buf=23;
 //    
@@ -164,7 +169,7 @@ int link_prof_promo(map<int, Course> courses, Prof p, Promo c) {
 //}
 
 
-//void rout3 (vector<prof> &profs, vector<promo> &promos) {
+//void rout3 (list<prof> &profs, list<promo> &promos) {
 //    
 //    int num_week=0, prof_index, promo_index,course_index,a,hour, nb_hours;
 //    int i=0;

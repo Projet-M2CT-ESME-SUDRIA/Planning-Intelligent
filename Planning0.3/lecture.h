@@ -8,7 +8,7 @@
 #ifndef LECTURE_H
 #define	LECTURE_H
 
-#include <vector>
+#include <list>
 #include <map>
 #include <algorithm>
 

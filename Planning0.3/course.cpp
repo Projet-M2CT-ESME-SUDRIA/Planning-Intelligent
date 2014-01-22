@@ -1,5 +1,6 @@
 #include <iostream>
 #include "course.h"
+#include "parseFile.h"
 
 using namespace std;
 
@@ -35,7 +36,7 @@ int Course::get_nb_hours() {
 }
 
 int Course::get_id_prof(int index) {
-    return _id_profs.at(index);
+    return at(_id_profs,index);
 }
 
 int Course::get_profs(){

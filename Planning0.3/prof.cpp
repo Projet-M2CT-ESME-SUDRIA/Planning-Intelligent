@@ -2,6 +2,7 @@
 #include <cassert>
 #include "prof.h"
 #include "promo.h"
+#include "parseFile.h"
 
 using namespace std;
 
@@ -13,12 +14,12 @@ Prof::Prof() :_name("unknown"){
     _id=_static_id++;
 }
 
-Prof::Prof(string name, map<int, vector<int> > availability, vector<int> given_courses) : _name(name), _availability(availability), _id_given_courses(given_courses){
+Prof::Prof(string name, map<int, list<int> > availability, list<int> given_courses) : _name(name), _availability(availability), _id_given_courses(given_courses){
     _id=_static_id++;
 }
 
 //Getter
-std::vector<int> Prof::get_availability(int num_week) {
+std::list<int> Prof::get_availability(int num_week) {
     return _availability[num_week];
 }
 
@@ -26,16 +27,16 @@ string Prof::get_name() {
     return _name;
 }
 
-vector<int> Prof::get_given_courses() {
+list<int> Prof::get_given_courses() {
     return _id_given_courses;
 }
 
 int Prof::get_id_course(int index) {
-    return _id_given_courses[index];
+    return at(_id_given_courses,index);
 }
 
 int Prof::is_available(int num_week, int index) {
-    return _availability[num_week].at(index);
+    return at(_availability[num_week],index);
 }
 
 int Prof::nb_courses(){
@@ -47,23 +48,25 @@ int Prof::get_id(){
 }
 
 int Prof::get_nb_availability(int num_week){
-    std::vector<int> A=_availability.at(num_week);
+    std::list<int> A=_availability.at(num_week);
     int buf=0;
-    for(std::vector<int>::iterator it=A.begin(); it!=A.end(); it++){
+    for(std::list<int>::iterator it=A.begin(); it!=A.end(); it++){
         buf+=*it;
     }
     return buf;
 }
 
 //Setter
-void Prof::add_availability(int nb_weeks, std::vector<int> availability) {
+void Prof::add_availability(int nb_weeks, std::list<int> availability) {
     for (int i = 0; i < nb_weeks; i++) {
         _availability[i] = availability;
     }
 }
 
 void Prof::set_availability(int num_week, int index) {
-    _availability[num_week].at(index) = 0;
+    
+    editList(_availability[num_week], 0, index);
+    //_availability[num_week].at(index) = 0;
 }
 
 void Prof::add_given_course(int id_c){
@@ -96,9 +99,9 @@ void Prof::list_profs() {
     cout << "\t Nom : " << _name << endl;
     cout << "\t Cours : " << endl;
     
-    vector<int> given_courses = get_given_courses();
+    list<int> given_courses = get_given_courses();
     
-    for(vector<int> ::iterator it=given_courses.begin() ; it!=given_courses.end() ; it++) { 
+    for(list<int> ::iterator it=given_courses.begin() ; it!=given_courses.end() ; it++) { 
         cout << "\t\tid: " << *it << endl;
     }
 }

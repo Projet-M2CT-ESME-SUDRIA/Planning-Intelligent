@@ -22,9 +22,9 @@ void grant_lectures(Prof &p, Promo &c, std::map<int, Course> courses);
 int get_match_prof_promo(Prof &p, Promo &c, int nb_hours);
 void display_weeks(Promo p);
 
-//void best_connection(std::vector<prof> profs, std::vector<promo> promos, int num_week, int &prof_index, int &promo_index);
+//void best_connection(std::list<prof> profs, std::list<promo> promos, int num_week, int &prof_index, int &promo_index);
 //int nb_connections(prof p, promo c, int num_week);
-//void rout3(std::vector<prof> &profs, std::vector<promo> &promos);
+//void rout3(std::list<prof> &profs, std::list<promo> &promos);
 
 
 #endif	/* ROUTINE_H */

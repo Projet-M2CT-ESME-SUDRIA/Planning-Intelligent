@@ -3,7 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
-#include <vector>
+#include <list>
 #include "parseFile.h"
 #include "dataInitialisation.h"
 
@@ -15,9 +15,9 @@ using namespace std;
 /*************/
 
 //Lit le fichier ligne par ligne
-vector<string> read_file(string filename) {
+list<string> read_file(string filename) {
     
-    vector<string> line;
+    list<string> line;
     
     ifstream myStream(filename.c_str());
     string s;
@@ -32,9 +32,9 @@ vector<string> read_file(string filename) {
 }
 
 //Reçoit les lignes et en sépare les mots.
-vector<string> parse_line(string line, char c) {
+list<string> parse_line(string line, char c) {
     
-    vector<string> words;
+    list<string> words;
     
     size_t begin = 0;
     size_t pos=0;
@@ -112,10 +112,10 @@ void add_prof_to_db(string name, string s_availability, string given_courses, st
 //Récupère les données sur les profs
 void parse_profs(map<int, Prof> &profs, map<int, Course> courses) {
     
-    vector<string> line;
+    list<string> line;
     
     line = read_file("profs.txt");
-    for(vector<string>::iterator it=line.begin() ; it!=line.end() ; it++)
+    for(list<string>::iterator it=line.begin() ; it!=line.end() ; it++)
     {
         new_prof(*it, profs, courses);
     }
@@ -125,28 +125,33 @@ void parse_profs(map<int, Prof> &profs, map<int, Course> courses) {
 //Création d'un prof à partir d'une ligne du fichier de données
 void new_prof(string line, map<int, Prof> &profs, map<int, Course> &courses) {
     
-    vector<string> words = parse_line(line, '|');
+    list<string> words = parse_line(line, '|');
     
-    if(check_availability(words[1]))
+    string availabilities = at(words,1);
+    
+    if(check_availability(availabilities))
         assert("error");
     
-    map<int,vector<int> > m_availability;
-    vector<int> given_courses;
+    map<int,list<int> > m_availability;
+    list<int> given_courses;
     
     //Création de l'ensemble des disponibilités du profs
-    vector<int> temp = fill_v_availability(words[1]);
+    list<int> temp = fill_v_availability(availabilities);
+    
     if (!temp.empty())
     {
-        for (int i = 0; i < string_to_int(words[3]) ; i++) {
+        int size=string_to_int(at(words,3));
+        
+        for (int i = 0; i < size ; i++) {
             m_availability[i] = temp;
         }
         
     
-        string s = words[2];
-        vector<string> name = parse_line(s, ',');
+        string line_courses = at(words,2);
+        list<string> name = parse_line(line_courses, ',');
         given_courses = retrieve_courses(name, courses);
     
-        Prof p(words[0],m_availability, given_courses);
+        Prof p(at(words,0),m_availability, given_courses);
         
         profs.insert(pair<int, Prof>(p.get_id(), p));
         
@@ -179,10 +184,10 @@ bool check_availability(string s_availability) {
     return a;
 }
 
-//Construit le vector availability
-vector<int> fill_v_availability(string s_availability) {
+//Construit le list availability
+list<int> fill_v_availability(string s_availability) {
     
-    vector<int> v_availability;
+    list<int> v_availability;
     
     if(!check_availability(s_availability))
     {
@@ -225,10 +230,10 @@ void add_course_to_db(string name, string nb_courses, string id_promo) {
 //Récupère les données sur les matières
 void parse_courses(map<int, Course> &courses) {
     
-    vector<string> line;
+    list<string> line;
     
     line = read_file("courses.txt");
-    for(vector<string>::iterator it=line.begin() ; it!=line.end() ; it++) {
+    for(list<string>::iterator it=line.begin() ; it!=line.end() ; it++) {
         new_course(*it, courses);
     }
     
@@ -237,18 +242,18 @@ void parse_courses(map<int, Course> &courses) {
 //Création d'une matière à partir d'une ligne du fichier de données
 void new_course(string line, map<int, Course> &courses) {
     
-    vector<string> words;
+    list<string> words;
     words = parse_line(line, '|');
-    Course c(string_to_int(words[0]), words[1], string_to_int(words[2]));
+    Course c(string_to_int(at(words,0)), at(words,1), string_to_int(at(words,2)));
     courses.insert(pair<int, Course>(c.get_id(), c));
 }
 
 //Construit la map de matières d'un prof
-vector<int> retrieve_courses (vector<string> name, map<int, Course> &courses) {
+list<int> retrieve_courses (list<string> name, map<int, Course> &courses) {
     
-    vector<int> given_courses;
+    list<int> given_courses;
     
-    for(vector<string>::iterator it_name=name.begin(); it_name!=name.end() ; it_name++) {
+    for(list<string>::iterator it_name=name.begin(); it_name!=name.end() ; it_name++) {
         for(map<int, Course>::iterator it_course=courses.begin(); it_course!=courses.end() ; it_course++) {
             if((*it_name).compare((*it_course).second.get_name()) == 0) {
                 given_courses.push_back((*it_course).second.get_id());
@@ -285,11 +290,11 @@ void add_promo_to_db(string id_promo, string name, string nb_students, string co
 //Récupère les données sur les promos
 void parse_promo(map<int, Promo> &promos, map<int, Course> &courses) {
     
-    vector<string> line;
+    list<string> line;
     
     line = read_file("promos.txt");
     
-    for(vector<string>::iterator it=line.begin(); it!=line.end() ; it++) {
+    for(list<string>::iterator it=line.begin(); it!=line.end() ; it++) {
         //promo.push_back(new_promo(line[i], courses));
         new_promo(*it, promos, courses);
     }
@@ -299,8 +304,8 @@ void parse_promo(map<int, Promo> &promos, map<int, Course> &courses) {
 //Création d'une matière à partir d'une ligne du fichier de données
 void new_promo(string line, map<int, Promo> &promos, map<int, Course> &courses) {
     
-    vector<string> words;
-    vector<int> course_followed;
+    list<string> words;
+    list<int> course_followed;
     int nb_weeks = 0;
     int id_promo = -1;
     int i;
@@ -308,14 +313,14 @@ void new_promo(string line, map<int, Promo> &promos, map<int, Course> &courses) 
     words = parse_line(line, '|');
     
     //Méthode pour pouvoir récupérer les cours suivis
-    string s = words[3];
-    vector<string> name = parse_line(s, ',');
+    string s = at(words,3);
+    list<string> name = parse_line(s, ',');
     course_followed = retrieve_courses(name, courses);
     
-    Promo p(string_to_int(words[0]), words[1], string_to_int(words[2]), course_followed);
+    Promo p(string_to_int(at(words,0)), at(words,1), string_to_int(at(words,2)), course_followed);
     
     //Méthode pour créer les semaines de la promo
-    nb_weeks = string_to_int(words[4]);
+    nb_weeks = string_to_int(at(words,4));
     id_promo = p.get_id();
     for(i = 0 ; i < nb_weeks ; i++) {
         Week w(id_promo, i);
@@ -334,4 +339,25 @@ void add_prof_to_course(Prof p, map<int,Course> &c){
         id_c = p.get_id_course(i);
         c.at(id_c).add_prof(p.get_id());
     }
+}
+
+int at(list<int> l, int index) {
+    list<int>::iterator it = l.begin();
+    advance(it, index);
+    return *it;
+}
+
+string at(list<string> l, int index) {
+    list<string>::iterator it = l.begin();
+    advance(it, index);
+    return *it;
+}
+
+void editList(list<int> &l, int index, int value) {
+    
+    list<int>::iterator it = l.begin();
+    
+    advance(it,index);
+    
+    *it = value;
 }

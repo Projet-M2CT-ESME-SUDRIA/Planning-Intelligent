@@ -16,8 +16,8 @@
 #include "week.h"
 
 //General
-std::vector<std::string> read_file(std::string filename);
-std::vector<std::string> parse_line(std::string line, char c);
+std::list<std::string> read_file(std::string filename);
+std::list<std::string> parse_line(std::string line, char c);
 int string_to_int(std::string s);
 bool check_unicity(std::string filename, std::string line);
 
@@ -26,14 +26,14 @@ void add_prof_to_db(std::string name, std::string s_availability, std::string co
 void parse_profs(std::map<int,Prof> &profs, std::map<int,Course> courses);
 void new_prof(std::string line, std::map<int,Prof> &profs, std::map<int, Course> &courses);
 bool check_availability(std::string s_availability);
-std::vector<int> fill_v_availability(std::string s_availability);
-std::map<int, std::vector<int> > fill_m_availability(int week, std::vector<int> v_availability);
+std::list<int> fill_v_availability(std::string s_availability);
+std::map<int, std::list<int> > fill_m_availability(int week, std::list<int> v_availability);
 
 //Matières
 void add_course_to_db(std::string name, std::string nb_courses, std::string id_promo);
 void parse_courses(std::map<int, Course> &courses);
 void new_course(std::string line, std::map<int, Course> &courses);
-std::vector<int> retrieve_courses (std::vector<std::string> name, std::map<int, Course> &courses);
+std::list<int> retrieve_courses (std::list<std::string> name, std::map<int, Course> &courses);
 
 //Promo
 void add_promo_to_db(std::string id_promo, std::string name, std::string nb_students, std::string courses, std::string nb_weeks);
@@ -42,6 +42,10 @@ void new_promo(std::string line, std::map<int,Promo> &promo, std::map<int, Cours
 
 void add_prof_to_course(Prof p, std::map<int,Course> &c);
 
+
+int at(std::list<int> l, int index);
+std::string at(std::list<std::string> l, int index);
+void editList(std::list<int> &l, int position, int value);
 
 #endif	/* PARSEFILE_H */
 

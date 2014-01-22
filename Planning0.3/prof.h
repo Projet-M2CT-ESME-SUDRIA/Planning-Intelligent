@@ -9,7 +9,7 @@
 #define	PROF_H
 
 
-#include <vector>
+#include <list>
 #include <map>
 #include <algorithm>
 #include "week.h"
@@ -20,20 +20,20 @@ class Prof{
     
     int _id;
     std::string _name;
-    std::map<int, std::vector<int> > _availability;
-    std::vector<int> _id_given_courses;
+    std::map<int, std::list<int> > _availability;
+    std::list<int> _id_given_courses;
   
 public:
     
     //Initialisation
     static int _static_id;
     Prof();
-    Prof(std::string name, std::map<int, std::vector<int> > availability, std::vector<int> given_courses);
+    Prof(std::string name, std::map<int, std::list<int> > availability, std::list<int> given_courses);
     
     //Getter
-    std::vector<int> get_availability(int num_week);
+    std::list<int> get_availability(int num_week);
     std::string get_name();
-    std::vector<int> get_given_courses();
+    std::list<int> get_given_courses();
     int get_id_course(int index);
     int is_available(int num_week, int index);
     int nb_courses();
@@ -41,7 +41,7 @@ public:
     int get_nb_availability(int num_week); 
     
     //Setter
-    void add_availability(int nb_weeks, std::vector <int> availability);
+    void add_availability(int nb_weeks, std::list <int> availability);
     void set_availability(int num_week, int index);
     void add_given_course(int id_c);
     

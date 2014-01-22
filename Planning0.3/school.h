@@ -23,6 +23,8 @@ public:
     
     void display();
     
+    void rout();
+    
 private:
     std::map<int, Course> _courses;
     std::map<int, Prof> _profs;

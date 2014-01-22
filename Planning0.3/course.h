@@ -8,7 +8,7 @@
 #ifndef COURSE_H
 #define	COURSE_H
 
-#include <vector>
+#include <list>
 #include <map>
 #include <algorithm>
 #include <string>
@@ -19,7 +19,7 @@ class Course {
     int _id_promo;
     std::string _name;
     int _nb_hours;
-    std::vector<int> _id_profs;
+    std::list<int> _id_profs;
     
 public:
     

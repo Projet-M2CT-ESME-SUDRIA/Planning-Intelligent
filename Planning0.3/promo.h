@@ -8,7 +8,7 @@
 #ifndef PROMO_H
 #define	PROMO_H
 
-#include <vector>
+#include <list>
 #include <map>
 #include <algorithm>
 #include "course.h"
@@ -21,7 +21,7 @@ class Promo{
     int _id_promo;
     int _nb_students;
     std::string _name;
-    std::vector<int> _id_courses;
+    std::list<int> _id_courses;
     std::map<int, Week> _weeks;
    
 public:
@@ -29,7 +29,7 @@ public:
     //Initialisation
     static int _static_id;
     Promo();
-    Promo(int id_promo, std::string name, int nb_students, std::vector<int> courses);
+    Promo(int id_promo, std::string name, int nb_students, std::list<int> courses);
     
     //Getter
     int get_course(int id);

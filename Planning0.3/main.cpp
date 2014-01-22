@@ -28,7 +28,9 @@ void test3() {
     
     School s;
     
-    s.display();
+    //s.display();
+    
+    s.rout();
     
     return;
                 

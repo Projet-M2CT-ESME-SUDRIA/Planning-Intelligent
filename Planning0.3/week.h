@@ -9,7 +9,7 @@
 #define	WEEK_H
 
 
-#include <vector>
+#include <list>
 #include <map>
 #include <algorithm>
 #include "lecture.h"
@@ -20,7 +20,7 @@ class Week {
     int _id;
     int _id_promo;
     int _num_week;
-    std::vector<Lecture> _lectures;
+    std::list<Lecture> _lectures;
 
 public:
 
