@@ -34,9 +34,8 @@ void rout2(map<int, Prof> &profs, map<int, Promo> &promos, map<int, Course> cour
     
     //Pour chaque profs
     for (map<int, Prof>::iterator it=profs.begin(); it!=profs.end(); it++) {
-        grant_lectures((*it).second, promos.at(0), courses);
+        grant_lectures((*it).second, promos.at(0), courses);  
     }
-    
     display_weeks(promos.at(0));
 }
 
@@ -45,16 +44,17 @@ void grant_lectures(Prof &p, Promo &c, map<int, Course> courses) {
     int nb_hours;
     int index;
     
-    int nb_given_course =  p.get_given_courses().size();
     
+    int nb_given_course =  p.get_given_courses().size();
     list<int> given_courses = p.get_given_courses();
-    list<int>::iterator it = given_courses.begin();
+    list<int>::iterator it;
     
     for (int j = 0; j < nb_given_course ; j++) {
-        nb_hours = courses.at(p.get_id_course(j)).get_nb_hours();
         
+        nb_hours = courses.at(p.get_id_course(j)).get_nb_hours();
+        it = given_courses.begin();
         advance(it, j);
-
+        
         //Si le nombre de cours de 2h est plus grand que le nombre de semaine
         //on va placer des cours de 4h
         if (nb_hours > 14*2) {
@@ -62,7 +62,6 @@ void grant_lectures(Prof &p, Promo &c, map<int, Course> courses) {
             
             if(index != -1) {
                 for (int l = 0; l < nb_hours/4; l++) {
-
                     p.grant_lecture(courses.at(*it), c.get_week(l), index);
                     p.grant_lecture(courses.at(*it), c.get_week(l), index+1);
                 }
@@ -78,9 +77,7 @@ void grant_lectures(Prof &p, Promo &c, map<int, Course> courses) {
         
             if(index != -1) {
                 for (int l = 0; l < nb_hours/2; l++) {
-                
-                    p.grant_lecture(courses.at(*it), c.get_week(l), index);
-                    
+                    p.grant_lecture(courses.at(*it), c.get_week(l), index);                 
                 }
             }
         }
