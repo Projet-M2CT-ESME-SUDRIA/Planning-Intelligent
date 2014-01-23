@@ -26,9 +26,12 @@ void test3() {
     get_promos(promos, courses);
     rout2(profs,promos, courses);*/
     
-    School s;
+    School s(14);
     
     s.display();
+    
+    s.nb_prof_ok();
+    s.nb_lectures_ok();
     
     s.rout();
     

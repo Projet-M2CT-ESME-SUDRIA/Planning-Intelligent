@@ -37,6 +37,7 @@ public:
     int get_id_promo();
     std::string get_name();
     int is_available(int num_week, int index);
+    std::list<int>get_id_courses();
     
     //Setter
     void add_course(int id_c);

@@ -47,6 +47,7 @@ int Prof::get_id(){
     return _id;
 }
 
+//Retourne le nombre de disponibilités sur une semaine donnée
 int Prof::get_nb_availability(int num_week){
     std::list<int> A=_availability.at(num_week);
     int buf=0;
@@ -54,6 +55,18 @@ int Prof::get_nb_availability(int num_week){
         buf+=*it;
     }
     return buf;
+}
+
+
+//Permet de savoir si un prof donne un cours à partir de l'id du cours
+int Prof::has_course(int id_course){
+    
+    for(std::list<int>::iterator it = _id_given_courses.begin() ; it!=_id_given_courses.end() ; it++) {
+        if(*it == id_course)
+            return 1;
+    }
+    
+    return 0;
 }
 
 //Setter

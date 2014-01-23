@@ -109,19 +109,6 @@ void add_prof_to_db(string name, string s_availability, string given_courses, st
         cout << "Impossible d'ouvrir le fichier de données" << endl;
 }
 
-//Récupère les données sur les profs
-void parse_profs(map<int, Prof> &profs, map<int, Course> courses) {
-    
-    list<string> line;
-    
-    line = read_file("profs.txt");
-    for(list<string>::iterator it=line.begin() ; it!=line.end() ; it++)
-    {
-        new_prof(*it, profs, courses);
-    }
-    
-}
-
 //Création d'un prof à partir d'une ligne du fichier de données
 void new_prof(string line, map<int, Prof> &profs, map<int, Course> &courses) {
     
@@ -227,24 +214,20 @@ void add_course_to_db(string name, string nb_courses, string id_promo) {
         cout << "Impossible d'ouvrir le fichier de données" << endl;
 }
 
-//Récupère les données sur les matières
-void parse_courses(map<int, Course> &courses) {
-    
-    list<string> line;
-    
-    line = read_file("courses.txt");
-    for(list<string>::iterator it=line.begin() ; it!=line.end() ; it++) {
-        new_course(*it, courses);
-    }
-    
-}
-
 //Création d'une matière à partir d'une ligne du fichier de données
-void new_course(string line, map<int, Course> &courses) {
+void new_course(string line, map<int, Course> &courses, int nb_week) {
     
     list<string> words;
     words = parse_line(line, '|');
-    Course c(string_to_int(at(words,0)), at(words,1), string_to_int(at(words,2)));
+    
+    int nb_hours = string_to_int(at(words,2));
+    
+    if(nb_hours > 4*nb_week) {
+        cout << "c'est la merde putain" << endl;
+        exit(EXIT_FAILURE);
+    }
+    
+    Course c(string_to_int(at(words,0)), at(words,1), nb_hours);
     courses.insert(pair<int, Course>(c.get_id(), c));
 }
 
@@ -287,20 +270,6 @@ void add_promo_to_db(string id_promo, string name, string nb_students, string co
         cout << "Impossible d'ouvrir le fichier de données" << endl;
 }
 
-//Récupère les données sur les promos
-void parse_promo(map<int, Promo> &promos, map<int, Course> &courses) {
-    
-    list<string> line;
-    
-    line = read_file("promos.txt");
-    
-    for(list<string>::iterator it=line.begin(); it!=line.end() ; it++) {
-        //promo.push_back(new_promo(line[i], courses));
-        new_promo(*it, promos, courses);
-    }
-    
-}
-
 //Création d'une matière à partir d'une ligne du fichier de données
 void new_promo(string line, map<int, Promo> &promos, map<int, Course> &courses) {
     
@@ -328,17 +297,6 @@ void new_promo(string line, map<int, Promo> &promos, map<int, Course> &courses) 
     }
     
     promos.insert(pair<int, Promo>(p.get_id(), p));
-}
-
-void add_prof_to_course(Prof p, map<int,Course> &c){
-    
-    int s=p.get_given_courses().size();
-    int id_c = 0;
-    
-    for(int i=0 ; i<s ; i++) {
-        id_c = p.get_id_course(i);
-        c.at(id_c).add_prof(p.get_id());
-    }
 }
 
 int at(list<int> l, int index) {

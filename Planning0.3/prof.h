@@ -38,7 +38,8 @@ public:
     int is_available(int num_week, int index);
     int nb_courses();
     int get_id();
-    int get_nb_availability(int num_week); 
+    int get_nb_availability(int num_week);
+    int has_course(int id_course);
     
     //Setter
     void add_availability(int nb_weeks, std::list <int> availability);
