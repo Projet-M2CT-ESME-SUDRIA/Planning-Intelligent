@@ -8,7 +8,6 @@
 #include <cstdlib>
 #include <iostream>
 #include "parseFile.h"
-#include "dataInitialisation.h"
 #include "routine.h"
 #include "school.h"
 

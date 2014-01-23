@@ -5,7 +5,6 @@
 #include <string>
 #include <list>
 #include "parseFile.h"
-#include "dataInitialisation.h"
 
 using namespace std;
 
