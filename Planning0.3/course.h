@@ -19,6 +19,7 @@ class Course {
     int _id_promo;
     std::string _name;
     int _nb_hours;
+    int _lecture_size;
     
 public:
     
@@ -41,4 +42,3 @@ public:
 
 
 #endif	/* COURSE_H */
-

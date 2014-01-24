@@ -15,24 +15,14 @@
 using namespace std;
 
 void test3() {
-    
-    /*map<int, Course> courses;
-    map<int, Prof> profs;
-    map<int, Promo> promos;
-    
-    get_courses(courses);
-    get_profs(profs, courses);
-    get_promos(promos, courses);
-    rout2(profs,promos, courses);*/
-    
     School s(14);
     
     s.display();
-    
-    s.nb_prof_ok();
-    s.nb_lectures_ok();
-    
-    s.rout();
+//    
+//    s.nb_prof_ok();
+//    s.nb_lectures_ok();
+//    
+//    s.rout();
     
     return;
                 

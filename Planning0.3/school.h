@@ -19,8 +19,14 @@ public:
     
     //Initialisation de la classe School
     void parse_profs();
+    void new_prof(std::string line);
+    
     void parse_courses();
+    void new_course(std::string line, int nb_week);
+    
     void parse_promos();
+    void new_promo(std::string line);
+
     
     //Affichage
     void display();
@@ -36,6 +42,8 @@ public:
     //Routine
     void rout();
     
+    std::list<int> retrieve_courses (std::list<std::string> name);
+    
 private:
     std::map<int, Course> _courses;
     std::map<int, Prof> _profs;
@@ -44,4 +52,3 @@ private:
 };
 
 #endif	/* SCHOOL_H */
-
