@@ -6,7 +6,7 @@
  */
 
 #ifndef SCHOOL_H
-#define	SCHOOL_H
+#define        SCHOOL_H
 
 #include "course.h"
 #include "prof.h"
@@ -51,4 +51,4 @@ private:
     int _nb_week;
 };
 
-#endif	/* SCHOOL_H */
+#endif        /* SCHOOL_H */

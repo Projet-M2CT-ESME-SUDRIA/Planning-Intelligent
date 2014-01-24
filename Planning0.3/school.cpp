@@ -27,12 +27,7 @@ void School::parse_profs() {
     list<string> line;
     
     line = read_file("profs.txt");
-<<<<<<< HEAD
-    for(list<string>::iterator it=line.begin() ; it!=line.end() ; it++)
-    {
-=======
     for(list<string>::iterator it=line.begin() ; it!=line.end() ; it++){
->>>>>>> master
         new_prof(*it);
     }
     
@@ -60,14 +55,11 @@ void School::new_prof(string line) {
     {        
         for (int i=0 ; i<_nb_week ; i++) {
             availability[i] = temp;
-    
+        }
+
         string line_courses = at(words,2);
         list<string> name = parse_line(line_courses, ',');
         given_courses = retrieve_courses(name);
-        
-        for(list<int>::iterator it = given_courses.begin() ; it!=given_courses.end() ; it++){
-            cout << "given course = " << *it << endl;
-        }
     
         Prof p(at(words,0),availability, given_courses);
         
@@ -84,10 +76,7 @@ void School::new_prof(string line) {
 void School::parse_courses() {
     
     list<string> line;
-<<<<<<< HEAD
-=======
     
->>>>>>> master
     line = read_file("courses.txt");
     for(list<string>::iterator it=line.begin() ; it!=line.end() ; it++) {
         new_course(*it, _nb_week);
@@ -119,10 +108,6 @@ void School::parse_promos() {
     line = read_file("promos.txt");
     
     for(list<string>::iterator it=line.begin(); it!=line.end() ; it++) {
-<<<<<<< HEAD
-        //promo.push_back(new_promo(line[i], courses));
-=======
->>>>>>> master
         new_promo(*it);
     }   
 }
@@ -207,8 +192,6 @@ int School::nb_prof_ok(){
         id_promo = (*it).second.get_id_promo();
         nb_promo = nb_class_promo(id_promo);
         
-        cout << "id_course=" << id_course << endl;
-        
         int c = nb_availabilities_course(id_course);
         
         if(nb_promo > c) {
@@ -217,7 +200,8 @@ int School::nb_prof_ok(){
         }
     }
     
-    cout << "Chaque cours a bien assez de prof" << endl;
+    cout << "Nombre de profs OK" << endl;
+    
     return 1;
 }
 
@@ -251,34 +235,17 @@ list<int> School::retrieve_courses (list<string> name) {
     
     list<int> given_courses;
     
-<<<<<<< HEAD
-    for(list<string>::iterator it_name = name.begin(); it_name != name.end() ; it_name++) {
-        for(map<int, Course>::iterator it_course=_courses.begin(); it_course!=_courses.end() ; it_course++) {
-            if(*it_name == (*it_course).second.get_name()) {
-=======
     for(list<string>::iterator it_name=name.begin(); it_name!=name.end() ; it_name++) {
         for(map<int, Course>::iterator it_course=_courses.begin(); it_course!=_courses.end() ; it_course++) {
             if((*it_name).compare((*it_course).second.get_name()) == 0) {
->>>>>>> master
                 given_courses.push_back((*it_course).second.get_id());
                 break;
             }
         }
-<<<<<<< HEAD
-        cout << endl;
-    }
-    
-    if(given_courses.size() != name.size()) {
-        cout << "erreur" << endl;
-        exit(EXIT_FAILURE);
-    }
-        
-=======
     }
     
     if(given_courses.size() != name.size())
         exit(EXIT_FAILURE);
     
->>>>>>> master
     return given_courses;
 }
