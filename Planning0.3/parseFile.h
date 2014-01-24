@@ -31,4 +31,3 @@ std::string at(std::list<std::string> l, int index);
 void editList(std::list<int> &l, int position, int value);
 
 #endif	/* PARSEFILE_H */
-
