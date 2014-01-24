@@ -6,7 +6,11 @@
  */
 
 #ifndef PARSEFILE_H
+<<<<<<< HEAD
 #define        PARSEFILE_H
+=======
+#define	PARSEFILE_H
+>>>>>>> master
 
 
 #include "course.h"
@@ -31,4 +35,9 @@ int at(std::list<int> l, int index);
 std::string at(std::list<std::string> l, int index);
 void editList(std::list<int> &l, int position, int value);
 
+<<<<<<< HEAD
 #endif        /* PARSEFILE_H */
+=======
+#endif	/* PARSEFILE_H */
+
+>>>>>>> master
