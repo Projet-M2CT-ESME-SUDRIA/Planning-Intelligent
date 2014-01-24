@@ -35,20 +35,6 @@ int Course::get_nb_hours() {
     return _nb_hours;
 }
 
-int Course::get_id_prof(int index) {
-    return at(_id_profs,index);
-}
-
-int Course::get_profs(){
-        return _id_profs.size();
-}
-
-
-//Setter
-void Course::add_prof(int id_prof){
-    _id_profs.push_back(id_prof);
-}
-
 //Affichage
 void Course::list_courses() {
     cout << "Matiere numero " << _id << endl;

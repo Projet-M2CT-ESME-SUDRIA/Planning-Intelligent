@@ -42,7 +42,9 @@ int Promo::is_available(int num_week, int index) {
     return _weeks[num_week].checkAvailability(index);
 }
 
-
+list<int> Promo::get_id_courses() {
+    return _id_courses;
+}
 
 //Setter
 void Promo::add_course(int id_c) {

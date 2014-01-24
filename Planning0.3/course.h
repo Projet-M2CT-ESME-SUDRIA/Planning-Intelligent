@@ -19,7 +19,7 @@ class Course {
     int _id_promo;
     std::string _name;
     int _nb_hours;
-    std::list<int> _id_profs;
+    int _lecture_size;
     
 public:
     
@@ -34,11 +34,6 @@ public:
     int get_id_promo();
     std::string get_name();
     int get_nb_hours();
-    int get_id_prof(int index);    
-    int get_profs();
-    
-    //Setter
-    void add_prof(int id_prof);
     
     //Affichage
     void list_courses();
