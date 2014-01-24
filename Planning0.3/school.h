@@ -1,34 +1,54 @@
 /* 
- * File:   parseFile.h
+ * File:   school.h
  * Author: Corentin
  *
- * Created on 3 décembre 2013, 15:06
+ * Created on 22 janvier 2014, 13:15
  */
 
-#ifndef PARSEFILE_H
-#define        PARSEFILE_H
-
+#ifndef SCHOOL_H
+#define        SCHOOL_H
 
 #include "course.h"
-#include "lecture.h"
 #include "prof.h"
 #include "promo.h"
-#include "week.h"
 
-//General
-std::list<std::string> read_file(std::string filename);
-std::list<std::string> parse_line(std::string line, char c);
-int string_to_int(std::string s);
-bool check_unicity(std::string filename, std::string line);
+class School {
+    
+public:
+    School(int nb_week);
+    
+    //Initialisation de la classe School
+    void parse_profs();
+    void new_prof(std::string line);
+    
+    void parse_courses();
+    void new_course(std::string line, int nb_week);
+    
+    void parse_promos();
+    void new_promo(std::string line);
 
-//Profs
-bool check_availability(std::string s_availability);
-std::list<int> fill_v_availability(std::string s_availability);
-std::map<int, std::list<int> > fill_m_availability(int week, std::list<int> v_availability);
+    
+    //Affichage
+    void display();
+    
+    //Méthodes relatives au prétraitement
+    int nb_class_promo(int id_promo);
+    int nb_availabilities_course(int id_course);
+    
+    //Prétraitements
+    int nb_prof_ok();
+    int nb_lectures_ok();
+    
+    //Routine
+    void rout();
+    
+    std::list<int> retrieve_courses (std::list<std::string> name);
+    
+private:
+    std::map<int, Course> _courses;
+    std::map<int, Prof> _profs;
+    std::map<int, Promo> _promos;
+    int _nb_week;
+};
 
-
-int at(std::list<int> l, int index);
-std::string at(std::list<std::string> l, int index);
-void editList(std::list<int> &l, int position, int value);
-
-#endif        /* PARSEFILE_H */
+#endif        /* SCHOOL_H */
