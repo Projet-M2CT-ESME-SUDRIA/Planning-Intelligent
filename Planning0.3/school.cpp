@@ -27,8 +27,12 @@ void School::parse_profs() {
     list<string> line;
     
     line = read_file("profs.txt");
+<<<<<<< HEAD
     for(list<string>::iterator it=line.begin() ; it!=line.end() ; it++)
     {
+=======
+    for(list<string>::iterator it=line.begin() ; it!=line.end() ; it++){
+>>>>>>> master
         new_prof(*it);
     }
     
@@ -56,8 +60,6 @@ void School::new_prof(string line) {
     {        
         for (int i=0 ; i<_nb_week ; i++) {
             availability[i] = temp;
-        }
-        
     
         string line_courses = at(words,2);
         list<string> name = parse_line(line_courses, ',');
@@ -82,6 +84,10 @@ void School::new_prof(string line) {
 void School::parse_courses() {
     
     list<string> line;
+<<<<<<< HEAD
+=======
+    
+>>>>>>> master
     line = read_file("courses.txt");
     for(list<string>::iterator it=line.begin() ; it!=line.end() ; it++) {
         new_course(*it, _nb_week);
@@ -113,7 +119,10 @@ void School::parse_promos() {
     line = read_file("promos.txt");
     
     for(list<string>::iterator it=line.begin(); it!=line.end() ; it++) {
+<<<<<<< HEAD
         //promo.push_back(new_promo(line[i], courses));
+=======
+>>>>>>> master
         new_promo(*it);
     }   
 }
@@ -209,7 +218,6 @@ int School::nb_prof_ok(){
     }
     
     cout << "Chaque cours a bien assez de prof" << endl;
-    
     return 1;
 }
 
@@ -243,13 +251,20 @@ list<int> School::retrieve_courses (list<string> name) {
     
     list<int> given_courses;
     
+<<<<<<< HEAD
     for(list<string>::iterator it_name = name.begin(); it_name != name.end() ; it_name++) {
         for(map<int, Course>::iterator it_course=_courses.begin(); it_course!=_courses.end() ; it_course++) {
             if(*it_name == (*it_course).second.get_name()) {
+=======
+    for(list<string>::iterator it_name=name.begin(); it_name!=name.end() ; it_name++) {
+        for(map<int, Course>::iterator it_course=_courses.begin(); it_course!=_courses.end() ; it_course++) {
+            if((*it_name).compare((*it_course).second.get_name()) == 0) {
+>>>>>>> master
                 given_courses.push_back((*it_course).second.get_id());
                 break;
             }
         }
+<<<<<<< HEAD
         cout << endl;
     }
     
@@ -258,5 +273,12 @@ list<int> School::retrieve_courses (list<string> name) {
         exit(EXIT_FAILURE);
     }
         
+=======
+    }
+    
+    if(given_courses.size() != name.size())
+        exit(EXIT_FAILURE);
+    
+>>>>>>> master
     return given_courses;
 }
