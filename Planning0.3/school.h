@@ -27,6 +27,7 @@ public:
     void parse_promos();
     void new_promo(std::string line);
 
+    void fill_list_promo();
     
     //Affichage
     void display();
@@ -39,8 +40,8 @@ public:
     int nb_prof_ok();
     int nb_lectures_ok();
     
-    //Routine
-    void rout();
+    void divideCourses();
+    void tri_selection(int start_index, std::list<int> &l ,int n);
     
     std::list<int> retrieve_courses (std::list<std::string> name);
     
@@ -48,6 +49,7 @@ private:
     std::map<int, Course> _courses;
     std::map<int, Prof> _profs;
     std::map<int, Promo> _promos;
+    std::list<int> _list_promos;
     int _nb_week;
 };
 

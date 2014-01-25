@@ -1,5 +1,4 @@
 #include <iostream>
-#include <cassert>
 #include "prof.h"
 #include "promo.h"
 #include "parseFile.h"

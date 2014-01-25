@@ -30,6 +30,7 @@ std::map<int, std::list<int> > fill_m_availability(int week, std::list<int> v_av
 int at(std::list<int> l, int index);
 std::string at(std::list<std::string> l, int index);
 void editList(std::list<int> &l, int position, int value);
+int existing_value(std::list<int> l, int value);
 
 #endif	/* PARSEFILE_H */
 

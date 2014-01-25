@@ -1,5 +1,4 @@
 #include <iostream>
-#include <cassert>
 #include <fstream>
 #include <sstream>
 #include <string>
@@ -56,7 +55,7 @@ int string_to_int(string s) {
     //On compare au code ascii pour vérifier qu'il s'agit bien d'un chiffre
     for(string::iterator it=s.begin() ; it!=s.end() ; it++) {
         if((int)s[0]>57 || ((int)s[0]<48)) {
-            assert("failure");
+            exit(EXIT_FAILURE);
         }
     }
 
@@ -64,7 +63,7 @@ int string_to_int(string s) {
     convertToInt >> number;
     
     if (number < 0)
-        assert("failure");
+        exit(EXIT_FAILURE);
     
     return number;
 }
@@ -116,7 +115,7 @@ bool check_availability(string s_availability) {
     return a;
 }
 
-//Construit le list availability
+//Construit la liste availability
 list<int> fill_v_availability(string s_availability) {
     
     list<int> v_availability;
@@ -138,10 +137,8 @@ list<int> fill_v_availability(string s_availability) {
     return v_availability;
 }
 
-/**********/
-/* Classe */
-/**********/
 
+//Fonctions pour parcourir les listes
 int at(list<int> l, int index) {
     list<int>::iterator it = l.begin();
     advance(it, index);
@@ -161,4 +158,15 @@ void editList(list<int> &l, int index, int value) {
     advance(it,index);
     
     *it = value;
+}
+
+//Vérifie si un nombre existe déjà dans une liste
+int existing_value(list<int> l, int value){
+    
+    for(list<int>::iterator it = l.begin() ; it!=l.end() ; it++){
+        if(*it == value)
+            return 1;
+    }
+    
+    return 0;
 }

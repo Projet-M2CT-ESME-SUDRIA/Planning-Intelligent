@@ -15,6 +15,7 @@ Course::Course() : _name("unknown"), _nb_hours(-1){
 Course::Course(int id_promo, string name, int nb_hours) 
 :_id_promo(id_promo), _name(name), _nb_hours(nb_hours){
     _id = _static_id++;
+    _lecture_size=0;
 }
 
 
@@ -33,6 +34,22 @@ string Course::get_name() {
 
 int Course::get_nb_hours() {
     return _nb_hours;
+}
+
+int Course::get_nb_weeks(int nb_weeks){
+    
+    if(_nb_hours/2 < nb_weeks) {
+        _lecture_size = 2;
+        return _nb_hours/2;
+    }
+    else if(_nb_hours%4 == 0) {
+        _lecture_size = 4;
+        return _nb_hours/4;
+    }
+        
+    _lecture_size = 4;
+    
+    return 1 + _nb_hours/4;
 }
 
 //Affichage

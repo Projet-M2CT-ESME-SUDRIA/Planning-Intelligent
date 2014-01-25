@@ -20,6 +20,7 @@ School::School(int nb_week){
     parse_courses();
     parse_profs();
     parse_promos();
+    fill_list_promo();
 }
 
 void School::parse_profs() {
@@ -139,6 +140,16 @@ void School::new_promo(string line) {
     _promos.insert(pair<int, Promo>(p.get_id(), p));
 }
 
+void School::fill_list_promo(){
+    
+    for(map<int, Course>::iterator it = _courses.begin() ; it != _courses.end() ; it++) {
+        if(!existing_value(_list_promos, (*it).second.get_id_promo()))
+            _list_promos.push_back((*it).second.get_id_promo());
+    }
+    
+    _list_promos.sort();
+}
+
 
 void School::display(){
     
@@ -205,6 +216,7 @@ int School::nb_prof_ok(){
     return 1;
 }
 
+//Vérifie que le nombre d'heures TOTAL d'une promo ne dépasse pas le nombre d'heure qu'elle peut recevoir
 int School::nb_lectures_ok() {
     
     int nb_hours=0;
@@ -225,10 +237,6 @@ int School::nb_lectures_ok() {
     
     return 1;
 }
-void School::rout(){
-    rout2(_profs, _promos, _courses);
-}
-
 
 //Construit la map de matières d'un prof
 list<int> School::retrieve_courses (list<string> name) {
@@ -248,4 +256,50 @@ list<int> School::retrieve_courses (list<string> name) {
         exit(EXIT_FAILURE);
     
     return given_courses;
+}
+
+
+void School::divideCourses(){
+    
+    list<int> id_courses;
+    
+    for(list<int>::iterator it_list = _list_promos.begin() ; it_list!=_list_promos.end() ; it_list++){
+        for(map<int, Promo>::iterator it_promo = _promos.begin() ; it_promo != _promos.end() ; it_promo++){
+            if(*it_list == (*it_promo).second.get_id_promo()) {
+                id_courses = (*it_promo).second.get_id_courses();
+                break;
+            }
+        }
+        
+        int size = id_courses.size();
+        tri_selection(0,id_courses,size);
+        
+        //Répartir les cours sur le semestre
+    }
+}
+
+
+//Putain de tri récursif de ouf qui permet de trier une liste d'id de cours en fonction du nombre de semaines que va durer chaque cours.
+void School::tri_selection(int start_index, list<int> &l ,int size)
+{
+    int min_index, id_c1, id_c2;
+    
+    if (start_index<size)
+    {
+        min_index=start_index;
+        for(int i=start_index;i<size;i++)
+        {
+            id_c1 = at(l,i);
+            id_c2 = at(l,start_index);
+            
+            if (_courses[id_c1].get_nb_weeks(_nb_week) >= _courses[id_c2].get_nb_weeks(_nb_week))
+            {
+                min_index=i;
+                int aux=at(l,min_index);
+                editList(l,min_index, at(l,start_index));
+                editList(l,start_index,aux);
+            }
+        }
+        tri_selection(start_index+1,l,size);
+    }
 }

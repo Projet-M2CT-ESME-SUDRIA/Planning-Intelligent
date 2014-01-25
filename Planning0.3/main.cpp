@@ -23,7 +23,7 @@ void test3() {
     s.nb_prof_ok();
     s.nb_lectures_ok();
     
-    s.rout();
+    s.divideCourses();
     
     
     return;
