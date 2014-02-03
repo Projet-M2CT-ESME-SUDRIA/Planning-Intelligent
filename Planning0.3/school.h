@@ -41,7 +41,8 @@ public:
     int nb_lectures_ok();
     
     void divideCourses();
-    void tri_selection(int start_index, std::list<int> &l ,int n);
+    std::list<int> merge_sort(std::list<int> &l);
+    std::list<int> merge(std::list<int> &left, std::list<int> &right);
     
     std::list<int> retrieve_courses (std::list<std::string> name);
     

@@ -271,35 +271,74 @@ void School::divideCourses(){
             }
         }
         
-        int size = id_courses.size();
-        tri_selection(0,id_courses,size);
+        id_courses = merge_sort(id_courses);
         
         //Répartir les cours sur le semestre
     }
 }
 
 
-//Putain de tri récursif de ouf qui permet de trier une liste d'id de cours en fonction du nombre de semaines que va durer chaque cours.
-void School::tri_selection(int start_index, list<int> &l ,int size)
-{
-    int min_index, id_c1, id_c2;
+list<int> School::merge_sort(list<int> &l) {
     
-    if (start_index<size)
-    {
-        min_index=start_index;
-        for(int i=start_index;i<size;i++)
-        {
-            id_c1 = at(l,i);
-            id_c2 = at(l,start_index);
-            
-            if (_courses[id_c1].get_nb_weeks(_nb_week) >= _courses[id_c2].get_nb_weeks(_nb_week))
-            {
-                min_index=i;
-                int aux=at(l,min_index);
-                editList(l,min_index, at(l,start_index));
-                editList(l,start_index,aux);
-            }
-        }
-        tri_selection(start_index+1,l,size);
+    list<int> left;
+    list<int> right;
+    list<int> result;
+    int size_list = l.size();
+    int i;
+    
+    if (size_list <= 1) {
+        return l;
     }
+    
+    int middle = (size_list / 2);
+    
+    for (i = 0; i < middle; i++) {        
+        left.push_back(at(l,i));
+    }
+    
+    for (i = middle; i < size_list; i++) {
+        right.push_back(at(l,i));
+    }
+    
+    left = merge_sort(left);
+    right = merge_sort(right);
+    result = merge(left, right);
+    
+    return result;
+    
+}
+
+std::list<int> School::merge(std::list<int>& left, std::list<int>& right) {
+    
+    list<int> result;
+    int left_size = left.size();
+    int right_size = right.size();
+    int left_index = 0, right_index = 0;
+    
+    while (left_index < left_size && right_index < right_size) {
+        if (_courses[at(left,left_index)].get_nb_weeks(_nb_week) > _courses[at(right, right_index)].get_nb_weeks(_nb_week)) {
+            result.push_back(at(left,left_index));
+            left_index++;
+        } 
+        else {
+            result.push_back(at(right, right_index));
+            right_index++;
+        }
+    }
+    
+    if (left_index == left_size) {
+        while (right_index < right_size) {
+            result.push_back(at(right, right_index));
+            right_index++;
+	}
+    } 
+    
+    else {
+	while (left_index < left_size) {
+	    result.push_back(at(left,left_index));
+	    left_index++;
+	}
+    }
+    
+    return result;
 }
