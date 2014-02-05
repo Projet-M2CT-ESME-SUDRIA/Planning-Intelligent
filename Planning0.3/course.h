@@ -20,9 +20,9 @@ class Course {
     std::string _name;
     int _nb_hours;
     int _lecture_size;
+    int _id_previous_course;
     
 public:
-    
     
     //Initialisation
     static int _static_id;
@@ -35,6 +35,7 @@ public:
     std::string get_name();
     int get_nb_hours();
     int get_nb_weeks(int nb_weeks);
+    int get_lecture_size();
     
     //Affichage
     void list_courses();

@@ -274,7 +274,69 @@ void School::divideCourses(){
         id_courses = merge_sort(id_courses);
         
         //Répartir les cours sur le semestre
+        list<progSemester> prog = splitCourses(id_courses);
+        
+        //Vérification créneau
+        give_courses_promo(*it_list, prog);
     }
+}
+
+void School::give_courses_promo(int id_year, list<progSemester> prog) {
+    int nb_promo = _promos.size(); 
+    int i;
+    
+    for (i=0 ; i<nb_promo ; i++) {
+        if (_promos[i].get_id_promo() == id_year) {
+            parse_courses_promo(_promos[i], prog);
+        }
+    }
+}
+
+void School::parse_courses_promo(Promo &p, list<progSemester> prog) {
+
+     
+}
+
+
+//Fonction pour répartir les cours sur les semaines d'un semestre
+list<progSemester> School::splitCourses(list<int> id_courses) {
+    
+    list<progSemester> prog;
+    progSemester buf;
+    int size = 0;
+    bool put=false;
+    
+    for(list<int>::iterator it = id_courses.begin() ; it != id_courses.end() ; it++) {
+        put = false;
+        size = prog.size();
+        for (list<progSemester>::iterator it_prog = prog.begin() ; it_prog != prog.end() ; it_prog++) {
+            if ((((*it_prog)._nb_weeks + _courses[*it].get_nb_weeks(_nb_week))) <= _nb_week) {
+                
+                buf = setProg(_courses[*it], (*it_prog)._start_week + (*it_prog)._nb_weeks);
+                prog.push_back(buf);
+                put = true;
+                break;
+            }
+        } 
+        if(!put) {
+
+            buf = setProg(_courses[*it], 0);
+            prog.push_back(buf);
+        }
+    }
+    
+    return prog;
+}
+
+progSemester School::setProg(Course c, int start_week){
+    
+    progSemester buf;
+    buf._id_course = c.get_id();
+    buf._lecture_size = c.get_lecture_size();
+    buf._nb_weeks = c.get_nb_weeks(_nb_week);
+    buf._start_week = start_week;
+    
+    return buf;
 }
 
 

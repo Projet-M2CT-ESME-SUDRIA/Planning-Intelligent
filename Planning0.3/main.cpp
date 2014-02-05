@@ -18,7 +18,7 @@ void test3() {
     
     School s(14);
     
-    s.display();
+    //s.display();
     
     s.nb_prof_ok();
     s.nb_lectures_ok();

@@ -11,6 +11,18 @@
 #include "course.h"
 #include "prof.h"
 #include "promo.h"
+#include "routine.h"
+
+typedef struct {
+    
+    int _id_course;
+    int _lecture_size;
+    int _start_week;
+    int _nb_weeks;
+    int _cmpt_weeks;
+    
+}progSemester;
+
 
 class School {
     
@@ -41,6 +53,11 @@ public:
     int nb_lectures_ok();
     
     void divideCourses();
+    void give_courses_promo(int id_year, std::list<progSemester> prog);
+    void parse_courses_promo(Promo &p, std::list<progSemester> prog);
+    std::list<progSemester> splitCourses(std::list<int> id_courses);
+    progSemester setProg(Course c, int start_week);
+    
     std::list<int> merge_sort(std::list<int> &l);
     std::list<int> merge(std::list<int> &left, std::list<int> &right);
     
