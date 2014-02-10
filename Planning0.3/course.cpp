@@ -20,6 +20,14 @@ Course::Course(int id_promo, string name, int nb_hours)
     _id_previous_course=-1;
 }
 
+void Course::initializeList(int nb_week) {
+    
+    for(int i=0 ; i<nb_week ; i++) {
+        _prog_semester.push_back(0);
+    }
+}
+
+
 
 //Getter
 int Course::get_id() {
@@ -41,18 +49,18 @@ int Course::get_nb_hours() {
 //Calcul la durée en semaine en cours d'une matière
 int Course::get_nb_weeks(int nb_weeks){
     
-    /*if(_nb_hours/2 < nb_weeks) {
+    if(_nb_hours/2 < nb_weeks) {
         _lecture_size = 2;
         return _nb_hours/2;
     }
     else if(_nb_hours%4 == 0) {
         _lecture_size = 4;
         return _nb_hours/4;
-    }*/
+    }
         
     _lecture_size = 4;
-    return _nb_hours/4;
-    //return 1 + _nb_hours/4;
+    
+    return 1 + _nb_hours/4;
 }
 
 int Course::get_lecture_size() {

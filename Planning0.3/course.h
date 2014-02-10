@@ -1,3 +1,4 @@
+
 /* 
  * File:   course.h
  * Author: Corentin
@@ -15,12 +16,15 @@
 
 class Course {
     
+private:
+    
     int _id;
     int _id_promo;
     std::string _name;
     int _nb_hours;
     int _lecture_size;
     int _id_previous_course;
+    std::list<int> _prog_semester;
     
 public:
     
@@ -28,6 +32,7 @@ public:
     static int _static_id;
     Course();
     Course(int id_promo, std::string name, int nb_hours);
+    void initializeList(int nb_week);
     
     //Getter
     int get_id();

@@ -151,6 +151,12 @@ string at(list<string> l, int index) {
     return *it;
 }
 
+progSemester at(list<progSemester> l , int index) {
+    list<progSemester>::iterator it = l.begin();
+    advance(it, index);
+    return *it;
+}
+
 void editList(list<int> &l, int index, int value) {
     
     list<int>::iterator it = l.begin();
@@ -158,6 +164,18 @@ void editList(list<int> &l, int index, int value) {
     advance(it,index);
     
     *it = value;
+}
+
+void editList(list<progSemester> &l, int index, int id, int nb_weeks, int start_week) {
+    
+    list<progSemester>::iterator it = l.begin();
+    
+    advance(it,index);
+    
+    (*it)._id_course = id;
+    (*it)._nb_weeks = nb_weeks;
+    (*it)._next = NULL;
+    (*it)._start_week = start_week;
 }
 
 //Vérifie si un nombre existe déjà dans une liste

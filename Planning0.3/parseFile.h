@@ -14,6 +14,7 @@
 #include "prof.h"
 #include "promo.h"
 #include "week.h"
+#include "school.h"
 
 //General
 std::list<std::string> read_file(std::string filename);
@@ -29,7 +30,9 @@ std::map<int, std::list<int> > fill_m_availability(int week, std::list<int> v_av
 
 int at(std::list<int> l, int index);
 std::string at(std::list<std::string> l, int index);
+progSemester at(std::list<progSemester> l , int index);
 void editList(std::list<int> &l, int position, int value);
+void editList(std::list<progSemester> &l, int index, int id, int nb_weeks, int start_week);
 int existing_value(std::list<int> l, int value);
 
 #endif	/* PARSEFILE_H */

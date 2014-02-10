@@ -21,6 +21,8 @@ School::School(int nb_week){
     parse_profs();
     parse_promos();
     fill_list_promo();
+    
+    
 }
 
 void School::parse_profs() {
@@ -64,8 +66,7 @@ void School::new_prof(string line) {
     
         Prof p(at(words,0),availability, given_courses);
         
-        _profs.insert(pair<int, Prof>(p.get_id(), p));
-        
+        _profs.insert(pair<int, Prof> (p.get_id(), p));
     }
     
     else {
@@ -98,7 +99,9 @@ void School::new_course(string line, int nb_week) {
     }
     
     Course c(string_to_int(at(words,0)), at(words,1), nb_hours);
-    _courses.insert(pair<int, Course>(c.get_id(), c));
+    c.initializeList(_nb_week);
+    int i = c.get_id();
+    _courses.insert(pair<int, Course> (c.get_id(), c));
 }
 
 
@@ -302,41 +305,74 @@ void School::parse_courses_promo(Promo &p, list<progSemester> prog) {
 list<progSemester> School::splitCourses(list<int> id_courses) {
     
     list<progSemester> prog;
-    progSemester buf;
-    int size = 0;
     bool put=false;
+    int cmpt = 0;
     
+    prog.resize(id_courses.size());
+    initProg(prog);
+    
+    //On parcourt la liste contenant les id des cours du programme
     for(list<int>::iterator it = id_courses.begin() ; it != id_courses.end() ; it++) {
         put = false;
-        size = prog.size();
+       
+        //On parcourt la liste des cours déjà placé pour éventuellement placer le cours à la suite d'un autre
         for (list<progSemester>::iterator it_prog = prog.begin() ; it_prog != prog.end() ; it_prog++) {
-            if ((((*it_prog)._nb_weeks + _courses[*it].get_nb_weeks(_nb_week))) <= _nb_week) {
-                
-                buf = setProg(_courses[*it], (*it_prog)._start_week + (*it_prog)._nb_weeks);
-                prog.push_back(buf);
-                put = true;
-                break;
+
+            //Si sur le prog on le cours est déja placé
+            if((*it_prog)._id_course != -1) {
+               
+                checkNextCourse((*it_prog), prog, cmpt, (*it));
+
+                //Si on a ajouté le nouveau cours
+                if(at(prog, cmpt)._id_course != -1) {
+                    //cout <<"test : " << _courses[*it].get_id() << endl;
+                    put = true;
+                    cmpt ++;
+                    break;
+                }
             }
+            
         } 
         if(!put) {
-
-            buf = setProg(_courses[*it], 0);
-            prog.push_back(buf);
+            //cout << _courses[*it].get_id() << endl;
+            editList(prog, cmpt, _courses[*it].get_id(), _courses[*it].get_nb_weeks(_nb_week), 0);
+            cmpt ++;
         }
+    }
+    
+    for(list<progSemester>::iterator it = prog.begin() ; it != prog.end() ; it++) {
+        cout << (*it)._id_course << "|" << (*it)._nb_weeks << "|" << (*it)._start_week << endl;
     }
     
     return prog;
 }
 
-progSemester School::setProg(Course c, int start_week){
+//Fonction récursive qui permet de vérifier si on peut placer un  cours à la suite d'un ou plusieurs autres cours.
+void School::checkNextCourse(progSemester &currentCourse, list<progSemester> &prog, int index, int id_newCourse) {
     
-    progSemester buf;
+    //Si le cours actuel a un successeur, on rappelle la fonction pour traiter le successeur
+    if(currentCourse._next != NULL) {
+        checkNextCourse(*(currentCourse._next), prog, index, id_newCourse);
+    }
+    
+    //Si le cours actuel n'a pas de successeur, on regarde si on peut placer le nouveau cours derrière lui
+    else if(currentCourse._start_week + currentCourse._nb_weeks + _courses[id_newCourse].get_nb_weeks(_nb_week) <= _nb_week) {
+        editList(prog, index, _courses[id_newCourse].get_id(), _courses[id_newCourse].get_nb_weeks(_nb_week), currentCourse._start_week + currentCourse._nb_weeks);
+        
+        list<progSemester>::iterator it = prog.begin();
+        advance(it, index);
+        if(&currentCourse != &(*it))
+           currentCourse._next = &(*it);
+    }
+    
+}
+
+void School::setProg(progSemester &buf, Course c, int start_week){
+    
     buf._id_course = c.get_id();
-    buf._lecture_size = c.get_lecture_size();
     buf._nb_weeks = c.get_nb_weeks(_nb_week);
     buf._start_week = start_week;
-    
-    return buf;
+    buf._next = NULL;
 }
 
 
@@ -381,7 +417,17 @@ std::list<int> School::merge(std::list<int>& left, std::list<int>& right) {
         if (_courses[at(left,left_index)].get_nb_weeks(_nb_week) > _courses[at(right, right_index)].get_nb_weeks(_nb_week)) {
             result.push_back(at(left,left_index));
             left_index++;
-        } 
+        }
+        else if (_courses[at(left,left_index)].get_nb_weeks(_nb_week) == _courses[at(right, right_index)].get_nb_weeks(_nb_week)) {
+            if(_courses[at(left,left_index)].get_lecture_size() > _courses[at(right,right_index)].get_lecture_size()) {
+                result.push_back(at(left,left_index));
+                left_index++;
+            }
+            else {
+                result.push_back(at(right, right_index));
+                right_index++;
+            }
+        }
         else {
             result.push_back(at(right, right_index));
             right_index++;
@@ -403,4 +449,13 @@ std::list<int> School::merge(std::list<int>& left, std::list<int>& right) {
     }
     
     return result;
+}
+
+void initProg(list<progSemester> &l) {
+    int size = l.size();
+    int index;
+    
+    for (index = 0; index < size; index++) {
+        editList(l, index, -1, 0, 0);
+    }
 }
