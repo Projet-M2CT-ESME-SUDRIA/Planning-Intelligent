@@ -281,6 +281,10 @@ void School::divideCourses(){
         
         //Vérification créneau
         give_courses_promo(*it_list, prog);
+        if(!checkProgSemester(prog))
+            cout << "Prog semestre pas bon";
+        else
+            cout << "Prog semestre OK";
     }
 }
 
@@ -375,6 +379,29 @@ void School::setProg(progSemester &buf, Course c, int start_week){
     buf._next = NULL;
 }
 
+bool School::checkProgSemester(list<progSemester> l) {
+    
+    //On initialise le tableau du nombre de créneaux utilisé par semaine à 0.
+    int *nb_course = new int[_nb_week]();
+    int start_week;
+    int end_week;
+    int i;
+    
+    for(list<progSemester>::iterator it=l.begin() ; it!=l.end() ; it++) {
+        start_week = (*it)._start_week;
+        end_week = ((*it)._start_week + (*it)._nb_weeks);
+        for(i=start_week ; i<end_week ; i++) {
+            nb_course[i] += _courses[(*it)._id_course].get_lecture_size();
+            if(nb_course[i] > 22) {
+                delete [] nb_course;
+                return false;
+            }
+        }
+    }
+    
+    delete [] nb_course;
+    return true;
+}
 
 list<int> School::merge_sort(list<int> &l) {
     

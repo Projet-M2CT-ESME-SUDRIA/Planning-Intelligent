@@ -56,9 +56,9 @@ public:
     void give_courses_promo(int id_year, std::list<progSemester> prog);
     void parse_courses_promo(Promo &p, std::list<progSemester> prog);
     std::list<progSemester> splitCourses(std::list<int> id_courses);
-    //void checkNextCourse(progSemester &currentCourse, progSemester &newCourse, int id_newCourse);
     void checkNextCourse(progSemester &currentCourse, std::list<progSemester> &prog, int index, int id_newCourse);
     void setProg(progSemester &buf, Course c, int start_week);
+    bool checkProgSemester(std::list<progSemester> l);
     
     std::list<int> merge_sort(std::list<int> &l);
     std::list<int> merge(std::list<int> &left, std::list<int> &right);
