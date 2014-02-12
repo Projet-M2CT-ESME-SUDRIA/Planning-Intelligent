@@ -22,7 +22,11 @@ School::School(int nb_week){
     parse_promos();
     fill_list_promo();
     
+    int size = _courses.size();
     
+    for(int i=0 ; i<size ; i++) {
+        _courses[i].setLectureSize(_nb_week);
+    }
 }
 
 void School::parse_profs() {
@@ -264,6 +268,8 @@ list<int> School::retrieve_courses (list<string> name) {
 void School::divideCourses(){
     
     list<int> id_courses;
+    list<int> id_courses_2;
+    list<int> id_courses_4;
     
     for(list<int>::iterator it_list = _list_promos.begin() ; it_list!=_list_promos.end() ; it_list++){
         for(map<int, Promo>::iterator it_promo = _promos.begin() ; it_promo != _promos.end() ; it_promo++){
@@ -273,7 +279,12 @@ void School::divideCourses(){
             }
         }
         
+        split_course_2_4(id_courses, id_courses_2, id_courses_4);
+        id_courses_2 = merge_sort(id_courses_2);
+        id_courses_4 = merge_sort(id_courses_4);
         id_courses = merge_sort(id_courses);
+        id_courses.clear();
+        merge_course_2_4(id_courses, id_courses_2, id_courses_4);
         
         //Répartir les cours sur le semestre
         list<progSemester> prog = splitCourses(id_courses);
@@ -285,6 +296,22 @@ void School::divideCourses(){
         else
             cout << "Prog semestre OK";
     }
+}
+
+void School::split_course_2_4(list<int> id_course, list<int> &id_courses_2, list<int> &id_courses_4) {
+    for(list<int>::iterator it=id_course.begin() ; it!=id_course.end() ; it++) {
+        if (_courses[(*it)].get_lecture_size() == 4)
+            id_courses_4.push_back(*it);
+        else
+            id_courses_2.push_back(*it);
+    }
+}
+
+void School::merge_course_2_4(list<int> &id_courses, list<int> id_courses_2, list<int> id_courses_4) {
+    for(list<int>::iterator it=id_courses_4.begin() ; it!=id_courses_4.end() ; it++)
+        id_courses.push_back(*it);
+    for(list<int>::iterator it=id_courses_2.begin() ; it!=id_courses_2.end() ; it++)
+        id_courses.push_back(*it);
 }
 
 void School::give_courses_promo(int id_year, list<progSemester> prog) {
@@ -337,7 +364,7 @@ list<progSemester> School::splitCourses(list<int> id_courses) {
         } 
         if(!put) {
             //cout << _courses[*it].get_id() << endl;
-            editList(prog, cmpt, _courses[*it].get_id(), _courses[*it].get_nb_weeks(_nb_week), 0);
+            editList(prog, cmpt, _courses[*it].get_id(), _courses[*it].get_nb_weeks(), 0);
             cmpt ++;
         }
     }
@@ -358,8 +385,8 @@ void School::checkNextCourse(progSemester &currentCourse, list<progSemester> &pr
     }
     
     //Si le cours actuel n'a pas de successeur, on regarde si on peut placer le nouveau cours derrière lui
-    else if(currentCourse._start_week + currentCourse._nb_weeks + _courses[id_newCourse].get_nb_weeks(_nb_week) <= _nb_week) {
-        editList(prog, index, _courses[id_newCourse].get_id(), _courses[id_newCourse].get_nb_weeks(_nb_week), currentCourse._start_week + currentCourse._nb_weeks);
+    else if(currentCourse._start_week + currentCourse._nb_weeks + _courses[id_newCourse].get_nb_weeks() <= _nb_week) {
+        editList(prog, index, _courses[id_newCourse].get_id(), _courses[id_newCourse].get_nb_weeks(), currentCourse._start_week + currentCourse._nb_weeks);
         
         list<progSemester>::iterator it = prog.begin();
         advance(it, index);
@@ -371,7 +398,7 @@ void School::checkNextCourse(progSemester &currentCourse, list<progSemester> &pr
 void School::setProg(progSemester &buf, Course c, int start_week){
     
     buf._id_course = c.get_id();
-    buf._nb_weeks = c.get_nb_weeks(_nb_week);
+    buf._nb_weeks = c.get_nb_weeks();
     buf._start_week = start_week;
     buf._next = NULL;
 }
@@ -437,11 +464,11 @@ std::list<int> School::merge(std::list<int>& left, std::list<int>& right) {
     int left_index = 0, right_index = 0;
     
     while (left_index < left_size && right_index < right_size) {
-        if (_courses[at(left,left_index)].get_nb_weeks(_nb_week) > _courses[at(right, right_index)].get_nb_weeks(_nb_week)) {
+        if (_courses[at(left,left_index)].get_nb_weeks() > _courses[at(right, right_index)].get_nb_weeks()) {
             result.push_back(at(left,left_index));
             left_index++;
         }
-        else if (_courses[at(left,left_index)].get_nb_weeks(_nb_week) == _courses[at(right, right_index)].get_nb_weeks(_nb_week)) {
+        else if (_courses[at(left,left_index)].get_nb_weeks() == _courses[at(right, right_index)].get_nb_weeks()) {
             if(_courses[at(left,left_index)].get_lecture_size() > _courses[at(right,right_index)].get_lecture_size()) {
                 result.push_back(at(left,left_index));
                 left_index++;

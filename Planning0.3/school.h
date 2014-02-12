@@ -53,6 +53,8 @@ public:
     int nb_lectures_ok();
     
     void divideCourses();
+    void split_course_2_4(std::list<int>id_course, std::list<int> &id_courses_2, std::list<int> &id_courses_4);
+    void merge_course_2_4(std::list<int> &id_courses, std::list<int> id_courses_2, std::list<int> id_courses_4);
     void give_courses_promo(int id_year, std::list<progSemester> prog);
     void parse_courses_promo(Promo &p, std::list<progSemester> prog);
     std::list<progSemester> splitCourses(std::list<int> id_courses);

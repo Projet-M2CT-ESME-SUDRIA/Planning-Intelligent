@@ -39,8 +39,10 @@ public:
     int get_id_promo();
     std::string get_name();
     int get_nb_hours();
-    int get_nb_weeks(int nb_weeks);
+    int get_nb_weeks();
     int get_lecture_size();
+    
+    void setLectureSize(int nb_weeks);
     
     //Affichage
     void list_courses();

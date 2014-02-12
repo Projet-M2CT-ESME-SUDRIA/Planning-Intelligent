@@ -46,19 +46,20 @@ int Course::get_nb_hours() {
     return _nb_hours;
 }
 
-//Calcul la durée en semaine en cours d'une matière
-int Course::get_nb_weeks(int nb_weeks){
-    
+void Course::setLectureSize(int nb_weeks) {
     if(_nb_hours/2 < nb_weeks) {
         _lecture_size = 2;
-        return _nb_hours/2;
     }
-    else if(_nb_hours%4 == 0) {
+    
+    else
         _lecture_size = 4;
-        return _nb_hours/4;
-    }
-        
-    _lecture_size = 4;
+}
+
+//Calcul la durée en semaine en cours d'une matière
+int Course::get_nb_weeks(){
+    
+    if(_nb_hours%_lecture_size == 0)
+        return _nb_hours/_lecture_size;
     
     return 1 + _nb_hours/_lecture_size;
 }
