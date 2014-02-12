@@ -24,11 +24,13 @@ School::School(int nb_week){
     
     int size = _courses.size();
     
+    //On détermine si le cours est sur 4h ou 2h en fonction du nombre de semaine du semestre
     for(int i=0 ; i<size ; i++) {
         _courses[i].setLectureSize(_nb_week);
     }
 }
 
+//Va récupérer ligne par ligne les données contenues dans le fichier et appelle la fonction qui créé les profs
 void School::parse_profs() {
     
     list<string> line;
@@ -42,10 +44,12 @@ void School::parse_profs() {
 //Création d'un prof à partir d'une ligne du fichier de données
 void School::new_prof(string line) {
     
+    //Sépare les différents paramètres d'une ligne de données et les stock dans une liste de mots
     list<string> words = parse_line(line, '|');
     
     string availabilities = at(words,1);
     
+    //On vérifie que les dispo du prof sont bien conformes
     if(!check_availability(availabilities)) {
         cout << "probleme de disponibilites prof" << endl;
         exit(EXIT_FAILURE);
@@ -56,28 +60,22 @@ void School::new_prof(string line) {
     
     //Création de l'ensemble des disponibilités du profs
     list<int> temp = fill_v_availability(availabilities);
-    
-    if (!temp.empty())
-    {        
-        for (int i=0 ; i<_nb_week ; i++) {
-            availability[i] = temp;
-        }
+      
+    //On initialise toutes les disponibilités du prof sur l'ensemble du semestre
+    for (int i=0 ; i<_nb_week ; i++) {
+        availability.insert(pair<int, list<int> > (i, temp));
+    }
 
-        string line_courses = at(words,2);
-        list<string> name = parse_line(line_courses, ',');
-        given_courses = retrieve_courses(name);
-    
-        Prof p(at(words,0),availability, given_courses);
-        
-        _profs.insert(pair<int, Prof> (p.get_id(), p));
-    }
-    
-    else {
-        cout << "probleme disponibilites" << endl;
-        exit(EXIT_FAILURE);
-    }
+    string line_courses = at(words,2);
+    list<string> name = parse_line(line_courses, ',');
+    given_courses = retrieve_courses(name);
+
+    Prof p(at(words,0),availability, given_courses);
+
+    _profs.insert(pair<int, Prof> (p.get_id(), p));
 }
 
+//Va récupérer ligne par ligne les données contenues dans le fichier et appelle la fonction qui créé les cours
 void School::parse_courses() {
     
     list<string> line;
@@ -91,13 +89,15 @@ void School::parse_courses() {
 //Création d'une matière à partir d'une ligne du fichier de données
 void School::new_course(string line, int nb_week) {
     
+    //Sépare les différents paramètres d'une ligne de données et les stock dans une liste de mots
     list<string> words;
     words = parse_line(line, '|');
     
     int nb_hours = string_to_int(at(words,2));
     
+    //On vérifie que le cours n'a pas un nombre d'heures supérieur à l'équivalent d'un cours de 4h chaque semaine du semestre
     if(nb_hours > 4*nb_week) {
-        cout << "c'est la merde putain" << endl;
+        cout << "trop d'heures pour le cours : " << at(words,1) << endl;
         exit(EXIT_FAILURE);
     }
     
@@ -107,7 +107,7 @@ void School::new_course(string line, int nb_week) {
     _courses.insert(pair<int, Course> (c.get_id(), c));
 }
 
-
+//Va récupérer ligne par ligne les données contenues dans le fichier et appelle la fonction qui créé les promos
 void School::parse_promos() {
     
     list<string> line;
@@ -122,7 +122,9 @@ void School::parse_promos() {
 //Création d'une matière à partir d'une ligne du fichier de données
 void School::new_promo(string line) {
     
+    //Sépare les différents paramètres d'une ligne de données et les stock dans une liste de mots
     list<string> words;
+    
     list<int> course_followed;
     int id_promo = -1;
     int i;
@@ -146,6 +148,7 @@ void School::new_promo(string line) {
     _promos.insert(pair<int, Promo>(p.get_id(), p));
 }
 
+//Récupère les id des promotions de l'école et les trie par ordre croissant
 void School::fill_list_promo(){
     
     for(map<int, Course>::iterator it = _courses.begin() ; it != _courses.end() ; it++) {
@@ -156,7 +159,7 @@ void School::fill_list_promo(){
     _list_promos.sort();
 }
 
-
+//Affichage du contenu des map
 void School::display(){
     
     for(map<int, Prof>::iterator it=_profs.begin() ; it!=_profs.end() ; it++) {
@@ -198,52 +201,6 @@ int School::nb_availabilities_course(int id_course){
     return nb;
 }
 
-//Parcourt les matières et vérifie que chaque cours a assez de dispo de prof
-int School::nb_prof_ok(){
-    
-    int id_course, id_promo;
-    int nb_promo;
-    
-    for(map<int, Course>::iterator it = _courses.begin() ; it != _courses.end() ; it++){
-        id_course = (*it).second.get_id();
-        id_promo = (*it).second.get_id_promo();
-        nb_promo = nb_class_promo(id_promo);
-        
-        int c = nb_availabilities_course(id_course);
-        
-        if(nb_promo > c) {
-            cout << "Probleme avec la matiere numero " << id_course << endl;
-            exit(EXIT_FAILURE);
-        }
-    }
-    
-    cout << "Nombre de profs OK" << endl;
-    
-    return 1;
-}
-
-//Vérifie que le nombre d'heures TOTAL d'une promo ne dépasse pas le nombre d'heure qu'elle peut recevoir
-int School::nb_lectures_ok() {
-    
-    int nb_hours=0;
-    
-    for(map<int, Promo>::iterator it = _promos.begin() ; it != _promos.end() ; it++){
-        list<int> id_courses = (*it).second.get_id_courses();
-        
-        for(list<int>::iterator it2 = id_courses.begin() ; it2 != id_courses.end() ; it2++) {
-            nb_hours += _courses.at(*it2).get_nb_hours();
-        }
-        if(nb_hours / 2 > _nb_week * 22) {
-            cout << "Trop d'heures pour la promo " << (*it).second.get_id() << endl;
-            exit(EXIT_FAILURE);    
-        }
-    }
-    
-    cout << "Nombre d'heures de cours OK" << endl;
-    
-    return 1;
-}
-
 //Construit la map de matières d'un prof
 list<int> School::retrieve_courses (list<string> name) {
     
@@ -258,19 +215,22 @@ list<int> School::retrieve_courses (list<string> name) {
         }
     }
     
-    if(given_courses.size() != name.size())
+    if(given_courses.size() != name.size()) {
+        
+        cout << "le nombre de cours ne correspond pas" << endl;
         exit(EXIT_FAILURE);
+    }
     
     return given_courses;
 }
 
-
+//Fonction principale de la routine permettant de répartir les cours sur l'ensemble du semestre
 void School::divideCourses(){
     
     list<int> id_courses;
-    list<int> id_courses_2;
-    list<int> id_courses_4;
+    list<progSemester> prog;
     
+    //Parcourt la liste des promotions (B1,B2...) de l'école, pour récupérer le programme de l'année. 
     for(list<int>::iterator it_list = _list_promos.begin() ; it_list!=_list_promos.end() ; it_list++){
         for(map<int, Promo>::iterator it_promo = _promos.begin() ; it_promo != _promos.end() ; it_promo++){
             if(*it_list == (*it_promo).second.get_id_promo()) {
@@ -279,236 +239,10 @@ void School::divideCourses(){
             }
         }
         
-        split_course_2_4(id_courses, id_courses_2, id_courses_4);
-        id_courses_2 = merge_sort(id_courses_2);
-        id_courses_4 = merge_sort(id_courses_4);
-        id_courses = merge_sort(id_courses);
-        id_courses.clear();
-        merge_course_2_4(id_courses, id_courses_2, id_courses_4);
+        //Routine 1 : répartition des cours d'une promotion sur le semestre
+        give_courses_semester(id_courses, prog);
         
-        //Répartir les cours sur le semestre
-        list<progSemester> prog = splitCourses(id_courses);
-        
-        //Vérification créneau
-        if(!checkProgSemester(prog))
-            cout << "Prog semestre pas bon";
-        else {
-            cout << "Prog semestre OK";
-            exit(EXIT_FAILURE);
-        }
-        
+        //Routine 2 : répartition des cours de l'ensemble des classes d'une promotion, semaine par semaine
         give_courses_promo(*it_list, prog);
-    }
-}
-
-void School::split_course_2_4(list<int> id_course, list<int> &id_courses_2, list<int> &id_courses_4) {
-    for(list<int>::iterator it=id_course.begin() ; it!=id_course.end() ; it++) {
-        if (_courses[(*it)].get_lecture_size() == 4)
-            id_courses_4.push_back(*it);
-        else
-            id_courses_2.push_back(*it);
-    }
-}
-
-void School::merge_course_2_4(list<int> &id_courses, list<int> id_courses_2, list<int> id_courses_4) {
-    for(list<int>::iterator it=id_courses_4.begin() ; it!=id_courses_4.end() ; it++)
-        id_courses.push_back(*it);
-    for(list<int>::iterator it=id_courses_2.begin() ; it!=id_courses_2.end() ; it++)
-        id_courses.push_back(*it);
-}
-
-void School::give_courses_promo(int id_year, list<progSemester> prog) {
-    int nb_promo = _promos.size(); 
-    int i;
-    
-    for (i=0 ; i<nb_promo ; i++) {
-        if (_promos[i].get_id_promo() == id_year) {
-            parse_courses_promo(_promos[i], prog);
-        }
-    }
-}
-
-void School::parse_courses_promo(Promo &p, list<progSemester> prog) {
-
-     
-}
-
-
-//Fonction pour répartir les cours sur les semaines d'un semestre
-list<progSemester> School::splitCourses(list<int> id_courses) {
-    
-    list<progSemester> prog;
-    bool put=false;
-    int cmpt = 0;
-    
-    prog.resize(id_courses.size());
-    initProg(prog);
-    
-    //On parcourt la liste contenant les id des cours du programme
-    for(list<int>::iterator it = id_courses.begin() ; it != id_courses.end() ; it++) {
-        put = false;
-       
-        //On parcourt la liste des cours déjà placé pour éventuellement placer le cours à la suite d'un autre
-        for (list<progSemester>::iterator it_prog = prog.begin() ; it_prog != prog.end() ; it_prog++) {
-
-            //Si sur le prog on le cours est déja placé
-            if((*it_prog)._id_course != -1) {
-               
-                checkNextCourse((*it_prog), prog, cmpt, (*it));
-
-                //Si on a ajouté le nouveau cours
-                if(at(prog, cmpt)._id_course != -1) {
-                    //cout <<"test : " << _courses[*it].get_id() << endl;
-                    put = true;
-                    cmpt ++;
-                    break;
-                }
-            }          
-        } 
-        if(!put) {
-            //cout << _courses[*it].get_id() << endl;
-            editList(prog, cmpt, _courses[*it].get_id(), _courses[*it].get_nb_weeks(), 0);
-            cmpt ++;
-        }
-    }
-    
-    for(list<progSemester>::iterator it = prog.begin() ; it != prog.end() ; it++) {
-        cout << (*it)._id_course << "|" << (*it)._nb_weeks << "|" << (*it)._start_week << endl;
-    }
-    
-    return prog;
-}
-
-//Fonction récursive qui permet de vérifier si on peut placer un  cours à la suite d'un ou plusieurs autres cours.
-void School::checkNextCourse(progSemester &currentCourse, list<progSemester> &prog, int index, int id_newCourse) {
-    
-    //Si le cours actuel a un successeur, on rappelle la fonction pour traiter le successeur
-    if(currentCourse._next != NULL) {
-        checkNextCourse(*(currentCourse._next), prog, index, id_newCourse);
-    }
-    
-    //Si le cours actuel n'a pas de successeur, on regarde si on peut placer le nouveau cours derrière lui
-    else if(currentCourse._start_week + currentCourse._nb_weeks + _courses[id_newCourse].get_nb_weeks() <= _nb_week) {
-        editList(prog, index, _courses[id_newCourse].get_id(), _courses[id_newCourse].get_nb_weeks(), currentCourse._start_week + currentCourse._nb_weeks);
-        
-        list<progSemester>::iterator it = prog.begin();
-        advance(it, index);
-        if(&currentCourse != &(*it))
-           currentCourse._next = &(*it);
-    }   
-}
-
-void School::setProg(progSemester &buf, Course c, int start_week){
-    
-    buf._id_course = c.get_id();
-    buf._nb_weeks = c.get_nb_weeks();
-    buf._start_week = start_week;
-    buf._next = NULL;
-}
-
-bool School::checkProgSemester(list<progSemester> l) {
-    
-    //On initialise le tableau du nombre de créneaux utilisé par semaine à 0.
-    int *nb_course = new int[_nb_week]();
-    int start_week;
-    int end_week;
-    int i;
-    
-    for(list<progSemester>::iterator it=l.begin() ; it!=l.end() ; it++) {
-        start_week = (*it)._start_week;
-        end_week = ((*it)._start_week + (*it)._nb_weeks);
-        for(i=start_week ; i<end_week ; i++) {
-            nb_course[i] += _courses[(*it)._id_course].get_lecture_size();
-            if(nb_course[i] > 44) {
-                delete [] nb_course;
-                return false;
-            }
-        }
-    }
-    
-    delete [] nb_course;
-    return true;
-}
-
-list<int> School::merge_sort(list<int> &l) {
-    
-    list<int> left;
-    list<int> right;
-    list<int> result;
-    int size_list = l.size();
-    int i;
-    
-    if (size_list <= 1) {
-        return l;
-    }
-    
-    int middle = (size_list / 2);
-    
-    for (i = 0; i < middle; i++) {        
-        left.push_back(at(l,i));
-    }
-    
-    for (i = middle; i < size_list; i++) {
-        right.push_back(at(l,i));
-    }
-    
-    left = merge_sort(left);
-    right = merge_sort(right);
-    result = merge(left, right);
-    
-    return result;   
-}
-
-std::list<int> School::merge(std::list<int>& left, std::list<int>& right) {
-    
-    list<int> result;
-    int left_size = left.size();
-    int right_size = right.size();
-    int left_index = 0, right_index = 0;
-    
-    while (left_index < left_size && right_index < right_size) {
-        if (_courses[at(left,left_index)].get_nb_weeks() > _courses[at(right, right_index)].get_nb_weeks()) {
-            result.push_back(at(left,left_index));
-            left_index++;
-        }
-        else if (_courses[at(left,left_index)].get_nb_weeks() == _courses[at(right, right_index)].get_nb_weeks()) {
-            if(_courses[at(left,left_index)].get_lecture_size() > _courses[at(right,right_index)].get_lecture_size()) {
-                result.push_back(at(left,left_index));
-                left_index++;
-            }
-            else {
-                result.push_back(at(right, right_index));
-                right_index++;
-            }
-        }
-        else {
-            result.push_back(at(right, right_index));
-            right_index++;
-        }
-    }
-    
-    if (left_index == left_size) {
-        while (right_index < right_size) {
-            result.push_back(at(right, right_index));
-            right_index++;
-	}
-    } 
-    
-    else {
-	while (left_index < left_size) {
-	    result.push_back(at(left,left_index));
-	    left_index++;
-	}
-    }
-    
-    return result;
-}
-
-void initProg(list<progSemester> &l) {
-    int size = l.size();
-    int index;
-    
-    for (index = 0; index < size; index++) {
-        editList(l, index, -1, 0, 0);
     }
 }
