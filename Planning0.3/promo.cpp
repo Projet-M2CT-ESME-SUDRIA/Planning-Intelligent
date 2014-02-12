@@ -55,6 +55,17 @@ void Promo::add_week(Week w) {
     _weeks[w.get_id()] = w;
 }
 
+int Promo::get_id_prof(int id_course, int num_week) {
+    return _weeks[num_week].get_lecture(id_course).get_id_prof();
+}
+
+int Promo::get_course_index(int id_course, int num_week) {
+
+    return _weeks[num_week].retrieve_course_index(id_course);
+}
+
+
+
 
 //Affichage
 void Promo::list_promos() {

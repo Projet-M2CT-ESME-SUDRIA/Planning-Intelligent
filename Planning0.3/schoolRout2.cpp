@@ -8,19 +8,14 @@ using namespace std;
 //Fonction qui parcourt la liste de classes d'une promo et appelle la fonction de répartition des cours dans la semaine
 void School::give_courses_promo(int id_year, list<progSemester> prog) {
     
-    list<int> list_id_promo = getClassPromo(id_year);
+    list<int> id_promo = getClassPromo(id_year);
     list<progSemester> prog_week;
-    list<int> list_id_prof_week;
     int i;
-    int j;
     
     
     //Pour toutes les semaines du semestre
     for (i=0; i<_nb_week ; i++) {
         prog_week = getProgWeek(prog, i);
-        list_id_prof_week = getProfWeek(prog_week);
-            
-        //addCoursePromo(list_id_promo, prog_week, i);
     }
 }
 
@@ -138,4 +133,19 @@ int School::nb_connections(int id_prof, int id_promo, int num_week) {
     }
     
     return nb;
+}
+
+//Fonction permettant de dupliquer les cours de la semaine précédente
+void School::previousWeek(Promo &p, list<progSemester> prog_week, int num_week) {
+    
+    if(num_week>0) {
+        for(list<progSemester>::iterator it = prog_week.begin() ; it!=prog_week.end() ; it++) {
+            if(p.has_course_received((*it)._id_course, num_week-1) && num_week < (*it)._start_week + (*it)._nb_weeks) {
+                int id_prof = p.get_id_prof((*it)._id_course, num_week-1);
+                int index = p.get_course_index((*it)._id_course, num_week-1);
+                
+                _profs[id_prof].grant_lecture(_courses[(*it)._id_course], p.get_week(num_week), index);
+            }
+        }
+    }
 }

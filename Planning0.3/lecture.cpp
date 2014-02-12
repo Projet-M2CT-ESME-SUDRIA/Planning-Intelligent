@@ -19,3 +19,7 @@ _id_course(id_course),_id_prof(id_prof), _id_week(id_week) {
 int Lecture::get_id_course() {
     return _id_course;
 }
+
+int Lecture::get_id_prof() {
+    return _id_prof;
+}

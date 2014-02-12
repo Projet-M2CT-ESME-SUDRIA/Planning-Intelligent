@@ -35,6 +35,7 @@ public:
     bool checkAvailability(int index);
     Lecture get_lecture(int index);
     bool has_lecture(int id_course);
+    int retrieve_course_index(int id_course);
     
     //Setter
     void add_lecture(int index, Lecture l);

@@ -52,6 +52,21 @@ bool Week::has_lecture(int id_course) {
     return false;
 }
 
+//Récupère le créneau auquel 
+int Week::retrieve_course_index(int id_course) {
+
+    int cmpt=0;
+    
+    for (list<Lecture>::iterator it=_lectures.begin(); it!=_lectures.end() ; it++) {
+        if (id_course == (*it).get_id_course())
+            break;
+        cmpt++;
+    }
+    
+    return cmpt;
+}
+
+
 
 //Setter
 void Week::add_lecture(int index, Lecture l) {

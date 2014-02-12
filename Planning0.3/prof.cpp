@@ -91,7 +91,6 @@ int Prof::grant_lecture(Course c, Week &w, int index) {
     
     if (w.checkAvailability(index)) {
         
-        //assert(availability.at(index));
         this->set_availability(w.get_num_week(), index);
 
         Lecture l(c.get_id(), this->_id, w.get_id());

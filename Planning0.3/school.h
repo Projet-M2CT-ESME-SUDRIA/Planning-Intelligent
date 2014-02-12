@@ -79,6 +79,7 @@ public:
     void addCoursePromo(std::list<int> list_id_promo, std::list<progSemester> prog_week, int num_week);
     void best_connection(std::list<int> id_profs, std::list<int> id_promos, int num_week, int &prof_index, int &promo_index);
     int nb_connections(int id_prof, int id_promo, int num_week);
+    void previousWeek(Promo &p, std::list<progSemester> prog_week, int num_week);
 };
 
 #endif	/* SCHOOL_H */
