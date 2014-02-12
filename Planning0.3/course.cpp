@@ -60,7 +60,7 @@ int Course::get_nb_weeks(int nb_weeks){
         
     _lecture_size = 4;
     
-    return 1 + _nb_hours/4;
+    return 1 + _nb_hours/_lecture_size;
 }
 
 int Course::get_lecture_size() {

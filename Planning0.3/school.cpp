@@ -32,8 +32,7 @@ void School::parse_profs() {
     line = read_file("profs.txt");
     for(list<string>::iterator it=line.begin() ; it!=line.end() ; it++){
         new_prof(*it);
-    }
-    
+    }  
 }
 
 //Création d'un prof à partir d'une ligne du fichier de données
@@ -334,8 +333,7 @@ list<progSemester> School::splitCourses(list<int> id_courses) {
                     cmpt ++;
                     break;
                 }
-            }
-            
+            }          
         } 
         if(!put) {
             //cout << _courses[*it].get_id() << endl;
@@ -367,8 +365,7 @@ void School::checkNextCourse(progSemester &currentCourse, list<progSemester> &pr
         advance(it, index);
         if(&currentCourse != &(*it))
            currentCourse._next = &(*it);
-    }
-    
+    }   
 }
 
 void School::setProg(progSemester &buf, Course c, int start_week){
@@ -392,7 +389,7 @@ bool School::checkProgSemester(list<progSemester> l) {
         end_week = ((*it)._start_week + (*it)._nb_weeks);
         for(i=start_week ; i<end_week ; i++) {
             nb_course[i] += _courses[(*it)._id_course].get_lecture_size();
-            if(nb_course[i] > 22) {
+            if(nb_course[i] > 44) {
                 delete [] nb_course;
                 return false;
             }
@@ -429,8 +426,7 @@ list<int> School::merge_sort(list<int> &l) {
     right = merge_sort(right);
     result = merge(left, right);
     
-    return result;
-    
+    return result;   
 }
 
 std::list<int> School::merge(std::list<int>& left, std::list<int>& right) {
