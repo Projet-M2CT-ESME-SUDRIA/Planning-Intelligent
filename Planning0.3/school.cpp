@@ -290,11 +290,14 @@ void School::divideCourses(){
         list<progSemester> prog = splitCourses(id_courses);
         
         //Vérification créneau
-        give_courses_promo(*it_list, prog);
         if(!checkProgSemester(prog))
             cout << "Prog semestre pas bon";
-        else
+        else {
             cout << "Prog semestre OK";
+            exit(EXIT_FAILURE);
+        }
+        
+        give_courses_promo(*it_list, prog);
     }
 }
 
