@@ -49,8 +49,8 @@ public:
     //Random function
     Week& get_week(int num_week);
     
-    //int has_course(course c);
-    //int has_course_received(course c, int week_index);
+    int has_course(int id_course);
+    int has_course_received(int id_course, int week_index);
     
 };
 

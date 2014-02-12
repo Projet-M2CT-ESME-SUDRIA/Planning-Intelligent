@@ -72,7 +72,8 @@ public:
     
     //Routine 2 : répartitions des cours dans les semaines
     void give_courses_promo(int id_year, std::list<progSemester> prog);
-    void parse_courses_promo(Promo &p, std::list<progSemester> prog);
+    std::list<int> getClassPromo(int id_year);
+    std::list<progSemester> getProgWeek(std::list<progSemester> prog, int num_week);
 };
 
 #endif	/* SCHOOL_H */

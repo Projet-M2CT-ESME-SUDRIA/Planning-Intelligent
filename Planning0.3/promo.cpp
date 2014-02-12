@@ -71,22 +71,22 @@ void Promo::list_promos() {
 
 
 
-//int promo::has_course(course c) {
-//    
-//    int i=0;
-//    
-//    for (i=0 ; i<_id_courses.size() ; i++) {
-//        if(c.get_id() == _id_courses[i].get_id())
-//            return 1;
-//    }
-//    
-//    return 0;
-//}
+int Promo::has_course(int id_course) {
+    
+    int i=0;
+    
+    for (i=0 ; i<_id_courses.size() ; i++) {
+        if(id_course == at(_id_courses,i))
+            return 1;
+    }
+    
+    return 0;
+}
 
-//int promo::has_course_received(course c, int week_index) {
-//    
-//    if(_id_weeks[week_index].has_lecture(c.get_id()))
-//        return 1;
-//    
-//    return 0;
-//}
+int Promo::has_course_received(int id_course, int week_index) {
+    
+    if(_weeks[week_index].has_lecture(id_course))
+        return 1;
+    
+    return 0;
+}

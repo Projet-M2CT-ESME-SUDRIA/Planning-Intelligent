@@ -22,11 +22,11 @@ void School::give_courses_semester(list<int> &id_courses, list<progSemester> &pr
 
     //Vérification créneau
     if(!checkProgSemester(prog)) {
-        cout << "Prog semestre pas bon";
+        cout << "Prog semestre pas bon" << endl;
         exit(EXIT_FAILURE);
     }
     else
-        cout << "Prog semestre OK";
+        cout << "Prog semestre OK" << endl;
 }
 
 //Fonction permettant de séparer les cours de 2h et de 4h
