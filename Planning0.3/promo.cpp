@@ -81,7 +81,7 @@ void Promo::list_promos() {
 
 
 
-
+//Méthode pour savoir si la promo à le cours que l'on lui envoie.
 int Promo::has_course(int id_course) {
     
     int i=0;
@@ -94,6 +94,7 @@ int Promo::has_course(int id_course) {
     return 0;
 }
 
+//Méthode pour savoir si le cours a déja été placé sur la semaine envoyé.
 int Promo::has_course_received(int id_course, int week_index) {
     
     if(_weeks[week_index].has_lecture(id_course))
