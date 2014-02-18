@@ -10,12 +10,22 @@ void School::give_courses_promo(int id_year, list<progSemester> prog) {
     
     list<int> id_promo = getClassPromo(id_year);
     list<progSemester> prog_week;
+    list<int> prof_week;
     int i;
+    
+    //Id des profs et de la promo que l'on va ajouter car ayant le moins de créneaux en commun
+    int profToAdd, promoToAdd;
     
     
     //Pour toutes les semaines du semestre
     for (i=0; i<_nb_week ; i++) {
+        //on récupère le programme de la semaine et les profs qui vont pouvoir donner ces cours.
         prog_week = getProgWeek(prog, i);
+        prof_week = getProfWeek(prog_week);
+        
+        //Sélection du couple promo prof qui a le moins de créneaux similaire commun sur la semaine i.s
+        best_connection(prof_week, id_promo,i, profToAdd, promoToAdd);
+        cout << profToAdd << " " << promoToAdd << endl;
     }
 }
 
@@ -98,7 +108,9 @@ void School::best_connection(list<int> id_profs, list<int> id_promos, int num_we
     
     int buf=23;
     
+    //Pour tous les profs sur la semaine
     for(list<int>::iterator it_prof=id_profs.begin() ; it_prof!=id_profs.end() ; it_prof++) {
+        //Pour toutes les promos concernées
         for(list<int>::iterator it_promo=id_promos.begin() ; it_promo!=id_promos.end() ; it_promo++) {
             
             //On vérifie que : le prof a encore au moins un cours à donner et que ses disponibilités sont les plus faibles
@@ -114,7 +126,7 @@ void School::best_connection(list<int> id_profs, list<int> id_promos, int num_we
 //Retourne le nombre de disponibilités communes entre un prof et une classe sur une semaine donnée
 int School::nb_connections(int id_prof, int id_promo, int num_week) {
     
-    int i,j=0,nb;
+    int i,j=0,nb=0;
     
     //On regarde si les cours du profs ont déjà été donnés, ou si ils ne correspondent pas à la classe
     for(i=0 ; i<_profs[id_prof].nb_courses() ; i++) {
@@ -123,7 +135,7 @@ int School::nb_connections(int id_prof, int id_promo, int num_week) {
     }
     
     //Le prof n'a plus aucun cours à donner à cette classe
-    if(j==i)
+    if(j==0)
         return -1;
     
     //Le prof a encore des cours à donner, on compte ses disponibilités communes à la classe
