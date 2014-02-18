@@ -76,9 +76,10 @@ public:
     std::list<progSemester> getProgWeek(std::list<progSemester> prog, int num_week);
     std::list<int> getProfWeek(std::list<progSemester> prog_week);
     bool prof_in_list(std::list<int>list_id_prof_week, int id_prof);
-    void addCoursePromo(std::list<int> list_id_promo, std::list<progSemester> prog_week, int num_week);
+    void addCoursePromo(std::list<int> list_id_promo, std::list<progSemester> prog_week, std::list<int> list_id_prof, int num_week);
     void best_connection(std::list<int> id_profs, std::list<int> id_promos, int num_week, int &prof_index, int &promo_index);
     int nb_connections(int id_prof, int id_promo, int num_week);
+    void addCourse(int id_prof, int id_promo, int num_week);
     void previousWeek(Promo &p, std::list<progSemester> prog_week, int num_week);
 };
 

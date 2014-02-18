@@ -13,19 +13,12 @@ void School::give_courses_promo(int id_year, list<progSemester> prog) {
     list<int> prof_week;
     int i;
     
-    //Id des profs et de la promo que l'on va ajouter car ayant le moins de créneaux en commun
-    int profToAdd, promoToAdd;
-    
-    
     //Pour toutes les semaines du semestre
     for (i=0; i<_nb_week ; i++) {
         //on récupère le programme de la semaine et les profs qui vont pouvoir donner ces cours.
         prog_week = getProgWeek(prog, i);
         prof_week = getProfWeek(prog_week);
-        
-        //Sélection du couple promo prof qui a le moins de créneaux similaire commun sur la semaine i.s
-        best_connection(prof_week, id_promo,i, profToAdd, promoToAdd);
-        cout << profToAdd << " " << promoToAdd << endl;
+        addCoursePromo(id_promo, prog_week, prof_week, i);
     }
 }
 
@@ -37,7 +30,7 @@ list<int> School::getClassPromo(int id_year) {
     for (i=0 ; i<nb_promo ; i++) {
         id = _promos[i].get_id_promo();
         if (id == id_year) {
-            id_promo.push_back(id);
+            id_promo.push_back(_promos[i].get_id());
         }
     }
     return id_promo;
@@ -89,16 +82,24 @@ bool School::prof_in_list(list<int>list_id_prof_week, int id_prof) {
     return false;
 }
 
-void School::addCoursePromo(list<int> list_id_promo, list<progSemester> prog_week, int num_week) {
+void School::addCoursePromo(list<int> list_id_promo, list<progSemester> prog_week, list<int> list_id_prof, int num_week) {
     int i;
     int nb_course_tot = list_id_promo.size() * prog_week.size();
+    //Id des profs et de la promo que l'on va ajouter car ayant le moins de créneaux en commun
+    int profToAdd = -1, promoToAdd = -1;
     
     //On va devoir placer (nombre promo * nombre de cours sur la semaine) cours
     for(i = 0 ; i < nb_course_tot ; i++) {
-        //On regarde la connection qui a le moins de dispo en commum
-        //best_connection();
-        //On place le cours sur le meilleur créneau
-        
+        //Sélection du couple promo prof qui a le moins de créneaux similaire commun sur la semaine i.s
+        best_connection(list_id_prof, list_id_promo,i, profToAdd, promoToAdd);
+        //On place le cours sur le meilleur créneau, si on en a trouvé un
+        if(profToAdd != -1 && promoToAdd != -1) {
+            addCourse(profToAdd, promoToAdd, num_week);
+        }
+        else {
+            cout << "Pas de prof ou promo pour ajouter un cours" << endl;
+            exit(EXIT_FAILURE);
+        }
     }
 }
 
@@ -112,7 +113,6 @@ void School::best_connection(list<int> id_profs, list<int> id_promos, int num_we
     for(list<int>::iterator it_prof=id_profs.begin() ; it_prof!=id_profs.end() ; it_prof++) {
         //Pour toutes les promos concernées
         for(list<int>::iterator it_promo=id_promos.begin() ; it_promo!=id_promos.end() ; it_promo++) {
-            
             //On vérifie que : le prof a encore au moins un cours à donner et que ses disponibilités sont les plus faibles
             if(nb_connections(*it_prof, *it_promo, num_week) > 0 && nb_connections(*it_prof, *it_promo, num_week) < buf) {
                 buf = nb_connections(*it_prof, *it_promo, num_week);
@@ -135,7 +135,7 @@ int School::nb_connections(int id_prof, int id_promo, int num_week) {
     }
     
     //Le prof n'a plus aucun cours à donner à cette classe
-    if(j==0)
+    if(j==i)
         return -1;
     
     //Le prof a encore des cours à donner, on compte ses disponibilités communes à la classe
@@ -145,6 +145,20 @@ int School::nb_connections(int id_prof, int id_promo, int num_week) {
     }
     
     return nb;
+}
+
+//Fonction pour ajouter UN cours à une promo
+void School::addCourse(int id_prof, int id_promo, int num_week) {
+    
+    int i;
+    int nb_course = _profs[id_prof].nb_courses();
+    
+    //Choix du cours que l'on va ajouter
+    for(i=0 ; i<nb_course ; i++) {
+        if(!_promos[id_promo].has_course_received(_profs[id_promo].get_id_course(i), num_week))
+            cout <<  "On peut ajouter le cours" << endl;
+    }
+    
 }
 
 //Fonction permettant de dupliquer les cours de la semaine précédente
