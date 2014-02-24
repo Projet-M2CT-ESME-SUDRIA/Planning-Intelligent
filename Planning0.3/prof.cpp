@@ -77,7 +77,7 @@ void Prof::add_availability(int nb_weeks, std::list<int> availability) {
 
 void Prof::set_availability(int num_week, int index) {
     
-    editList(_availability[num_week], 0, index);
+    editList(_availability[num_week], index, 0);
     //_availability[num_week].at(index) = 0;
 }
 
