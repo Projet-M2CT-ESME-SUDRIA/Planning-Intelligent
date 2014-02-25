@@ -17,6 +17,7 @@ void School::give_courses_promo(int id_year, list<progSemester> prog) {
     for (i=0; i<_nb_week ; i++) {
         //on récupère le programme de la semaine et les profs qui vont pouvoir donner ces cours.
         prog_week = getProgWeek(prog, i);
+        previousWeek(prog_week, id_promo, i);
         prof_week = getProfWeek(prog_week);
         addCoursePromo(id_promo, prog_week, prof_week, i);
     }
@@ -231,16 +232,65 @@ void School::grantLecture(int id_prof, int id_promo, int id_course, int num_week
 }
 
 //Fonction permettant de dupliquer les cours de la semaine précédente
-void School::previousWeek(Promo &p, list<progSemester> prog_week, int num_week) {
+void School::previousWeek(list<progSemester> &prog_week, list<int> id_promo, int num_week) {
     
+    int cmpt_course_add_promo = 0;
+    int nb_promo = id_promo.size();
+    //Si on a déja placé les cours sur la première semaine
     if(num_week>0) {
-        for(list<progSemester>::iterator it = prog_week.begin() ; it!=prog_week.end() ; it++) {
-            if(p.has_course_received((*it)._id_course, num_week-1) && num_week < (*it)._start_week + (*it)._nb_weeks) {
-                int id_prof = p.get_id_prof((*it)._id_course, num_week-1);
-                int index = p.get_course_index((*it)._id_course, num_week-1);
-                
-                _profs[id_prof].grant_lecture(_courses[(*it)._id_course], p.get_week(num_week), index);
+        //On parcourt tous les cours de la semaine que l'on placé
+        for(list<progSemester>::iterator it_prog = prog_week.begin() ; it_prog!=prog_week.end() ; it_prog++) {
+            //Pour toutes les pormos avec lesquelles on travaille
+            for(list<int>::iterator it_promo=id_promo.begin() ; it_promo!=id_promo.end() ; it_promo++) {
+                //Si la classe à déjà eu le cours la semaine précédente
+                if(_promos[*it_promo].has_course_received((*it_prog)._id_course, num_week-1)) {
+                    int id_prof = _promos[*it_promo].get_id_prof_of_course((*it_prog)._id_course, num_week-1);
+                    int index = _promos[*it_promo].get_course_index((*it_prog)._id_course, num_week-1);
+                    
+                    //Si le cours est de 4h on l'ajoute à l'index et index+1
+                    if(_courses[(*it_prog)._id_course].get_lecture_size() == 4) {
+                        //On vérifie que le prof et la promo sont libres sur les créneaux
+                        if(_promos[*it_promo].is_available(num_week, index) && _profs[id_prof].is_available(num_week, index) &&
+                                _promos[*it_promo].is_available(num_week, index+1) && _profs[id_prof].is_available(num_week, index+1)) {
+                            
+                            _profs[id_prof].grant_lecture(_courses[(*it_prog)._id_course], _promos[*it_promo].get_week(num_week), index);
+                            _profs[id_prof].grant_lecture(_courses[(*it_prog)._id_course], _promos[*it_promo].get_week(num_week), index+1);
+                            
+                            cmpt_course_add_promo ++;
+                        }
+                        //Si un des deux n'est pas libre
+                        else {
+                            cout << "Prof ou promo non dispo pour cours 4h entre les deux semaines" << endl;
+                        }
+                    }
+                    //Si c'est un cours de 2H
+                    else {
+                        //On vérifie que le prof et la promo sont libre sur le créneau
+                        if(_promos[*it_promo].is_available(num_week, index) && _profs[id_prof].is_available(num_week, index)) {
+                            _profs[id_prof].grant_lecture(_courses[(*it_prog)._id_course], _promos[*it_promo].get_week(num_week), index);
+                            cmpt_course_add_promo ++;
+                        }
+                        else {
+                            cout << "Prof ou promo non dispo pour cours 2h entre les deux semaines" << endl;
+                        }
+                    }
+                }
+                //Si une promo n'a pas eu le cours alors aucune n'a pu l'avoir la semaine d'avant
+                else{
+                    break;
+                }
             }
+            //Si le cours a pu être ajouté pour toutes les promos
+            if(cmpt_course_add_promo == nb_promo) {
+                //On enlève le cours du programme de la semaine car il a déja été fait
+                prog_week.erase(it_prog);
+            }
+            else {
+                cout << "ECHEC : ";
+                cout << (*it_prog)._id_course << " le prof ou la promo n'est pas libre entre les 2 semaines" << endl;
+                cout << "Ou ce cours n'étais pas donné la semaine d'avant" << endl;
+            }
+            cmpt_course_add_promo = 0;
         }
     }
 }
