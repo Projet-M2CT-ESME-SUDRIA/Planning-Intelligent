@@ -42,7 +42,7 @@ public:
     //Setter
     void add_course(int id_c);
     void add_week(Week w);
-    int get_id_prof(int id_course, int num_week);
+    int get_id_prof_of_course(int id_course, int num_week);
     int get_course_index(int id_course, int num_week);
     
     //Affichage
