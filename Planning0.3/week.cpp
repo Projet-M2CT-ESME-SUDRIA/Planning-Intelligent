@@ -52,7 +52,7 @@ bool Week::has_lecture(int id_course) {
     return false;
 }
 
-//Récupère le créneau auquel 
+//Récupère le créneau auquel le cours à eu lieu
 int Week::retrieve_course_index(int id_course) {
 
     int cmpt=0;
