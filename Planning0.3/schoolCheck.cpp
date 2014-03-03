@@ -44,6 +44,7 @@ int School::nb_lectures_ok() {
             cout << "Trop d'heures pour la promo " << (*it).second.get_id() << endl;
             exit(EXIT_FAILURE);    
         }
+        nb_hours = 0;
     }
     
     cout << "Nombre d'heures de cours OK" << endl;
