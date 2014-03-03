@@ -175,6 +175,26 @@ void School::display(){
     }
 }
 
+//Affichage de l'emploi du temps de toutes les classes
+void School::display_schedule_promos() {
+    
+    int i, j;
+    
+    for(map<int, Promo>::iterator it=_promos.begin() ; it!=_promos.end() ; it++) {
+        cout << "Emploi du temps  : " << (*it).second.get_name() << endl;
+                
+        for(i=0 ; i<14 ; i++) {
+            for(int j=0 ; j<22 ; j++) {
+                cout << (*it).second.get_week(i).get_lecture(j).get_id_course() << "  ";
+            }
+            cout << endl;
+        }
+        cout << endl;
+    }
+    
+}
+
+
 //Retourne le nombre de classe dans une promo à partir de son id
 int School::nb_class_promo(int id_promo){
     

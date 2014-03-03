@@ -21,12 +21,6 @@ void School::give_courses_promo(int id_year, list<progSemester> prog) {
         prof_week = getProfWeek(prog_week);
         addCoursePromo(id_promo, prog_week, prof_week, i);
     }
-    for(i=0 ; i<14 ; i++) {
-        for(int j=0 ; j<22 ; j++) {
-            cout << _promos[0].get_week(i).get_lecture(j).get_id_course() << "  ";
-        }
-        cout << endl;
-    }
 }
 
 //Récupération des classes qui appartiennent à la même promo
