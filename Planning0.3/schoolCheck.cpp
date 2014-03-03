@@ -18,8 +18,14 @@ int School::nb_prof_ok(){
         
         int c = nb_availabilities_course(id_course);
         
+        //Si le cours est sur 4h on divise le nombre de créneaux de disponnibilité par 2
+        //car il faut 2 créneaux pour faire un cours
+        if((*it).second.get_lecture_size() == 4) {
+            c /= 2;
+        }
+        
         if(nb_promo > c) {
-            cout << "Probleme avec la matiere numero " << id_course << endl;
+            cout << "Manque de profs avec la matiere numero " << id_course << endl;
             exit(EXIT_FAILURE);
         }
     }
