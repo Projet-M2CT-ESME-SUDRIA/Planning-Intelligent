@@ -1,0 +1,49 @@
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="955" measuredH="591" mockupW="728" mockupH="540">
+  <controls>
+    <control controlID="5" controlTypeID="com.balsamiq.mockups::TabBar" x="227" y="51" w="728" h="540" measuredW="249" measuredH="100" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <selectedIndex>0</selectedIndex>
+        <text>Cours%2C%20Professeurs%2C%20Classes</text>
+      </controlProperties>
+    </control>
+    <control controlID="6" controlTypeID="com.balsamiq.mockups::DataGrid" x="242" y="199" w="508" h="296" measuredW="281" measuredH="177" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderStyle>square</borderStyle>
+        <hLines>false</hLines>
+        <rowHeight>26</rowHeight>
+        <selectedIndex>1</selectedIndex>
+        <text>Name%20%5E%2C%20Nombre%20d%27heure%2C%20Promo%20v%0ATNS%2C%2023%2C%20M1%0AJava%2C%2030%2C%20M1%0AMicrosyst%E8me%2C%2014%2C%20M1%0AC%2C%2034%2C%20B3%0AAnalyse%2C%2040%2C%20B2%0AAlg%E8bre%2C%2040%2C%20B1</text>
+        <value>0</value>
+        <verticalScrollbar>true</verticalScrollbar>
+      </controlProperties>
+    </control>
+    <control controlID="8" controlTypeID="com.balsamiq.mockups::Button" x="765" y="286" w="91" h="27" measuredW="97" measuredH="27" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>PencilIcon%7Csmall</icon>
+        <text>Modifier</text>
+      </controlProperties>
+    </control>
+    <control controlID="9" controlTypeID="com.balsamiq.mockups::Button" x="757" y="342" w="106" h="25" measuredW="111" measuredH="27" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>Trash2Icon%7Csmall</icon>
+        <text>Supprimer</text>
+      </controlProperties>
+    </control>
+    <control controlID="10" controlTypeID="com.balsamiq.mockups::Title" x="242" y="122" w="-1" h="-1" measuredW="282" measuredH="43" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Liste%20des%20cours</text>
+      </controlProperties>
+    </control>
+    <control controlID="11" controlTypeID="com.balsamiq.mockups::Button" x="250" y="514" w="-1" h="-1" measuredW="137" measuredH="27" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <icon>PlusIcon%7Cxsmall</icon>
+        <text>Ajout%20d%27un%20cours</text>
+      </controlProperties>
+    </control>
+    <control controlID="12" controlTypeID="com.balsamiq.mockups::StickyNote" x="808" y="122" w="-1" h="-1" measuredW="109" measuredH="123" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Modifier%20ou%20supprimer%20apr%E8s%20avoir%20s%E9lectionn%E9</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>

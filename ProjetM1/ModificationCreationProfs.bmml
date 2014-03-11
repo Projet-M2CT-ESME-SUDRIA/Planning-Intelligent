@@ -1,0 +1,94 @@
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="1005" measuredH="581" mockupW="957" mockupH="533">
+  <controls>
+    <control controlID="5" controlTypeID="com.balsamiq.mockups::TabBar" x="233" y="48" w="772" h="533" measuredW="249" measuredH="100" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <selectedIndex>1</selectedIndex>
+        <text>Cours%2C%20Professeurs%2C%20Classes</text>
+        <verticalScrollbar>true</verticalScrollbar>
+      </controlProperties>
+    </control>
+    <control controlID="46" controlTypeID="com.balsamiq.mockups::Title" x="253" y="100" w="-1" h="-1" measuredW="511" measuredH="43" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Modification%20d%27un%20professeur</text>
+      </controlProperties>
+    </control>
+    <control controlID="48" controlTypeID="com.balsamiq.mockups::Label" x="262" y="200" w="-1" h="-1" measuredW="37" measuredH="21" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Nom%20%3A%20</text>
+      </controlProperties>
+    </control>
+    <control controlID="49" controlTypeID="com.balsamiq.mockups::TextInput" x="371" y="197" w="123" h="-1" measuredW="47" measuredH="27" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Herry</text>
+      </controlProperties>
+    </control>
+    <control controlID="50" controlTypeID="com.balsamiq.mockups::Label" x="262" y="256" w="-1" h="-1" measuredW="82" measuredH="21" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Disponibilit%E9%20%3A%20</text>
+      </controlProperties>
+    </control>
+    <control controlID="51" controlTypeID="com.balsamiq.mockups::DataGrid" x="372" y="256" w="-1" h="-1" measuredW="370" measuredH="81" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%2CLundi%2C%20Mardi%2C%20Mercredi%2C%20Jeudi%2C%20Vendredi%2C%20Samedi%0AMatin%2C%20%5Bx%5D%2C%20%5Bx%5D%2C%5Bx%5D%2C%5B%5D%2C%5B%5D%2C%5Bx%5D%0AAprem%2C%5Bx%5D%2C%5B%5D%2C%5Bx%5D%2C%5B%5D%2C%5B%5D</text>
+      </controlProperties>
+    </control>
+    <control controlID="53" controlTypeID="com.balsamiq.mockups::Label" x="253" y="361" w="-1" h="-1" measuredW="109" measuredH="21" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Cours%20enseign%E9s%20%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="54" controlTypeID="com.balsamiq.mockups::Button" x="403" y="541" w="91" h="27" measuredW="82" measuredH="27" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <align>center</align>
+        <icon>CheckMarkIcon%7Cxsmall</icon>
+        <text>Valider</text>
+      </controlProperties>
+    </control>
+    <control controlID="55" controlTypeID="com.balsamiq.mockups::Button" x="282" y="542" w="106" h="25" measuredW="87" measuredH="27" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <align>center</align>
+        <icon>XIcon%7Cxsmall</icon>
+        <text>Annuler</text>
+      </controlProperties>
+    </control>
+    <control controlID="56" controlTypeID="com.balsamiq.mockups::ComboBox" x="650" y="373" w="-1" h="-1" measuredW="166" measuredH="24" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <state>up</state>
+        <text>Liste%20de%20tous%20les%20cours</text>
+      </controlProperties>
+    </control>
+    <control controlID="57" controlTypeID="com.balsamiq.mockups::Button" x="691" y="408" w="-1" h="-1" measuredW="66" measuredH="27" zOrder="10" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Ajouter</text>
+      </controlProperties>
+    </control>
+    <control controlID="58" controlTypeID="com.balsamiq.mockups::StickyNote" x="842" y="207" w="148" h="118" measuredW="109" measuredH="123" zOrder="11" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>La%20liste%20des%20cours%20proviens%20de%20l%27ensemble%20des%20cours%20de%20ListCours</text>
+      </controlProperties>
+    </control>
+    <control controlID="59" controlTypeID="com.balsamiq.mockups::Arrow" x="742" y="292" w="91" h="63" measuredW="150" measuredH="100" zOrder="12" locked="false" isInGroup="-1">
+      <controlProperties>
+        <direction>bottom</direction>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="60" controlTypeID="com.balsamiq.mockups::StickyNote" x="48" y="300" w="199" h="187" measuredW="109" measuredH="123" zOrder="13" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>On%20ne%20peut%20pas%20%E9crire%20directement%20dans%20la%20liste%20des%20cours%20enseign%E9%20par%20s%E9curit%E9.%20L%27utilisateur%20doit%20passer%20par%20la%20suppression%20de%20la%20s%E9lection%20pour%20supprimer%20un%20ou%20des%20cours%20du%20cours%20ou%20utiliser%20la%20combobox%20pour%20ajouter%20un%20cours</text>
+      </controlProperties>
+    </control>
+    <control controlID="61" controlTypeID="com.balsamiq.mockups::Button" x="394" y="495" w="-1" h="-1" measuredW="156" measuredH="27" zOrder="14" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Supprimer%20la%20s%E9lection</text>
+      </controlProperties>
+    </control>
+    <control controlID="62" controlTypeID="com.balsamiq.mockups::List" x="382" y="358" w="196" h="129" measuredW="100" measuredH="126" zOrder="15" locked="false" isInGroup="-1">
+      <controlProperties>
+        <selectedIndex>1</selectedIndex>
+        <text>C%0AUnix</text>
+        <verticalScrollbar>true</verticalScrollbar>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>

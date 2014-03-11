@@ -1,0 +1,49 @@
+
+
+L’objectif est de créer une interface graphique pour notre projet de M2. 
+Notre projet est de réaliser un emploi du temps automatisé pour l’école. 
+Pour le réaliser nous avons besoin des informations sur les classes, les matières et les professeur pour le moment. Ces informations se trouvent dans 3 fichiers .txt.
+
+Le fichier des cours : 
+Sur chaque ligne nous avons un cours. Chaque ligne est constituée de 3 informations :
+- La première est l’identifiant de la promotion (1 -> B1, 2 -> B2, 3 -> B3, 4 -> M1, 5 -> M2)
+- La seconde correspond au nom du cours (Algèbre, TNS,…).
+- La troisième correspond au nombre d’heure de cours.
+
+Chacune des informations est séparée par le symbole : |
+
+Ex : 1|Algebre|40
+Cette ligne désigne le cours d’algèbre de la promotion B1 et dure 40 heures.
+
+
+Le fichier des promotions : 
+Sur chaque ligne nous avons une classe. Chaque ligne est constituée de 4 informations :
+- La première est l’identifiant de la promotion (comme pour les cours).
+- La seconde est le nom de la classe (M1A, B3B,…).
+- La troisième est le nombre d’élèves dans la classe.
+- La quatrième est la liste des cours que la classe doit suivre. Chaque cours doit être séparé par une virgule (consersionNRJ,TNT,C,unix,…)
+
+Tout comme avant chaque information est séparée par le symbole : |
+
+Ex : 1|B1A|50|Albebre,analyse,anglais
+Cette ligne désigne la classe B1A, appartenant à la promotion B1, comportant 50 élèves, et devant recevoir les cours d’algèbre, d’analyse et d’anglais.
+
+
+Le fichier des professeurs : 
+Sur chaque ligne nous avons un professeur. Chaque ligne est constituée de 3 informations : 
+- La première est le nom du professeur.
+- La seconde représente les disponibilités du professeurs. Ces disponibilités sont représentées par un mot binaire à 22 caractères. 1 signifiant que le professeur est disponible, 0 non disponible. Ces 22 caractères représentent Les 22 demi-journées de la semaine. 1 pour le matin et 1 pour l’après-midi du lundi au vendredi toute la journée et le samedi matin uniquement. (1er caractère : lundi matin de 8h30 à 10h30, 2nd : lundi matin de 10h30 à 12h30, 3ème : lundi après-midi de 14h à 16h…).
+- La troisième est la liste des cours que le professeur peut enseigner. Les cours sont séparés par une virgule (microsys,vhdl,outilDevMicro,…)
+
+Tout comme avant chaque information est séparée par le symbole : |
+
+ex : Hagbe|1111111111111111111111|Algebre, geoAna
+Cette ligne désigne le professeur Hagbe, disponible tous les jours de la semaine, et enseignant les cours d’algèbre et de géométrie analytique.
+
+
+Le but est de réaliser une IHM qui permette de saisir et de visualiser l’ensemble de ces informations, en ajoutant la possibilité de modifier ou supprimer une donnée.
+
+Le langage de programmation est libre. 
+(Pistes : IHM en Java ou avec Qt designer en C++)
+
+Pour réaliser ces interfaces, vous pourrez vous inspirer des exemples fournis en annexe.
