@@ -52,7 +52,7 @@ void Promo::add_course(int id_c) {
 }
 
 void Promo::add_week(Week w) {
-    _weeks[w.get_id()] = w;
+    _weeks[w.get_num_week()] = w;
 }
 
 int Promo::get_id_prof_of_course(int id_course, int num_week) {
