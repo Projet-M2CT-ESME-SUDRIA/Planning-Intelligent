@@ -11,15 +11,15 @@ void School::give_courses_promo(int id_year, list<progSemester> prog) {
     list<int> id_promo = getClassPromo(id_year);
     list<progSemester> prog_week;
     list<int> prof_week;
-    int i;
+    int num_week;
     
     //Pour toutes les semaines du semestre
-    for (i=0; i<_nb_week ; i++) {
+    for (num_week=0; num_week<_nb_week ; num_week++) {
         //on récupère le programme de la semaine et les profs qui vont pouvoir donner ces cours.
-        prog_week = getProgWeek(prog, i);
-        previousWeek(prog_week, id_promo, i);
+        prog_week = getProgWeek(prog, num_week);
+        previousWeek(prog_week, id_promo, num_week);
         prof_week = getProfWeek(prog_week);
-        addCoursePromo(id_promo, prog_week, prof_week, i);
+        addCoursePromo(id_promo, prog_week, prof_week, num_week);
     }
 }
 
