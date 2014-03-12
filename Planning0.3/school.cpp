@@ -185,11 +185,30 @@ void School::display_schedule_promos() {
                 
         for(i=0 ; i<14 ; i++) {
             for(int j=0 ; j<22 ; j++) {
+                cout << (*it).second.get_week(i).get_lecture(j).get_id_prof() << "  ";
+            }
+            cout << endl;
+        }
+        cout << endl;
+        
+        for(i=0 ; i<14 ; i++) {
+            for(int j=0 ; j<22 ; j++) {
                 cout << (*it).second.get_week(i).get_lecture(j).get_id_course() << "  ";
             }
             cout << endl;
         }
         cout << endl;
+    }
+    
+    for(int p= 0 ; p!=_profs.size() ; p++){
+        cout <<"Prof " << _profs[p].get_id() << " : " << endl;
+        for (int j = 0; j < 14; j++) {
+            for (int k = 0; k < 22; k++) {
+                cout << _profs[p].is_available(j,k);
+            }
+            cout <<endl;
+        }
+        cout << endl << endl;
     }
     
 }
