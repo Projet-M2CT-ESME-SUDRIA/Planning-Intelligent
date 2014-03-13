@@ -147,7 +147,7 @@ int School::nb_connections(int id_prof, int id_promo, int num_week, list<progSem
     }
     
     //Le prof n'a plus aucun cours à donner à cette classe
-    if(j==i)
+    if(j==i) 
         return -1;
     
     //Le prof a encore des cours à donner, on compte ses disponibilités communes à la classe
@@ -230,11 +230,12 @@ void School::previousWeek(list<progSemester> &prog_week, list<int> id_promo, int
     
     int cmpt_course_add_promo = 0;
     int nb_promo = id_promo.size();
+    bool new_course_week = false;
     //Si on a déja placé les cours sur la première semaine
     if(num_week>0) {
-        //On parcourt tous les cours de la semaine que l'on placé
+        //On parcourt tous les cours de la semaine que l'on doit placé
         for(list<progSemester>::iterator it_prog = prog_week.begin() ; it_prog!=prog_week.end() ; it_prog++) {
-            //Pour toutes les pormos avec lesquelles on travaille
+            //Pour toutes les promos avec lesquelles on travaille
             for(list<int>::iterator it_promo=id_promo.begin() ; it_promo!=id_promo.end() ; it_promo++) {
                 //Si la classe à déjà eu le cours la semaine précédente
                 if(_promos[*it_promo].has_course_received((*it_prog)._id_course, num_week-1)) {
@@ -271,6 +272,7 @@ void School::previousWeek(list<progSemester> &prog_week, list<int> id_promo, int
                 }
                 //Si une promo n'a pas eu le cours alors aucune n'a pu l'avoir la semaine d'avant
                 else{
+                    new_course_week = true;
                     break;
                 }
             }
@@ -278,6 +280,10 @@ void School::previousWeek(list<progSemester> &prog_week, list<int> id_promo, int
             if(cmpt_course_add_promo == nb_promo) {
                 //On enlève le cours du programme de la semaine car il a déja été fait
                 prog_week.erase(it_prog);
+            }
+            //Si le cours n'a pas été donné la semaine d'avant (nouveau cours pour la promo débutant au milieu du semestre)
+            else if (new_course_week){
+                new_course_week = false;
             }
             else {
                 cout << "ECHEC : ";
