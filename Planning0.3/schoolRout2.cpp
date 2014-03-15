@@ -222,7 +222,7 @@ void School::best_connection(list<progSemester> prog_week, list<int> id_profs, l
         //Pour toutes les promos concernées
         for(list<int>::iterator it_promo=id_promos.begin() ; it_promo!=id_promos.end() ; it_promo++) {
             //On vérifie que : le prof a encore au moins un cours à donner et que ses disponibilités sont les plus faibles
-            nbConnection = nb_connections(*it_prof, *it_promo, num_week, prog_week);
+            nbConnection = nb_connections(*it_prof, *it_promo, num_week, prog_week);            
             if(nbConnection > 0 && nbConnection < buf) {
                 buf = nbConnection;
                 prof_index = *it_prof;
@@ -303,6 +303,7 @@ void School::grantLecture(int id_prof, int id_promo, int id_course, int num_week
     
     int i;
     int nb_hour_course = _courses[id_course].get_lecture_size();
+    bool course_add = false;
     
     //Si le cours est sur 4H on doit le faire commencer par un créneau pair
     if (nb_hour_course==4) {
@@ -314,10 +315,17 @@ void School::grantLecture(int id_prof, int id_promo, int id_course, int num_week
                         (_promos[id_promo].is_available(num_week, i)) &&  (_promos[id_promo].is_available(num_week, i+1))) {
                     _profs[id_prof].grant_lecture(_courses[id_course], _promos[id_promo].get_week(num_week), i);
                     _profs[id_prof].grant_lecture(_courses[id_course], _promos[id_promo].get_week(num_week), i+1);
+                    course_add = true;
                     break;
                 }
             }
         }
+        if (!course_add) {
+            cout << "Pas de créneau de 4h disponnible pour le cours " << id_course ;
+            cout << " avec le prof " << id_prof << " pour la promo " << id_promo << endl;
+            exit(EXIT_FAILURE);
+        }
+        
     }
     
     else {
