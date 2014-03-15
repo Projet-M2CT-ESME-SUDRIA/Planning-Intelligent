@@ -5,6 +5,75 @@
 
 using namespace std;
 
+//Merge par rapport au nombre de semaines
+std::list<int> merge_int(std::list<int>& left, std::list<int>& right) {
+    
+    list<int> result;
+    int left_size = left.size();
+    int right_size = right.size();
+    int left_index = 0, right_index = 0;
+    
+    while (left_index < left_size && right_index < right_size) {
+        if (at(left,left_index) > at(right, right_index)) {
+            result.push_back(at(left,left_index));
+            left_index++;
+        }
+        
+        else {
+            result.push_back(at(right, right_index));
+            right_index++;
+        }
+    }
+    
+    if (left_index == left_size) {
+        while (right_index < right_size) {
+            result.push_back(at(right, right_index));
+            right_index++;
+	}
+    } 
+    
+    else {
+	while (left_index < left_size) {
+	    result.push_back(at(left,left_index));
+	    left_index++;
+	}
+    }
+    
+    return result;
+}
+
+//Tri par fusion
+list<int> merge_sort_int(list<int> &l) {
+    
+    list<int> left;
+    list<int> right;
+    list<int> result;
+    int size_list = l.size();
+    int i;
+    
+    if (size_list <= 1) {
+        return l;
+    }
+    
+    int middle = (size_list / 2);
+    
+    for (i = 0; i < middle; i++) {        
+        left.push_back(at(l,i));
+    }
+    
+    for (i = middle; i < size_list; i++) {
+        right.push_back(at(l,i));
+    }
+    
+    left = merge_sort_int(left);
+    right = merge_sort_int(right);
+    result = merge_int(left, right);
+    
+    return result;   
+}
+
+
+
 //Fonction qui parcourt la liste de classes d'une promo et appelle la fonction de répartition des cours dans la semaine
 void School::give_courses_promo(int id_year, list<progSemester> prog) {
     
@@ -298,6 +367,8 @@ void School::previousWeek(list<progSemester> &prog_week, list<int> id_promo, int
     int cmpt_course_add_promo = 0;
     int nb_promo = id_promo.size();
     bool new_course_week = false;
+    list<int> course_to_erase;
+    int position = 0;
     //Si on a déja placé les cours sur la première semaine
     if(num_week>0) {
         //On parcourt tous les cours de la semaine que l'on doit placé
@@ -307,7 +378,7 @@ void School::previousWeek(list<progSemester> &prog_week, list<int> id_promo, int
             //Si le cours a pu être ajouté pour toutes les promos
             if(cmpt_course_add_promo == nb_promo) {
                 //On enlève le cours du programme de la semaine car il a déja été fait
-                prog_week.erase(it_prog);
+                course_to_erase.push_back((position));
             }
             //Si le cours n'a pas été donné la semaine d'avant (nouveau cours pour la promo débutant au milieu du semestre)
             else if (new_course_week){
@@ -319,7 +390,17 @@ void School::previousWeek(list<progSemester> &prog_week, list<int> id_promo, int
                 cout << "Ou ce cours n'étais pas donné la semaine d'avant" << endl;
             }
             cmpt_course_add_promo = 0;
+            position++;
         }
+        
+        course_to_erase = merge_sort_int(course_to_erase);
+        list<progSemester>::iterator it_p; 
+        for(list<int>::iterator it_id=course_to_erase.begin() ; it_id!=course_to_erase.end() ; it_id++) {
+            it_p= prog_week.begin();
+            advance(it_p,(*it_id));
+            prog_week.erase(it_p);
+        }
+        
     }
         
 }
