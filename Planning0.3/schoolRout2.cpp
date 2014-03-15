@@ -73,7 +73,6 @@ list<int> merge_sort_int(list<int> &l) {
 }
 
 
-
 //Fonction qui parcourt la liste de classes d'une promo et appelle la fonction de répartition des cours dans la semaine
 void School::give_courses_promo(int id_year, list<progSemester> prog) {
     
@@ -238,61 +237,31 @@ int School::nb_connections(int id_prof, int id_promo, int num_week, list<progSem
     
     int i,j=0,nb=0;
     int nbCourseProf = _profs[id_prof].nb_courses();
+    bool coursePossible = false;
     
-    //On regarde si les cours du profs ont déjà été donnés, ou si ils ne correspondent pas à la classe
+    //On regarde tous les cours que peut donner un professeur
     for(i=0 ; i<nbCourseProf ; i++) {
-       //Si le cours n'est pas dans le programme de la semaine
-      if(!courseIsInWeek(prog_week, _profs[id_prof].get_id_course(i))) {
-            j++;
+        //Si le cours est dans le programme de la semaine et que la promotion n'a pas eu le cours encore
+        if(!_promos[id_promo].has_course_received(_profs[id_prof].get_id_course(i), num_week) && courseIsInWeek(prog_week, _profs[id_prof].get_id_course(i))) {
+            //On va pouvoir donc placer ce cours. On va aller calculer le nombre de créneau en commum entre le prof et la promo
+            coursePossible = true;
+            break;
+        }      
+        else
+            coursePossible = false;
+    }
+        
+    //Si le cours doit être donné, on calcul le nombre de créneau en commum
+    if (coursePossible) {
+        for(i=0 ; i<22 ; i++) {
+            if(_profs[id_prof].is_available(num_week, i) && _promos[id_promo].is_available(num_week, i))
+                nb++;
         }
-        else if(!_promos[id_promo].has_course(_profs[id_prof].get_id_course(i))||_promos[id_promo].has_course_received(_profs[id_prof].get_id_course(i), num_week))
-            j++;     
     }
-    
-    //Le prof n'a plus aucun cours à donner à cette classe
-    if(j==i) 
-        return -1;
-    
-    //Le prof a encore des cours à donner, on compte ses disponibilités communes à la classe
-    for(i=0 ; i<22 ; i++) {
-        if(_profs[id_prof].is_available(num_week, i) && _promos[id_promo].is_available(num_week, i))
-            nb++;
-    }
+    else
+        nb = -1;
     
     return nb;
-    
-    
-    
-    //MON TEST POUR MODIFIER LA FONCTION
-    
-    
-//    bool coursePossible = true;
-//    //On regarde tous les cours que peut donner un professeur
-//    for(i=0 ; i<_profs[id_prof].nb_courses() ; i++) {
-//        coursePossible = true;
-//        if(!_promos[id_promo].has_course_received(_profs[id_prof].get_id_course(i), num_week) && courseIsInWeek(prog_week, _profs[id_prof].get_id_course(i)))
-//            coursePossible = false;
-//        else
-//            cout << "test" << endl;
-//        //Est ce que le cours est dans le programme de la semaine
-////        if (!courseIsInWeek(prog_week, _profs[id_prof].get_id_course(i)))
-////            coursePossible = false;
-////        //Est ce que la classe a déja reçu le cours cette semaine
-////        else if (!_promos[id_promo].has_course_received(_profs[id_prof].get_id_course(i),num_week))
-////                coursePossible = false;
-//        
-//        //Si le cours doit être donné
-//        if (coursePossible) {
-//            for(i=0 ; i<22 ; i++) {
-//                if(_profs[id_prof].is_available(num_week, i) && _promos[id_promo].is_available(num_week, i))
-//                    nb++;
-//            }
-//        }
-//        else
-//            nb = -1;
-//    }
-//    
-//    return nb;
     
 }
 
