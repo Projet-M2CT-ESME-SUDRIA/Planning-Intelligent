@@ -84,6 +84,8 @@ public:
     bool courseIsInWeek(std::list<progSemester> prog_week, int id_course);
     void grantLecture(int id_prof, int id_promo, int id_course, int num_week);
     void previousWeek(std::list<progSemester> &prog_week, std::list<int> id_promo, int num_week);
+    void promoAsCourseBefore(progSemester it_prog, std::list<int> id_promo, int num_week, int &cmpt_course_add_promo, bool &new_course_week);
+    void addCourseWithPreviousWeek(int it_promo, progSemester it_prog, int num_week, int &cmpt_course_add_promo);
 };
 
 #endif	/* SCHOOL_H */
