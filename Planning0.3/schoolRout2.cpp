@@ -155,14 +155,14 @@ bool School::prof_in_list(list<int>list_id_prof_week, int id_prof) {
     return false;
 }
 
-void School::addCoursePromo(list<int> list_id_promo, list<progSemester> prog_week, list<int> list_id_prof, int num_week) {
+void School::addCoursePromo(list<int> list_id_promo, list<progSemester> &prog_week, list<int> list_id_prof, int num_week) {
     int i;
     int nb_course_tot = list_id_promo.size() * prog_week.size();
     //Id des profs et de la promo que l'on va ajouter, ayant le moins de créneaux en commun
     int profToAdd = -1, promoToAdd = -1;
     
+    nb_course_tot = nb_courses_to_schedule(list_id_promo, num_week, nb_course_tot);
     
-    cout << "TEST " << nb_course_tot << endl;
     //On va devoir placer (nombre promo * nombre de cours sur la semaine) cours
     for(i = 0 ; i < nb_course_tot ; i++) {
         profToAdd = -1;
@@ -175,30 +175,7 @@ void School::addCoursePromo(list<int> list_id_promo, list<progSemester> prog_wee
         }
         
         else {
-            for(map<int, Promo>::iterator it=_promos.begin() ; it!=_promos.end() ; it++) {
-                cout << "Emploi du temps  : " << (*it).second.get_name() << endl;
-
-
-                for(i=0 ; i<14 ; i++) {
-                    for(int j=0 ; j<22 ; j++) {
-                        cout << (*it).second.get_week(i).get_lecture(j).get_id_course() << "  ";
-                    }
-                    cout << endl;
-                }
-                cout << endl;
-            }
-            
-            
-            for(int p= 0 ; p!=_profs.size() ; p++){
-                cout <<"Prof " << _profs[p].get_id() << " : " << endl;
-                for (int j = 0; j < 14; j++) {
-                    for (int k = 0; k < 22; k++) {
-                        cout << _profs[p].is_available(j,k);
-                    }
-                    cout <<endl;
-                }
-                cout << endl << endl;
-            }
+            cout << "ERREUR : " << endl;
             cout << "Semaine : " << num_week << endl;
             cout << i  << " sur " << nb_course_tot << endl;
             cout << "Pas de prof ou promo pour ajouter un cours" << endl;
@@ -207,15 +184,33 @@ void School::addCoursePromo(list<int> list_id_promo, list<progSemester> prog_wee
     }
 }
 
+//Fonction permettant de calculer le nombre de cours à placé en fonction des cours qui n'ont pas pu être
+//la semaine précédente
+int School::nb_courses_to_schedule(list<int> list_id_promo, int num_week, int nb_course_tot) {
+    int nb_course_not_schedule = 0;
+    //On regarde combien de cours n'ont pas pu être donnée la semaine d'avant pour les promos concernées
+    for(list<courseNotSchedule>::iterator it=_course_not_schedule.begin() ; it!=_course_not_schedule.end() ; it++) {
+        for(list<int>::iterator it_p=list_id_promo.begin() ; it_p!=list_id_promo.end() ; it_p++) {
+            if ((*it)._id_promo == _profs[*it_p].get_id() && (*it)._num_week == num_week-1)
+                nb_course_not_schedule++;
+        }
+    }
+    //Si il y a eu un cours qui n'a pas pu être placé, on refait le calcul du nombre de cours à 
+    //essayer d'ajouter cette semaine
+    if(nb_course_not_schedule > 0) {
+        nb_course_tot -= nb_course_tot - nb_course_not_schedule;
+    }
+    
+    return nb_course_tot;
+}
+
 
 //Donne le couple prof-classe qui a LE MOINS de disponibilités en commun sur une semaine donnée
-void School::best_connection(list<progSemester> prog_week, list<int> id_profs, list<int> id_promos, int num_week, int &prof_index, int &promo_index) {
+void School::best_connection(list<progSemester> &prog_week, list<int> id_profs, list<int> id_promos, int num_week, int &prof_index, int &promo_index) {
     
     int buf=23;
     int nbConnection;
     int i;
-    
-    cout << "Test taille liste prof : " << id_profs.size() << endl;
     
     //Pour tous les profs sur la semaine
     for(list<int>::iterator it_prof=id_profs.begin() ; it_prof!=id_profs.end() ; it_prof++) {
@@ -223,7 +218,7 @@ void School::best_connection(list<progSemester> prog_week, list<int> id_profs, l
         for(list<int>::iterator it_promo=id_promos.begin() ; it_promo!=id_promos.end() ; it_promo++) {
             //On vérifie que : le prof a encore au moins un cours à donner et que ses disponibilités sont les plus faibles
             nbConnection = nb_connections(*it_prof, *it_promo, num_week, prog_week);            
-            if(nbConnection > 0 && nbConnection < buf) {
+            if(nbConnection > 0 && nbConnection < buf && !isInCourseNotSchedule(*it_prof, *it_promo, num_week)) {
                 buf = nbConnection;
                 prof_index = *it_prof;
                 promo_index = *it_promo;
@@ -232,8 +227,17 @@ void School::best_connection(list<progSemester> prog_week, list<int> id_profs, l
     }
 }
 
+bool School::isInCourseNotSchedule(int id_prof, int id_promo, int num_week) {
+    for(list<courseNotSchedule>::iterator it=_course_not_schedule.begin() ; it!=_course_not_schedule.end() ; it++) {
+        if ((*it)._id_prof == id_prof && (*it)._id_promo == id_promo && (*it)._num_week == num_week)
+            return true;
+    }
+    return false;
+}
+
+
 //Retourne le nombre de disponibilités communes entre un prof et une classe sur une semaine donnée
-int School::nb_connections(int id_prof, int id_promo, int num_week, list<progSemester> prog_week) {
+int School::nb_connections(int id_prof, int id_promo, int num_week, list<progSemester> &prog_week) {
     
     int i,j=0,nb=0;
     int nbCourseProf = _profs[id_prof].nb_courses();
@@ -266,7 +270,7 @@ int School::nb_connections(int id_prof, int id_promo, int num_week, list<progSem
 }
 
 //Fonction pour ajouter UN cours à une promo
-void School::addCourse(list<progSemester> prog_week, int id_prof, int id_promo, int num_week) {
+void School::addCourse(list<progSemester> &prog_week, int id_prof, int id_promo, int num_week) {
     
     int i;
     int nb_course = _profs[id_prof].nb_courses();
@@ -278,6 +282,7 @@ void School::addCourse(list<progSemester> prog_week, int id_prof, int id_promo, 
         if(!_promos[id_promo].has_course_received(_profs[id_prof].get_id_course(i), num_week) && courseIsInWeek(prog_week, _profs[id_prof].get_id_course(i))) {
             //On crée le cours du prof dans la promo à la semaine num_week
             grantLecture(id_prof, id_promo, _profs[id_prof].get_id_course(i), num_week);
+            
             course_add = true;
             break;
         }                
@@ -290,7 +295,7 @@ void School::addCourse(list<progSemester> prog_week, int id_prof, int id_promo, 
 }
 
 //Méthode pour savoir si un cours est dans la semaine ou non
-bool School::courseIsInWeek(list<progSemester> prog_week, int id_course) {
+bool School::courseIsInWeek(list<progSemester> &prog_week, int id_course) {
     for(list<progSemester>::iterator it=prog_week.begin() ; it!=prog_week.end() ; it++) {
         if ((*it)._id_course == id_course)
             return true;
@@ -299,7 +304,7 @@ bool School::courseIsInWeek(list<progSemester> prog_week, int id_course) {
 }
 
 
-void School::grantLecture(int id_prof, int id_promo, int id_course, int num_week) {
+bool School::grantLecture(int id_prof, int id_promo, int id_course, int num_week) {
     
     int i;
     int nb_hour_course = _courses[id_course].get_lecture_size();
@@ -320,22 +325,37 @@ void School::grantLecture(int id_prof, int id_promo, int id_course, int num_week
                 }
             }
         }
+        //Si le cours de 4h n'a pas pu être créé
         if (!course_add) {
-            cout << "Pas de créneau de 4h disponnible pour le cours " << id_course ;
-            cout << " avec le prof " << id_prof << " pour la promo " << id_promo << endl;
-            exit(EXIT_FAILURE);
+            //On ajoute le cours dans la liste des cours non placé
+            addCourseNotSchedule(id_course, id_prof, id_promo, num_week);
+            course_add = false;
         }
-        
     }
-    
     else {
         for(i=0 ; i<22 ; i++) {
             if((_profs[id_prof].is_available(num_week, i)) && (_promos[id_promo].is_available(num_week, i))) {
                 _profs[id_prof].grant_lecture(_courses[id_course], _promos[id_promo].get_week(num_week), i);
+                course_add = true;
                 break;
             }
         }
     }
+    
+    return course_add;
+}
+
+//Méthode pour ajouter un cours non placé dans la liste de courseNotSchedule
+void School::addCourseNotSchedule(int id_course, int id_prof, int id_promo, int num_week) {
+    cout << "Pas de créneau de 4h disponnible pour le cours " << id_course ;
+    cout << " avec le prof " << id_prof << " pour la promo " << id_promo << endl;
+    //On ajoute le cours avec le prof promo semaine dans la liste des cours qui n'ont pas pu être placé.
+    courseNotSchedule c;
+    c._id_course = id_course;
+    c._id_prof = id_prof;
+    c._id_promo = id_promo;
+    c._num_week = num_week;
+    _course_not_schedule.push_back(c);   
 }
 
 //Fonction permettant de dupliquer les cours de la semaine précédente
@@ -383,17 +403,24 @@ void School::previousWeek(list<progSemester> &prog_week, list<int> id_promo, int
 }
 
 void School::promoAsCourseBefore(progSemester it_prog, list<int> id_promo, int num_week, int &cmpt_course_add_promo, bool &new_course_week) {
+    
+    int nb_course_add = 0;
     //Pour toutes les promos avec lesquelles on travaille
     for(list<int>::iterator it_promo=id_promo.begin() ; it_promo!=id_promo.end() ; it_promo++) {
         //Si la classe à déjà eu le cours la semaine précédente
         if(_promos[*it_promo].has_course_received(it_prog._id_course, num_week-1)) {
             addCourseWithPreviousWeek((*it_promo), it_prog, num_week, cmpt_course_add_promo);
+            nb_course_add++;
         }
-        //Si une promo n'a pas eu le cours alors aucune n'a pu l'avoir la semaine d'avant
-        else{
-            new_course_week = true;
-            break;
-        }
+    }
+    //Si le cours a pu être donné à toutes les promos alors il ne s'agit pas d'un nouveau cours
+    if (nb_course_add == id_promo.size()) {
+        new_course_week = false;
+    }
+    //Sinon il s'agit d'un cours qui n'a jamais été donné encore ou d'un cours qui n'a pas pu être placé pour toutes les promos la 
+    //semaine précédente
+    else {
+        new_course_week = true;
     }
 }
 

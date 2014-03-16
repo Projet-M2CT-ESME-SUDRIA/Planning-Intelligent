@@ -180,6 +180,15 @@ void School::display_schedule_promos() {
     
     int i, j;
     
+    if(_course_not_schedule.size() > 0) {
+        cout << endl << "LES COURS NON PLACÉES" << endl;
+        for(list<courseNotSchedule>::iterator it=_course_not_schedule.begin() ; it!=_course_not_schedule.end() ; it++) {
+            cout << "Cours : " << (*it)._id_course << " Prof : " << (*it)._id_prof;
+            cout << " Promo : " << (*it)._id_promo << " Week : " << (*it)._num_week << endl;
+        }
+    }
+    cout << endl;
+    
     for(map<int, Promo>::iterator it=_promos.begin() ; it!=_promos.end() ; it++) {
         cout << "Emploi du temps  : " << (*it).second.get_name() << endl;
                 

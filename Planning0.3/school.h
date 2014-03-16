@@ -23,6 +23,14 @@ struct s_progSemester{
     
 };
 
+typedef struct s_courseNotSchedule courseNotSchedule;
+struct s_courseNotSchedule {
+    int _id_course;
+    int _id_promo;
+    int _id_prof;
+    int _num_week;
+};
+
 void initProg(std::list<progSemester> &l);
 
 class School {
@@ -32,6 +40,7 @@ private:
     std::map<int, Prof> _profs;
     std::map<int, Promo> _promos;
     std::list<int> _list_promos;
+    std::list<courseNotSchedule> _course_not_schedule;
     int _nb_week;
     
 public:
@@ -77,12 +86,15 @@ public:
     std::list<progSemester> getProgWeek(std::list<progSemester> prog, int num_week);
     std::list<int> getProfWeek(std::list<progSemester> prog_week);
     bool prof_in_list(std::list<int>list_id_prof_week, int id_prof);
-    void addCoursePromo(std::list<int> list_id_promo, std::list<progSemester> prog_week, std::list<int> list_id_prof, int num_week);
-    void best_connection(std::list<progSemester> prog_week, std::list<int> id_profs, std::list<int> id_promos, int num_week, int &prof_index, int &promo_index);
-    int nb_connections(int id_prof, int id_promo, int num_week, std::list<progSemester> prog_week);
-    void addCourse(std::list<progSemester> prog_week, int id_prof, int id_promo, int num_week);
-    bool courseIsInWeek(std::list<progSemester> prog_week, int id_course);
-    void grantLecture(int id_prof, int id_promo, int id_course, int num_week);
+    void addCoursePromo(std::list<int> list_id_promo, std::list<progSemester> &prog_week, std::list<int> list_id_prof, int num_week);
+    int nb_courses_to_schedule(std::list<int> list_id_promo, int num_week, int nb_course_tot);
+    void best_connection(std::list<progSemester> &prog_week, std::list<int> id_profs, std::list<int> id_promos, int num_week, int &prof_index, int &promo_index);
+    bool isInCourseNotSchedule(int id_prof, int id_promo,int num_week);
+    int nb_connections(int id_prof, int id_promo, int num_week, std::list<progSemester> &prog_week);
+    void addCourse(std::list<progSemester> &prog_week, int id_prof, int id_promo, int num_week);
+    bool courseIsInWeek(std::list<progSemester> &prog_week, int id_course);
+    bool grantLecture(int id_prof, int id_promo, int id_course, int num_week);
+    void addCourseNotSchedule(int id_course, int id_prof, int id_promo, int num_week);
     void previousWeek(std::list<progSemester> &prog_week, std::list<int> id_promo, int num_week);
     void promoAsCourseBefore(progSemester it_prog, std::list<int> id_promo, int num_week, int &cmpt_course_add_promo, bool &new_course_week);
     void addCourseWithPreviousWeek(int it_promo, progSemester it_prog, int num_week, int &cmpt_course_add_promo);
