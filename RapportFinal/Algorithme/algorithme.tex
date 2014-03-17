@@ -25,32 +25,45 @@
 \maketitle
 
 \section{Pré-traitements}
-Avant de commencer à réaliser l'emploi du temps proprement parler, il faut vérifier que nos données d'entrées ne vont pas nous mener directement vers une non solution.
+Avant de commencer à réaliser l'emploi du temps proprement parler, il faut vérifier que nos données d'entrées ne vont pas nous mener  vers une non solution. Ces pré-traitements vont porter sur le nombre de professeur et la quantité des cours sur le semestre.
 
 \subsection{Le nombre de professeur}
-La première vérification va concerner le nombre de professeur que nous avons en entrée. La question qu'il faut se poser est : il y a t'il assez professeur pour donner chaque cours à chaque promotion?
-Le principe de cette algorithme est de faire la somme des créneaux de disponibilités de l'ensemble des profs pouvant donner un cours et le comparer avec le nombre de classes qui va devoir suivre ce cours.\\
+La première vérification va concerner le nombre de professeur en entrée. La question qu'il faut se poser est : il y a t'il assez de professeur pour donner chaque cours à toutes les promotions concernées?
+Le principe de cet algorithme est de faire la somme des disponibilités de l'ensemble des professeurs pouvant donner un cours. Cette somme est ensuite comparée au nombre de classes qui va suivre ce cours.\\
+Si le cours est sur 4 heures, alors la somme des disponibilités sera divisée par 2, car il va nécessiter 2 créneaux consécutifs dans la semaine pour donner le cours.\\
+
+Soit $n$ le nombre de professeur pouvant donner un cour $c$ et $m$ le nombre de classe devant suivre ce cours. Nous devons avoir pour un cours de 2 heures :
+\begin{center}
+$\sum_{i=0}^n dispo_{prof_i} > m$
+\end{center}
+
+Dans le cas d'un cours de 4 heures : 
+\begin{center}
+$\frac{\sum_{i=0}^n dispo_{prof_i}}{2} > m$
+\end{center}
+
+L'opération est répétée pour l'ensemble des cours. 
 
 \begin{algorithm}
 \caption{Pré-traitement nombre de professeurs}
 \begin{algorithmic}
 \FORALL{$Courses$}
-\STATE $idCourse \leftarrow id\_course[Courses]$
-\STATE $idPromo \leftarrow id\_promo[Courses]$
-\STATE $nbClasses \leftarrow$ nombre de classe de la promo $idPromo$
+\STATE $idCourse \leftarrow$ identifiant de $Courses$
+\STATE $idPromo \leftarrow$ identifiant de la promotion recevant $Courses$
+\STATE $nbClasses \leftarrow$ nombre de classe de la promotion $idPromo$
 \FORALL{$Profs$}
 \IF {$Profs$ donne le cours $idCourse$}
-\FORALL {$ProfSlots$}
+\FORALL {$CreneauxProf$}
 \IF {$Profs$ est displonnible}
-\STATE $nbSlots \leftarrow nbSlots + 1$
+\STATE $nbCreneaux \leftarrow nbCreneaux + 1$
 \ENDIF
 \ENDFOR
 \ENDIF
 \ENDFOR
 \IF {$Courses$ est sur 4h}
-\STATE $nbSlots \leftarrow nbSlots / 2$
+\STATE $nbCreneaux \leftarrow nbCreneaux / 2$
 \ENDIF
-\IF{$nbClasses > nbSlots$}
+\IF{$nbClasses > nbCreneaux$}
 \STATE display (Erreur sur le nombre de professeur pour la promo $idPromo$)
 \STATE EXIT FAILURE
 \ENDIF
@@ -62,7 +75,13 @@ Le principe de cette algorithme est de faire la somme des créneaux de disponibil
 \newpage
 
 \subsection{Le nombre de cours total sur le semestre}
-La seconde vérification va porter sur le nombre d'heure total que va suivre une classe sur l'ensemble du semestre. Ce nombre d'heure ne doit pas excéder le nombre d'heure maximum par rapport au nombre total de créneaux du semestre. Le principe est de faire la somme de l'ensemble des cours que va avoir la classe et la comparer au nombre d'heure maximum du semestre.
+La seconde vérification va porter sur le nombre d'heure de cours d'une classe sur le semestre. Ce nombre ne doit pas excéder la totalité des heures du semestre. Le principe est de faire la somme de l'ensemble des cours que va avoir une classe et de la comparer au nombre d'heure du semestre.
+
+Soit $n$ le nombre de cours d'une classe $p$, $s$ le nombre de semaine du semestre, $c$ le nombre de créneau sur une semaine et $h$ le nombre d'heure d'un créneau: 
+
+\begin{center}
+$\sum_{i=0}^n nbHeures_{cours_i} \leq s*c*h$
+\end{center}
 
 \begin{algorithm}
 \caption{Pré-traitement nombre d'heure sur le semestre}
@@ -81,33 +100,51 @@ La seconde vérification va porter sur le nombre d'heure total que va suivre une 
 \end{algorithmic}
 \end{algorithm}
 
-Une fois ces pré-traitements réalisé, nous pouvons commencer à réaliser l'emploi du temps de l'école.
+Une fois ces pré-traitements réalisés, nous pouvons commencer la conception de l'emploi du temps de l'école.
 
 \newpage
 \section{Réalisation de l'emploi du temps}
-La réalisation de l'emploi du temps se déroule en plusieurs étapes. Il sera réalisé pour chaque promotion indépendamment. Une promotion ayant plusieurs classes qui vont suivre le même programme sur l'ensemble du semestre, avec le même nombre d'heure et la même liste de professeur pouvant enseigner la liste des matières. 
-Puis pour chaque promotion, réaliser un emploi du temps sur le semestre. A savoir planifier l'ensemble des cours avec une semaine de départ et une semaine de fin.
-Enfin, placer les cours sur les créneaux en parcourant semaines par semaines sur l'ensemble des classes simultanément.
+La réalisation de l'emploi du temps se déroule en deux étapes. Elles seront réalisées pour chaque promotion indépendamment. Chaque classe d'une promotion va suivre le même programme avec la même liste d'enseignants.
+C'est pourquoi, chaque promotion va avoir un emploi du temps sur le semestre. A savoir, la planification des cours indiquant la semaine de début et de fin.
+Enfin, un emploi du temps final où sont placer les cours sur leurs créneaux. Il sera réaliser à l'aide du planning du semestre en le créant semaine par semaine.
 
 \begin{algorithm}
-\caption{Principe général de conception de l'emploi du temps}
+\caption{Principe général de conception des emplois du temps}
 \begin{algorithmic}
-\FORALL{$IdPromo$}
-\FORALL{$Classes$}
-\IF{$idPromo$ de Classes $= IdPromo$}
-\STATE $idCourses \leftarrow$ liste de tous les cours que doivent suivre la promotion $IdPromo$
-\STATE BREAK
-\ENDIF
-\ENDFOR
+\FORALL{$Promo$}
+\STATE $idCourses \leftarrow$ liste de tous les cours que doivent suivre la promotion $Promo$
 \STATE repartitionCoursSemestre($idCourses, programmeSemestre$)
-\STATE repartitionCoursPromotions($IdPromo, programmeSemestre$)
+\STATE repartitionCoursPromotions($Promo, programmeSemestre$)
 \ENDFOR
 \end{algorithmic}
 \end{algorithm}
 
-\newpage
 \subsection{Répartition du programme sur le semestre}
-La première étape de l'algorithme de résolution de planification de l'emploi du temps de l'école est à partir de l'ensemble du programme de la promo de placer les cours à une date de début et de fin sur le semestre. Dans un premier temps il va falloir donner un trie d'insertion des cours sur le programme du semestre. Il faut séparer les cours de deux et quatre heures, puis les trier dans l'ordre décroissant du nombre de semaines sur lequel va se dérouler le cours. Ensuite la répartition des cours sur le semestre en essayant toujours de placer un cours à la suite d'un fini. Dans le cas où il est impossible, le cours débutera au début du semestre.
+La première étape de l'algorithme de résolution de planification de l'emploi du temps de l'école est de répartir de l'ensemble du programme de la promotion sur le semestre. Cette étape consiste à indiquer pour chaque cours la date de début et de fin semaine.\\
+
+La répartition se déroule en deux étapes : 
+\begin{itemize}
+\item Le trie des cours 
+\item Le placement des cours sur le semestre\\
+\end{itemize}
+
+L'objectif est de répartir au mieux les cours sur le semestre. Il faut donc réussir à placer le maximum de cours les uns à la suite des autres. Les cours les plus longs seront donc placés en premier, puis pour chaque nouveau, il faut vérifier si il est possible de pouvoir le débuter après un cours déjà placé. Si tel n'est pas le cas, le cours sera placé en début de semestre.\\
+
+Un cours de 4 heures impose plus de contraintes. Il s'agit d'un cours où le professeur et la classe doivent avoir deux créneaux consécutifs libre et sans interruption (fin de journée, pause de midi). C'est pourquoi un cours de 4 heures doit être planifié sur le semestre avant un cours de 2 heures.\\
+
+Les cours vont tout d'abord être séparés en deux : les cours de 4 heures et les cours de 2 heures. Ensuite pour chacun des groupes un trie est effectué de manière décroissante par rapport à la durée d'un cours en nombre de semaine.\\
+
+Pour planifier les cours sur le semestre, la liste des cours triés de 4 heures puis de 2 heures vont être parcouru. Pour chaque nouveau coures à placer, il faut vérifier si il est possible de l'intégrer après un cours déjà placé. Il est possible de le faire uniquement si la durée du nouveau cours ne va pas dépasser la fin du semestre. Auquel cas le cours sera placé en début de semestre.
+
+$semaineDebut_{coursPlace} + nbSemaine_{coursPlace} + nbSemaine_{nouveauCours} \leq nbSemaine_{semestre}$\\
+
+Chaque élément du semestre va avoir les informations suivantes :
+\begin{itemize}
+\item L'identifiant du cours
+\item Le numéro du début de la semaine
+\item Le nombre de semaine du cours
+\item Le cours qui le suit
+\end{itemize}
 
 \begin{algorithm}
 \caption{Algorithme principale de la répartition des cours sur le semestre}
@@ -128,5 +165,41 @@ La première étape de l'algorithme de résolution de planification de l'emploi du 
 \STATE $programmeSemestre \leftarrow$ repartitionDesCours($idCourses$)
 \end{algorithmic}
 \end{algorithm}
+
+\begin{algorithm}
+\caption{repartitionDesCours($idCourses$)}
+\begin {algorithmic}
+\REQUIRE liste $idCourses$ triée par nombre de semaine d'un cours et par cours de 4H et 2H
+\STATE initialisation de $coursProgrammes$
+\FORALL {$idCourses$}
+\FORALL {$coursProgrammes$}
+\IF {$programmeSemestre$ a cours placé}
+\STATE checkNextCourse($idCourses, coursProgrammes$)
+\IF {$idCourses$ a été programmé}
+\STATE $coursPlace \leftarrow true$
+\STATE BREAK
+\ENDIF
+\ENDIF
+\ENDFOR
+\IF {$coursPlace == false$}
+\STATE $coursProgrammes \leftarrow$ pushback $idCourses$ en début de semestre
+\ENDIF
+\ENDFOR
+\RETURN $coursProgrammes$
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+\caption{checkNextCourse($idCourses, coursProgrammes$)}
+\begin {algorithmic}
+\IF {$coursProgrammes$ a un cours après lui déja}
+\STATE checkNextCourse($idCourses, coursProgrammes$ du cours suivant)
+\ELSIF {$semaineDebut_{coursProgrammes} + nbSemaine_{coursProgramme} + nbSemaine_{idCourses} \leq nbSemaine_{semestre}$}
+\STATE $coursProgramme \leftarrow$ pushBack $idCourses$
+\ENDIF
+\end{algorithmic}
+\end{algorithm}
+
+
 
 \end{document}
