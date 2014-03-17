@@ -310,8 +310,14 @@ bool School::grantLecture(int id_prof, int id_promo, int id_course, int num_week
     int nb_hour_course = _courses[id_course].get_lecture_size();
     bool course_add = false;
     
+    //Si le cours n'a pas pu être programmé la semaine précédente déja
+    if(isInCourseNotSchedule(id_prof, id_promo, num_week-1)) {
+        addCourseNotSchedule(id_course, id_prof, id_promo, num_week);
+        course_add = false;
+    }
+    
     //Si le cours est sur 4H on doit le faire commencer par un créneau pair
-    if (nb_hour_course==4) {
+    else if (nb_hour_course==4) {
         for(i=0 ; i<22 ; i++) {
             //Si on est sur un créneau pair
             if(i%2 == 0) {
