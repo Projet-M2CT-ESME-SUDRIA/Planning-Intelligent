@@ -120,7 +120,7 @@ Enfin, un emploi du temps final où sont placer les cours sur leurs créneaux. Il 
 \end{algorithm}
 
 \subsection{Répartition du programme sur le semestre}
-La première étape de l'algorithme de résolution de planification de l'emploi du temps de l'école est de répartir de l'ensemble du programme de la promotion sur le semestre. Cette étape consiste à indiquer pour chaque cours la date de début et de fin semaine.\\
+La première étape de l'algorithme de résolution de planification de l'emploi du temps est de répartir de l'ensemble du programme de la promotion sur le semestre. Cette étape consiste à indiquer pour chaque cours la date de début et de fin semaine.\\
 
 La répartition se déroule en deux étapes : 
 \begin{itemize}
@@ -128,13 +128,13 @@ La répartition se déroule en deux étapes :
 \item Le placement des cours sur le semestre\\
 \end{itemize}
 
-L'objectif est de répartir au mieux les cours sur le semestre. Il faut donc réussir à placer le maximum de cours les uns à la suite des autres. Les cours les plus longs seront donc placés en premier, puis pour chaque nouveau, il faut vérifier si il est possible de pouvoir le débuter après un cours déjà placé. Si tel n'est pas le cas, le cours sera placé en début de semestre.\\
+L'objectif est de répartir au mieux les cours sur le semestre. Il faut réussir à placer le maximum de cours les uns à la suite des autres. Les cours les plus longs sont donc placés en premier. Puis pour chaque nouveau cours, il faut vérifier si il est possible de pouvoir le débuter après un cours déjà placé. Si ce n'est pas le cas, le cours sera placé en début de semestre.\\
 
 Un cours de 4 heures impose plus de contraintes. Il s'agit d'un cours où le professeur et la classe doivent avoir deux créneaux consécutifs libre et sans interruption (fin de journée, pause de midi). C'est pourquoi un cours de 4 heures doit être planifié sur le semestre avant un cours de 2 heures.\\
 
 Les cours vont tout d'abord être séparés en deux : les cours de 4 heures et les cours de 2 heures. Ensuite pour chacun des groupes un trie est effectué de manière décroissante par rapport à la durée d'un cours en nombre de semaine.\\
 
-Pour planifier les cours sur le semestre, la liste des cours triés de 4 heures puis de 2 heures vont être parcouru. Pour chaque nouveau coures à placer, il faut vérifier si il est possible de l'intégrer après un cours déjà placé. Il est possible de le faire uniquement si la durée du nouveau cours ne va pas dépasser la fin du semestre. Auquel cas le cours sera placé en début de semestre.
+Pour planifier les cours sur le semestre, la liste des cours triés de 4 heures puis de 2 heures vont être parcouru. Pour chaque nouveau coures à placer, il faut vérifier si il est possible de l'intégrer après un cours déjà planifié. Il est possible de le faire uniquement si la durée du nouveau cours ne va pas dépasser la fin du semestre. Auquel cas le cours sera placé en début de semestre.
 
 $semaineDebut_{coursPlace} + nbSemaine_{coursPlace} + nbSemaine_{nouveauCours} \leq nbSemaine_{semestre}$\\
 
