@@ -9,6 +9,7 @@
 #include "parseFile.h"
 #include "routine.h"
 #include <iostream>
+#include <fstream>
 
 using namespace std;
 
@@ -220,6 +221,36 @@ void School::display_schedule_promos() {
         cout << endl << endl;
     }
     
+}
+
+//Affichage de l'emploi du temps de toutes les classes dans des fichiers
+void School::write_schedule_file() {
+    
+    int i, j;
+    string filename;
+
+    for(map<int, Promo>::iterator it=_promos.begin() ; it!=_promos.end() ; it++) {
+        filename = "EDT\\" + (*it).second.get_name() + ".txt";
+        
+        ofstream newFile(filename.c_str());
+        
+        if(newFile) {
+        
+            for(i=0 ; i<14 ; i++) {
+                for(int j=0 ; j<22 ; j++) {
+                    newFile << (*it).second.get_week(i).get_lecture(j).get_id_prof() << ",";
+                    newFile << (*it).second.get_week(i).get_lecture(j).get_id_course();
+                    if(j<21)
+                        newFile << "|";
+                }
+                if(i<13)
+                    newFile << endl;
+            }
+        }
+        
+        else
+            cout << "Probleme dans la creation du fichier" << endl;
+    }
 }
 
 

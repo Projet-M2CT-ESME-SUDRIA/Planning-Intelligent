@@ -58,6 +58,7 @@ public:
     //Affichage
     void display();
     void display_schedule_promos();
+    void write_schedule_file();
     
     //Méthodes relatives au prétraitement
     int nb_class_promo(int id_promo);
