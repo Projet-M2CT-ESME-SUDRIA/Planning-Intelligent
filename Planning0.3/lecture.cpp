@@ -23,3 +23,11 @@ int Lecture::get_id_course() {
 int Lecture::get_id_prof() {
     return _id_prof;
 }
+
+//Setter
+//Méthode pour pouvoir réinitiallier un cours (après avoir déplacer un cours)
+void Lecture::reinitialiseLecture() {
+    _id_course = -1;
+    _id_prof = -1;
+    _id_week = -1;
+}

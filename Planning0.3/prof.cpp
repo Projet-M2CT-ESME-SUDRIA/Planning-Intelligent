@@ -85,6 +85,11 @@ void Prof::add_given_course(int id_c){
     _id_given_courses.push_back(id_c);
 }
 
+//Méthode pour rendre le prof de nouveau libre sur une semaine et un créneau(utilisé quand déplace un cours)
+void Prof::putAvailable(int num_week, int index) {
+    editList(_availability[num_week],index, 1);
+}
+
 
 //Random function
 int Prof::grant_lecture(Course c, Week &w, int index) {

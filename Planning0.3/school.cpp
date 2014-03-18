@@ -223,6 +223,18 @@ void School::display_schedule_promos() {
     
 }
 
+//Affichage de l'emploi du temps d'une promotion
+void School::display_schedule_one_promo(int id_promo) {
+    int i,j;
+    cout << endl << "Emploi du temps de la " << _promos[id_promo].get_name() << endl;
+    for(i=0 ; i<14 ; i++) {
+            for(int j=0 ; j<22 ; j++) {
+                cout << _promos[id_promo].get_week(i).get_lecture(j).get_id_course() << "  ";
+            }
+            cout << endl;
+        }
+}
+
 //Affichage de l'emploi du temps de toutes les classes dans des fichiers
 void School::write_schedule_file() {
     

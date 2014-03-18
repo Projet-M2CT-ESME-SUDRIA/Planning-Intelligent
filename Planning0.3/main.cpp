@@ -26,6 +26,8 @@ void test3() {
     s.divideCourses();
     
     s.display_schedule_promos();
+    s.moveCourse();
+    s.write_schedule_file();
     
     return;
                 

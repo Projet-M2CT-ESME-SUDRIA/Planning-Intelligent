@@ -75,7 +75,15 @@ void Week::add_lecture(int index, Lecture l) {
     advance(it,index);
     
     *it = l;
-    //this->_lectures.insert(_lectures.begin()+index,l);
+}
+
+//Méthode pour réinitialiser un cours après un changement de semaine et créneau
+void Week::reinitialise_lecture(int index) {
+    list<Lecture>::iterator it = _lectures.begin();
+    
+    advance(it,index);
+    
+    (*it).reinitialiseLecture();
 }
 
 

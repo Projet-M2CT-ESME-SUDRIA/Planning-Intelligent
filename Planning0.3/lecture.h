@@ -30,6 +30,9 @@ public:
     int get_id_course();
     int get_id_prof();
     
+    //Setter
+    void reinitialiseLecture();
+    
 };
 
 

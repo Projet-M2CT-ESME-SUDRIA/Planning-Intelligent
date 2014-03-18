@@ -45,6 +45,7 @@ public:
     void add_availability(int nb_weeks, std::list <int> availability);
     void set_availability(int num_week, int index);
     void add_given_course(int id_c);
+    void putAvailable(int num_week, int index);
     
     //Random functions
     int grant_lecture(Course c, Week &w, int index);

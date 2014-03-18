@@ -39,6 +39,7 @@ public:
     
     //Setter
     void add_lecture(int index, Lecture l);
+    void reinitialise_lecture(int index);
 
 };
 

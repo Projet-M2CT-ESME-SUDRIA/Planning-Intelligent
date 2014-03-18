@@ -58,6 +58,7 @@ public:
     //Affichage
     void display();
     void display_schedule_promos();
+    void display_schedule_one_promo(int id_promo);
     void write_schedule_file();
     
     //Méthodes relatives au prétraitement
@@ -99,6 +100,13 @@ public:
     void previousWeek(std::list<progSemester> &prog_week, std::list<int> id_promo, int num_week);
     void promoAsCourseBefore(progSemester it_prog, std::list<int> id_promo, int num_week, int &cmpt_course_add_promo, bool &new_course_week);
     void addCourseWithPreviousWeek(int it_promo, progSemester it_prog, int num_week, int &cmpt_course_add_promo);
+    
+    //Routine 3 : déplacement d'un cours
+    void moveCourse();
+    int selectionClasse();
+    void selectionCourseToMove(int &num_week_start, int &num_slot_start, int &num_week_end, int &num_slot_end);
+    bool courseInSelection(int id_promo, int num_week_start, int num_slot_start);
+    bool courseNewPlaceCheck(int id_promo, int id_prof, int id_course, int num_week_end, int num_slot_end);
 };
 
 #endif	/* SCHOOL_H */
