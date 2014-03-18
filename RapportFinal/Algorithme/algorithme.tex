@@ -25,7 +25,7 @@
 \maketitle
 
 \section{Pré-traitements}
-Avant de réaliser l'emploi du temps, le programme procède à des vérifications sur les données d'entrées afin de détecter toutes les incohérences. Ainsi, il élimine au préalable une partie des traitements qui n'aboutiront pas.
+Avant de réaliser l'emploi du temps, nous procédons à des vérifications sur les données d'entrées afin de détecter toutes les incohérences. Ainsi, nous éliminons au préalable une partie des traitements qui n'aboutiront pas.
 
 \subsection{Le nombre de professeur}
 La première vérification concerne le nombre de professeurs en entrée. Nous vérifions s'il y a assez de professeurs pour dispenser les cours de chaque classe.
@@ -48,12 +48,12 @@ L'opération est répétée pour l'ensemble des cours.
 \begin{algorithm}
 \caption{Pré-traitement nombre de professeurs}
 \begin{algorithmic}
-\FORALL{$Courses$}
-\STATE $idCourse \leftarrow$ identifiant de $Courses$
-\STATE $idPromo \leftarrow$ identifiant de la promotion recevant $Courses$
+\FORALL{$Cours$}
+\STATE $idCours \leftarrow$ identifiant de $Cours$
+\STATE $idPromo \leftarrow$ identifiant de la promotion recevant $Cours$
 \STATE $nbClasses \leftarrow$ nombre de classe de la promotion $idPromo$
 \FORALL{$Profs$}
-\IF {$Profs$ donne le cours $idCourse$}
+\IF {$Profs$ donne le cours $idCours$}
 \FORALL {$CreneauxProf$}
 \IF {$Profs$ est disponible}
 \STATE $nbCreneaux \leftarrow nbCreneaux + 1$
@@ -61,7 +61,7 @@ L'opération est répétée pour l'ensemble des cours.
 \ENDFOR
 \ENDIF
 \ENDFOR
-\IF {$Courses$ est sur 4h}
+\IF {$Cours$ est sur 4h}
 \STATE $nbCreneaux \leftarrow nbCreneaux / 2$
 \ENDIF
 \IF{$nbClasses > nbCreneaux$}
@@ -88,9 +88,9 @@ $\sum_{i=0}^n nbHeures_{cours_i} \leq s*c*h$
 \caption{Pré-traitement nombre d'heures sur le semestre}
 \begin{algorithmic}
 \FORALL{$Classes$}
-\STATE $listCourses \leftarrow$ ensemble des cours que suit une classe
-\FORALL {$courses$ in $listCourses$}
-\STATE $nbHours \leftarrow nbHours +$ nombre d'heures du cours $courses$
+\STATE $listCours \leftarrow$ ensemble des cours que suit une classe
+\FORALL {$cours$ in $listCours$}
+\STATE $nbHours \leftarrow nbHours +$ nombre d'heures du cours $cours$
 \ENDFOR
 \IF {$nbHours$ > (nombre de semaines du semestre * nombre de créneaux par semaine * nombre d'heures par créneau)}
 \STATE display(Erreur, trop d'heures pour la classe $Classes$)
@@ -105,15 +105,15 @@ Une fois ces pré-traitements réalisés, nous pouvons commencer la conception d
 
 \newpage
 \section{Réalisation de l'emploi du temps}
-La réalisation de l'emploi du temps se déroule en deux étapes. Tout d'abord, chaque classe d'une promotion suit les mêmes cours avec la même liste d'enseignants potentiels. On commence par répartir les cours en indiquant la semaine où le cours commence et celle où il se termine. 
+La réalisation de l'emploi du temps se déroule en deux étapes. Tout d'abord, chaque classe d'une promotion suit les mêmes cours avec la même liste d'enseignants potentiels. Nous commençons par répartir les cours en indiquant la semaine où le cours commence et celle où il se termine. 
 Enfin, un emploi du temps final sera réalisé semaine par semaine avec chaque cours placés sur ses créneaux respectifs.
 
 \begin{algorithm}
 \caption{Principe général de conception des emplois du temps}
 \begin{algorithmic}
 \FORALL{$Promo$}
-\STATE $idCourses \leftarrow$ liste de tous les cours que doivent suivre la promotion $Promo$
-\STATE repartitionCoursSemestre($idCourses, programmeSemestre$)
+\STATE $idCours \leftarrow$ liste de tous les cours que doivent suivre la promotion $Promo$
+\STATE $programmeSemestre \leftarrow $ repartitionCoursSemestre($idCours$)
 \STATE repartitionCoursPromotions($Promo, programmeSemestre$)
 \ENDFOR
 \end{algorithmic}
@@ -147,57 +147,64 @@ Chaque élément du semestre va avoir les informations suivantes :
 \begin{algorithm}
 \caption{Algorithme principale de la répartition des cours sur le semestre}
 \begin{algorithmic}
-\REQUIRE liste $idCourse$, liste $programmeSemestre$
-\FORALL {$idCourse$}
-\IF {$idCourse$ est un cours sur 2h}
-\STATE $idCourses2 \leftarrow$ pushback $idCourses$
+\REQUIRE liste $idCours$, liste $programmeSemestre$
+\FORALL {$idCours$}
+\IF {$idCours$ est un cours sur 2h}
+\STATE $idCours2 \leftarrow$ pushback $idCours$
 \ELSE
-\STATE $idCourses4 \leftarrow$ pushback $idCourses$
+\STATE $idCours4 \leftarrow$ pushback $idCours$
 \ENDIF
 \ENDFOR
-\STATE Trie de $idCourses2$ par nombre de semaine de cours décroissant
-\STATE Trie de $idCourses4$ par nombre de semaine de cours décroissant
-\STATE $idCourses$ est vider
-\STATE $idCourses \leftarrow$ pushback $idCourses4$
-\STATE $idCourses \leftarrow$ pushback $idCourses2$
-\STATE $programmeSemestre \leftarrow$ repartitionDesCours($idCourses$)
+\STATE Trie de $idCours2$ par nombre de semaine de cours décroissant
+\STATE Trie de $idCours4$ par nombre de semaine de cours décroissant
+\STATE $idCours$ est vider
+\FORALL {$idCours4$}
+\STATE $idCours \leftarrow$ pushback $idCours4$
+\ENDFOR
+\FORALL {$idCours2$}
+\STATE $idCours \leftarrow$ pushback $idCours2$
+\ENDFOR
+\RETURN $programmeSemestre \leftarrow$ repartitionDesCours($idCours$)
 \end{algorithmic}
 \end{algorithm}
 
 \begin{algorithm}
-\caption{repartitionDesCours($idCourses$)}
+\caption{repartitionDesCours($idCours$)}
 \begin {algorithmic}
-\REQUIRE liste $idCourses$ triée par nombre de semaine d'un cours et par cours de 4H et 2H
-\STATE initialisation de $coursProgrammes$
-\FORALL {$idCourses$}
-\FORALL {$coursProgrammes$}
-\IF {$programmeSemestre$ a cours placé}
-\STATE checkNextCourse($idCourses, coursProgrammes$)
-\IF {$idCourses$ a été programmé}
+\REQUIRE liste $idCours$ triée par nombre de semaine d'un cours et par cours de 4H et 2H
+\STATE initialisation de $programmeSemestre$
+\FORALL {$idCours$}
+\FORALL {$cours$ in $programmeSemestre$}
+\IF {$cours$ a été placé}
+\STATE checkNextCourse($idCourses, cours$)
+\IF {$idCours$ a été programmé}
 \STATE $coursPlace \leftarrow true$
 \STATE BREAK
 \ENDIF
 \ENDIF
 \ENDFOR
 \IF {$coursPlace == false$}
-\STATE $coursProgrammes \leftarrow$ pushback $idCourses$ en début de semestre
+\STATE $programmeSemester \leftarrow$ pushback $idCours$ en le configurant en début de semestre
 \ENDIF
 \ENDFOR
-\RETURN $coursProgrammes$
+\RETURN $programmeSemestre$
 \end{algorithmic}
 \end{algorithm}
 
+
+\newpage
+
 \begin{algorithm}
-\caption{checkNextCourse($idCourses, coursProgrammes$)}
+\caption{checkNextCourse($idCours, cours$)}
 \begin {algorithmic}
-\IF {$coursProgrammes$ a un cours après lui déja}
-\STATE checkNextCourse($idCourses, coursProgrammes$ du cours suivant)
+\IF {$cours$ a un cours après lui}
+\STATE checkNextCourse($idCourses, cours$ du $cours$ suivant)
 \ELSIF {$semaineDebut_{coursProgrammes} + nbSemaine_{coursProgramme} + nbSemaine_{idCourses} \leq nbSemaine_{semestre}$}
-\STATE $coursProgramme \leftarrow$ pushBack $idCourses$
+\STATE $programmeSemestre \leftarrow$ pushBack $idCours$ en le configurant après le cours $cours$
 \ENDIF
 \end{algorithmic}
 \end{algorithm}
 
-
+Après avoir réaliser cet emploi du temps, nous pouvons commencer à placer les cours sur les créneaux des classes concernées
 
 \end{document}
