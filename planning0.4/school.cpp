@@ -241,7 +241,7 @@ void School::write_schedule_file() {
     string filename;
 
     for(map<int, Promo>::iterator it=_promos.begin() ; it!=_promos.end() ; it++) {
-        filename = "EDT\\" + (*it).second.get_name() + ".txt";
+        filename = "EDT/" + (*it).second.get_name() + ".txt";
         
         ofstream newFile(filename.c_str());
         
