@@ -6,7 +6,7 @@
  */
 
 #ifndef SCHOOL_H
-#define	SCHOOL_H
+#define SCHOOL_H
 
 #include "course.h"
 #include "prof.h"
@@ -116,5 +116,5 @@ public:
     int selectNewSlot(std::list<possibleSlots>listNewSlots);
 };
 
-#endif	/* SCHOOL_H */
+#endif  /* SCHOOL_H */
 

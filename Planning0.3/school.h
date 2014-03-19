@@ -11,7 +11,6 @@
 #include "course.h"
 #include "prof.h"
 #include "promo.h"
-#include "routine.h"
 
 typedef struct s_progSemester progSemester;
 struct s_progSemester{
