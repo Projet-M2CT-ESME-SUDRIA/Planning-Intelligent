@@ -6,11 +6,12 @@
  */
 
 #ifndef SCHOOL_H
-#define SCHOOL_H
+#define	SCHOOL_H
 
 #include "course.h"
 #include "prof.h"
 #include "promo.h"
+#include "routine.h"
 
 typedef struct s_progSemester progSemester;
 struct s_progSemester{
@@ -59,7 +60,6 @@ public:
     void parse_promos();
     void new_promo(std::string line);
     void fill_list_promo();
-    void reInitialize();
     
     //Affichage
     void display();
@@ -89,13 +89,13 @@ public:
     void give_courses_semester(std::list<int> &id_courses, std::list<progSemester> &prog);
     
     //Routine 2 : répartitions des cours dans les semaines
-    int give_courses_promo(int id_year, std::list<progSemester> prog);
+    void give_courses_promo(int id_year, std::list<progSemester> prog);
     std::list<int> getClassPromo(int id_year);
     std::list<progSemester> getProgWeek(std::list<progSemester> prog, int num_week);
     std::list<int> getProfWeek(std::list<progSemester> prog_week);
     bool prof_in_list(std::list<int>list_id_prof_week, int id_prof);
-    bool addCoursePromo(std::list<int> list_id_promo, std::list<progSemester> &prog_week, std::list<int> list_id_prof, int num_week);
-    int nb_courses_to_schedule(std::list<progSemester> prog_week, std::list<int> list_id_promo, int num_week, int nb_course_tot);
+    void addCoursePromo(std::list<int> list_id_promo, std::list<progSemester> &prog_week, std::list<int> list_id_prof, int num_week);
+    int nb_courses_to_schedule(std::list<int> list_id_promo, int num_week, int nb_course_tot);
     void best_connection(std::list<progSemester> &prog_week, std::list<int> id_profs, std::list<int> id_promos, int num_week, int &prof_index, int &promo_index);
     bool isInCourseNotSchedule(int id_prof, int id_promo,int num_week);
     int nb_connections(int id_prof, int id_promo, int num_week, std::list<progSemester> &prog_week);
@@ -117,5 +117,5 @@ public:
     int selectNewSlot(std::list<possibleSlots>listNewSlots);
 };
 
-#endif  /* SCHOOL_H */
+#endif	/* SCHOOL_H */
 

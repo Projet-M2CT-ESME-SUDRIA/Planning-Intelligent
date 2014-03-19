@@ -6,7 +6,7 @@
  */
 
 #ifndef LECTURE_H
-#define LECTURE_H
+#define	LECTURE_H
 
 #include <list>
 #include <map>
@@ -36,5 +36,5 @@ public:
 };
 
 
-#endif  /* LECTURE_H */
+#endif	/* LECTURE_H */
 
