@@ -1,4 +1,4 @@
-/* 
+﻿/* 
  * File:   school.cpp
  * Author: Corentin
  *
@@ -10,6 +10,8 @@
 #include "routine.h"
 #include <iostream>
 #include <fstream>
+
+#define MAX_ITERATION 100
 
 using namespace std;
 
@@ -160,6 +162,19 @@ void School::fill_list_promo(){
     _list_promos.sort();
 }
 
+void School::reInitialize() {
+	
+	_profs.clear();
+	Prof::_static_id=0;
+	parse_profs();
+
+	_promos.clear();
+	Promo::_static_id=0;
+	parse_promos();
+
+	_course_not_schedule.clear();
+}
+
 //Affichage du contenu des map
 void School::display(){
     
@@ -228,11 +243,11 @@ void School::display_schedule_one_promo(int id_promo) {
     int i,j;
     cout << endl << "Emploi du temps de la " << _promos[id_promo].get_name() << endl;
     for(i=0 ; i<14 ; i++) {
-            for(int j=0 ; j<22 ; j++) {
-                cout << _promos[id_promo].get_week(i).get_lecture(j).get_id_course() << "  ";
-            }
-            cout << endl;
+        for(int j=0 ; j<22 ; j++) {
+            cout << _promos[id_promo].get_week(i).get_lecture(j).get_id_course() << "  ";
         }
+        cout << endl;
+    }
 }
 
 //Affichage de l'emploi du temps de toutes les classes dans des fichiers
@@ -242,7 +257,7 @@ void School::write_schedule_file() {
     string filename;
 
     for(map<int, Promo>::iterator it=_promos.begin() ; it!=_promos.end() ; it++) {
-        filename = "EDT\\" + (*it).second.get_name() + ".txt";
+        filename = "EDT/" + (*it).second.get_name() + ".txt";
         
         ofstream newFile(filename.c_str());
         
@@ -264,7 +279,6 @@ void School::write_schedule_file() {
             cout << "Probleme dans la creation du fichier" << endl;
     }
 }
-
 
 //Retourne le nombre de classe dans une promo à partir de son id
 int School::nb_class_promo(int id_promo){
@@ -320,20 +334,38 @@ void School::divideCourses(){
     
     list<int> id_courses;
     list<progSemester> prog;
-    
-    //Parcourt la liste des promotions (B1,B2...) de l'école, pour récupérer le programme de l'année. 
-    for(list<int>::iterator it_list = _list_promos.begin() ; it_list!=_list_promos.end() ; it_list++){
-        for(map<int, Promo>::iterator it_promo = _promos.begin() ; it_promo != _promos.end() ; it_promo++){
-            if(*it_list == (*it_promo).second.get_id_promo()) {
-                id_courses = (*it_promo).second.get_id_courses();
-                break;
-            }
-        }
+	int nbFail=2000;
+	int nbIterations=0;
+    int course_add;
+
+	do {
+		reInitialize();
+		nbIterations++;
+
+		cout << "Iteration " << nbIterations << " | ";
+
+		//Parcourt la liste des promotions (B1,B2...) de l'école, pour récupérer le programme de l'année. 
+		for(list<int>::iterator it_list = _list_promos.begin() ; it_list!=_list_promos.end() ; it_list++){
+			for(map<int, Promo>::iterator it_promo = _promos.begin() ; it_promo != _promos.end() ; it_promo++){
+				if(*it_list == (*it_promo).second.get_id_promo()) {
+					id_courses = (*it_promo).second.get_id_courses();
+					break;
+				}
+			}
         
-        //Routine 1 : répartition des cours d'une promotion sur le semestre
-        give_courses_semester(id_courses, prog);
+			//Routine 1 : répartition des cours d'une promotion sur le semestre
+			give_courses_semester(id_courses, prog);
         
-        //Routine 2 : répartition des cours de l'ensemble des classes d'une promotion, semaine par semaine
-        give_courses_promo(*it_list, prog);
-    }
+			//Routine 2 : répartition des cours de l'ensemble des classes d'une promotion, semaine par semaine
+			course_add = give_courses_promo(*it_list, prog);
+
+		}
+
+		if(_course_not_schedule.size() < nbFail)
+			nbFail = _course_not_schedule.size();
+		
+		cout << _course_not_schedule.size() << " erreurs" << endl;
+	} while(_course_not_schedule.size() != 0 && nbIterations < MAX_ITERATION);
+
+	cout << "Meilleur : " << nbFail << " erreurs, en " << nbIterations << " iterations" << endl;
 }
