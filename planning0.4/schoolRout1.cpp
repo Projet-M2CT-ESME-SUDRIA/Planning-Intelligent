@@ -25,8 +25,8 @@ void School::give_courses_semester(list<int> &id_courses, list<progSemester> &pr
         cout << "Prog semestre pas bon" << endl;
         exit(EXIT_FAILURE);
     }
-    //else
-      //  cout << "Prog semestre OK" << endl;
+    else
+        cout << "Prog semestre OK" << endl;
 }
 
 //Fonction permettant de séparer les cours de 2h et de 4h
@@ -88,9 +88,9 @@ list<progSemester> School::splitCourses(list<int> id_courses) {
     }
     
     //Affichage (test)
-    /*for(list<progSemester>::iterator it = prog.begin() ; it != prog.end() ; it++) {
+    for(list<progSemester>::iterator it = prog.begin() ; it != prog.end() ; it++) {
         cout << (*it)._id_course << "|" << (*it)._nb_weeks << "|" << (*it)._start_week << endl;
-    }*/
+    }
     
     return prog;
 }

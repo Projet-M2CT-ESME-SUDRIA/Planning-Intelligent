@@ -1,0 +1,8 @@
+1|B1A|50|algebreB1,analyseB1,geoAnaB1,tpLogicielInfo,thermo,electroMagne,scienceIngeB1,cultureG,tpMethodo,algoCB1,anglaisB1
+1|B1B|50|algebreB1,analyseB1,geoAnaB1,tpLogicielInfo,thermo,electroMagne,scienceIngeB1,cultureG,tpMethodo,algoCB1,anglaisB1
+2|B2A|50|algebreB2,analyseB2,geoAnaB2,tpLogicielMaths,physiqueOndes,signauxSysteme,scienceIngeB2,electronique,RelationHumaine,algoCB2,anglaisB2
+2|B2B|50|algebreB2,analyseB2,geoAnaB2,tpLogicielMaths,physiqueOndes,signauxSysteme,scienceIngeB2,electronique,RelationHumaine,algoCB2,anglaisB2
+3|B3A|50|systemeLine,nrj,machineElec,theorieSignal,reseaux,comAnalogique,CB3,elecAna,instrumentation,elecNumerique,automatesEtatFini,micropro,seminaire,anglaisB3
+3|B3B|50|systemeLine,nrj,machineElec,theorieSignal,reseaux,comAnalogique,CB3,elecAna,instrumentation,elecNumerique,automatesEtatFini,micropro,seminaire,anglaisB3
+4|M1A|50|composantElec,conversionNRJ,AutoLineaire,elecTelecom,TNS,comNum,Reseaux,CM1,unix,microsys,vhdl,outilDevMicro,anglaisM1,mineur,suiviProjet
+4|M1B|50|composantElec,conversionNRJ,AutoLineaire,elecTelecom,TNS,comNum,Reseaux,CM1,unix,microsys,vhdl,outilDevMicro,anglaisM1,mineur,suiviProjet
