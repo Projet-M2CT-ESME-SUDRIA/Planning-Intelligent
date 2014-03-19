@@ -11,7 +11,7 @@
 #include <iostream>
 #include <fstream>
 
-#define MAX_ITERATION 2
+#define MAX_ITERATION 100
 
 using namespace std;
 
