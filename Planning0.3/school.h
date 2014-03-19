@@ -31,6 +31,12 @@ struct s_courseNotSchedule {
     int _num_week;
 };
 
+typedef struct s_possibleSlots possibleSlots;
+struct s_possibleSlots {
+    int num_week;
+    int slot;
+};
+
 void initProg(std::list<progSemester> &l);
 
 class School {
@@ -104,9 +110,11 @@ public:
     //Routine 3 : déplacement d'un cours
     void moveCourse();
     int selectionClasse();
-    void selectionCourseToMove(int &num_week_start, int &num_slot_start, int &num_week_end, int &num_slot_end);
+    void selectionCourseToMove(int &num_week_start, int &num_slot_start);
     bool courseInSelection(int id_promo, int num_week_start, int num_slot_start);
-    bool courseNewPlaceCheck(int id_promo, int id_prof, int id_course, int num_week_end, int num_slot_end);
+    void courseNewPlace(int id_promo, int id_prof, int id_course, std::list<possibleSlots> listNewSlots, int newSlot);
+    void getPossibleSlots(std::list<possibleSlots> &listNewSlots, int id_promo, int id_prof);
+    int selectNewSlot(std::list<possibleSlots>listNewSlots);
 };
 
 #endif	/* SCHOOL_H */
