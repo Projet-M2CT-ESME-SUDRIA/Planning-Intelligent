@@ -6,7 +6,7 @@
  */
 
 #ifndef WEEK_H
-#define	WEEK_H
+#define WEEK_H
 
 
 #include <list>
@@ -44,5 +44,5 @@ public:
 };
 
 
-#endif	/* WEEK_H */
+#endif  /* WEEK_H */
 

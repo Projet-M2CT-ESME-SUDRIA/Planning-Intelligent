@@ -7,8 +7,8 @@
 
 #include <cstdlib>
 #include <iostream>
+#include <time.h>
 #include "parseFile.h"
-#include "routine.h"
 #include "school.h"
 
 
@@ -25,8 +25,6 @@ void test3() {
     
     s.divideCourses();
     
-    s.display_schedule_promos();
-    s.moveCourse();
     s.write_schedule_file();
     
     return;
@@ -34,7 +32,9 @@ void test3() {
 }
 
 int main(int argc, char* argv[]) {
-   test3(); 
+    srand(time(NULL));
+    test3(); 
    
-   return 0;
+    system("pause");
+    return 0;
 }

@@ -7,7 +7,7 @@
  */
 
 #ifndef COURSE_H
-#define	COURSE_H
+#define COURSE_H
 
 #include <list>
 #include <map>
@@ -50,5 +50,5 @@ public:
 };
 
 
-#endif	/* COURSE_H */
+#endif  /* COURSE_H */
 

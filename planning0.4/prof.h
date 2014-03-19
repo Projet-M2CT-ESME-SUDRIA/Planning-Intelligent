@@ -6,7 +6,7 @@
  */
 
 #ifndef PROF_H
-#define	PROF_H
+#define PROF_H
 
 
 #include <list>
@@ -57,5 +57,5 @@ public:
 };
 
 
-#endif	/* PROF_H */
+#endif  /* PROF_H */
 

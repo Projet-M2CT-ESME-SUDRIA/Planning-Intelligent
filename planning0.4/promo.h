@@ -6,7 +6,7 @@
  */
 
 #ifndef PROMO_H
-#define	PROMO_H
+#define PROMO_H
 
 #include <list>
 #include <map>
@@ -58,5 +58,5 @@ public:
 
 
 
-#endif	/* PROMO_H */
+#endif  /* PROMO_H */
 
