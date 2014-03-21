@@ -10,7 +10,7 @@
 #include <iostream>
 #include <fstream>
 
-#define NB_ITERATE 100
+#define NB_ITERATE 1000
 
 using namespace std;
 
@@ -340,6 +340,9 @@ void School::divideCourses(){
     list<progSemester> prog;
     
     int cmpt_iterate = 0;
+    int nb_course = 0;
+    int best_schedule = 3000;
+    int returnGiveCourse = 0;
     
     do {
         reinitialise();
@@ -356,10 +359,21 @@ void School::divideCourses(){
             give_courses_semester(id_courses, prog);
 
             //Routine 2 : répartition des cours de l'ensemble des classes d'une promotion, semaine par semaine
-            give_courses_promo(*it_list, prog);
+            returnGiveCourse = give_courses_promo(*it_list, prog);
         }
         
+        if(returnGiveCourse) {
+            nb_course = _course_not_schedule.size();
+            cout << "Itération : " << cmpt_iterate << " nombre de cours non placés : " << nb_course << endl;
+            if(nb_course < best_schedule) {
+                best_schedule = nb_course;
+                write_schedule_file();
+                display_schedule_promos();
+            }
+        }
         cmpt_iterate ++;
         
-    }while(_course_not_schedule.size() > 0 || cmpt_iterate > NB_ITERATE);
+    }while(nb_course > 0 && cmpt_iterate < NB_ITERATE);
+    
+    cout << best_schedule << " non placé au mieux" << endl;
 }

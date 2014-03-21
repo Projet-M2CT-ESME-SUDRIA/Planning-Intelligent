@@ -73,12 +73,13 @@ list<int> merge_sort_int(list<int> &l) {
 
 
 //Fonction qui parcourt la liste de classes d'une promo et appelle la fonction de répartition des cours dans la semaine
-void School::give_courses_promo(int id_year, list<progSemester> prog) {
+int School::give_courses_promo(int id_year, list<progSemester> prog) {
     
     list<int> id_promo = getClassPromo(id_year);
     list<progSemester> prog_week;
     list<int> prof_week;
     int num_week;
+    int scheduleOk = 0;
     
     //Pour toutes les semaines du semestre
     for (num_week=0; num_week<_nb_week ; num_week++) {
@@ -89,9 +90,12 @@ void School::give_courses_promo(int id_year, list<progSemester> prog) {
         //Si il reste des cours à placer après l'appel de previous week
         if(prog_week.size() != 0) {
             prof_week = getProfWeek(prog_week);
-            addCoursePromo(id_promo, prog_week, prof_week, num_week);
+            scheduleOk = addCoursePromo(id_promo, prog_week, prof_week, num_week);
         }
+        if(!scheduleOk)
+            return 0;
     }
+    return 1;
 }
 
 //Récupération des classes qui appartiennent à la même promo
@@ -154,17 +158,13 @@ bool School::prof_in_list(list<int>list_id_prof_week, int id_prof) {
     return false;
 }
 
-void School::addCoursePromo(list<int> list_id_promo, list<progSemester> &prog_week, list<int> list_id_prof, int num_week) {
+int School::addCoursePromo(list<int> list_id_promo, list<progSemester> &prog_week, list<int> list_id_prof, int num_week) {
     int i;
     int nb_course_tot = (list_id_promo.size() * prog_week.size());
     //Id des profs et de la promo que l'on va ajouter, ayant le moins de créneaux en commun
     int profToAdd = -1, promoToAdd = -1;
-    
-    cout << "TEST : " << prog_week.size() << endl;
-    
+        
     nb_course_tot = nb_courses_to_schedule(prog_week, list_id_promo, num_week, nb_course_tot);
-    
-    cout << "TEST nb course to schedule : " << nb_course_tot << endl;
     
     //On va devoir placer (nombre promo * nombre de cours sur la semaine) cours
     for(i = 0 ; i < nb_course_tot ; i++) {
@@ -178,18 +178,15 @@ void School::addCoursePromo(list<int> list_id_promo, list<progSemester> &prog_we
         }
         
         else {
-            display_schedule_promos();
-            cout << "Course week : " << endl;
-            for(list<progSemester>::iterator it=prog_week.begin() ; it!=prog_week.end() ; it++) {
-                cout << "\t" << (*it)._id_course << endl;
-            }
             cout << "ERREUR : " << endl;
             cout << "Semaine : " << num_week << endl;
             cout << i  << " sur " << nb_course_tot << endl;
             cout << "Pas de prof ou promo pour ajouter un cours" << endl;
-            exit(EXIT_FAILURE);
+            //exit(EXIT_FAILURE);
+            return 0;
         }
     }
+    return 1;
 }
 
 //Fonction permettant de calculer le nombre de cours à placé en fonction des cours qui n'ont pas pu être
@@ -438,8 +435,8 @@ bool School::grantLecture(int id_prof, int id_promo, int id_course, int num_week
 
 //Méthode pour ajouter un cours non placé dans la liste de courseNotSchedule
 void School::addCourseNotSchedule(int id_course, int id_prof, int id_promo, int num_week) {
-    cout << "Pas de créneau de 4h disponnible pour le cours " << id_course ;
-    cout << " avec le prof " << id_prof << " pour la promo " << id_promo << endl;
+//    cout << "Pas de créneau de 4h disponnible pour le cours " << id_course ;
+//    cout << " avec le prof " << id_prof << " pour la promo " << id_promo << endl;
     //On ajoute le cours avec le prof promo semaine dans la liste des cours qui n'ont pas pu être placé.
     courseNotSchedule c;
     c._id_course = id_course;
