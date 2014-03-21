@@ -9,8 +9,9 @@
 #include "parseFile.h"
 #include <iostream>
 #include <fstream>
+#include <sstream>
 
-#define NB_ITERATE 1000
+#define NB_ITERATE 10
 
 using namespace std;
 
@@ -178,6 +179,67 @@ void School::reinitialise() {
  
 }
 
+//Méthode pour remettre toutes les listes et map de school avec le meilleur emploi du temps
+void School::getBestSchedule() {
+    
+    reinitialise();
+    
+    list<string> line;
+    int i, nb_promo = _promos.size();
+    int num_week, id_promo;
+    
+    line = read_file("EDT/coursNonPlaces.txt");
+    for(list<string>::iterator it=line.begin(); it!=line.end() ; it++) {
+        getCourseNotSchedule(*it);
+    }
+    
+    for(id_promo=0 ; id_promo<nb_promo ; id_promo++) {
+        num_week = 0;
+        line = read_file("EDT/"+_promos[id_promo].get_name()+".txt");
+        for(list<string>::iterator it=line.begin(); it!=line.end() ; it++) {
+            getCourseSchedule(*it, num_week, id_promo);
+            num_week++;
+        }
+    }
+}
+
+//Méthode après avoir trouver le meilleur emplois du temps pour remettre les cours non placé dans la liste
+void School::getCourseNotSchedule(string line) {
+    list<string> words;
+    courseNotSchedule c;
+    
+    words = parse_line(line, '|');
+    c._id_promo = string_to_int(at(words,0));
+    c._id_course = string_to_int(at(words,1));
+    c._id_prof = string_to_int(at(words,2));
+    c._num_week = string_to_int(at(words,3));
+    
+    _course_not_schedule.push_back(c);
+}
+
+//Méthode pour remettre les listes des promos et profs avec le meilleur emploi du temps trouvé
+void School::getCourseSchedule(std::string line, int num_week, int id_promo) {
+    list<string> words;
+    list<string> s;
+    int num_slot = 0;
+    int id_prof, id_course;
+    words = parse_line(line, '|');
+    
+    for(list<string>::iterator it=words.begin() ; it!=words.end() ; it++) {
+        s = parse_line((*it), ',');
+        
+        stringstream convertToInt(at(s,0));
+        convertToInt >> id_prof;
+        stringstream test(at(s,1));
+        test >> id_course;
+        if(id_prof != -1 && id_course != -1) {
+            _profs[id_prof].grant_lecture(_courses[id_course], _promos[id_promo].get_week(num_week), num_slot);
+        }
+        num_slot ++;
+    }
+    
+}
+
 //Affichage du contenu des map
 void School::display(){
     
@@ -259,6 +321,7 @@ void School::write_schedule_file() {
     int i, j;
     string filename;
 
+    //Ecriture de tous les emplois du temps dans leurs fichier
     for(map<int, Promo>::iterator it=_promos.begin() ; it!=_promos.end() ; it++) {
         filename = "EDT/" + (*it).second.get_name() + ".txt";
         
@@ -267,7 +330,7 @@ void School::write_schedule_file() {
         if(newFile) {
         
             for(i=0 ; i<14 ; i++) {
-                for(int j=0 ; j<22 ; j++) {
+                for(j=0 ; j<22 ; j++) {
                     newFile << (*it).second.get_week(i).get_lecture(j).get_id_prof() << ",";
                     newFile << (*it).second.get_week(i).get_lecture(j).get_id_course();
                     if(j<21)
@@ -281,6 +344,17 @@ void School::write_schedule_file() {
         else
             cout << "Probleme dans la creation du fichier" << endl;
     }
+    
+    //Ecriture des cours non placés dans un fichier
+    filename = "EDT/coursNonPlaces.txt";
+    ofstream newFile(filename.c_str());
+    if(newFile) {
+        for(list<courseNotSchedule>::iterator it=_course_not_schedule.begin() ; it!=_course_not_schedule.end() ; it++) {
+           newFile << (*it)._id_promo << "|" << (*it)._id_course << "|" << (*it)._id_prof << "|" << (*it)._num_week << endl; 
+        }
+    }
+    else
+            cout << "Probleme dans la creation du fichier" << endl;
 }
 
 
@@ -345,7 +419,9 @@ void School::divideCourses(){
     int returnGiveCourse = 0;
     
     do {
+        //Réinisialitation de toutes les listes de school
         reinitialise();
+        
         //Parcourt la liste des promotions (B1,B2...) de l'école, pour récupérer le programme de l'année. 
         for(list<int>::iterator it_list = _list_promos.begin() ; it_list!=_list_promos.end() ; it_list++){
             for(map<int, Promo>::iterator it_promo = _promos.begin() ; it_promo != _promos.end() ; it_promo++){
@@ -362,6 +438,7 @@ void School::divideCourses(){
             returnGiveCourse = give_courses_promo(*it_list, prog);
         }
         
+        //Récupération du meilleur emploi du temps
         if(returnGiveCourse) {
             nb_course = _course_not_schedule.size();
             cout << "Itération : " << cmpt_iterate << " nombre de cours non placés : " << nb_course << endl;
@@ -374,6 +451,4 @@ void School::divideCourses(){
         cmpt_iterate ++;
         
     }while(nb_course > 0 && cmpt_iterate < NB_ITERATE);
-    
-    cout << best_schedule << " non placé au mieux" << endl;
 }

@@ -14,23 +14,24 @@
 
 using namespace std;
 
-void test3() {
-    
-    School s(14);
-    
+void createSchedule(School s) {
     s.nb_prof_ok();
     s.nb_lectures_ok();
     
     s.divideCourses();
-    
-    //s.moveCourse();
-    return;
-                
+}
+
+void changePositionCourses(School s) {
+    s.getBestSchedule();
+    s.moveCourse();
+    s.write_schedule_file();
 }
 
 int main(int argc, char* argv[]) {
 
     srand(time(NULL));
-    test3(); 
+    School s(14);
+    createSchedule(s);
+    changePositionCourses(s);
     return 0;
 }

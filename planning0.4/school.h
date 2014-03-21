@@ -77,6 +77,11 @@ public:
     int nb_lectures_ok();
     bool checkProgSemester(std::list<progSemester> l);
     
+    //Méthode pour récupérer le meilleur planning
+    void getBestSchedule();
+    void getCourseNotSchedule(std::string line);
+    void getCourseSchedule(std::string line, int num_week, int id_promo);
+    
     //Routine 1 : répartition des cours sur le semestre
     void split_course_2_4(std::list<int>id_course, std::list<int> &id_courses_2, std::list<int> &id_courses_4);
     void merge_course_2_4(std::list<int> &id_courses, std::list<int> id_courses_2, std::list<int> id_courses_4);
