@@ -193,14 +193,7 @@ int School::addCoursePromo(list<int> list_id_promo, list<progSemester> &prog_wee
 //la semaine précédente
 int School::nb_courses_to_schedule(list<progSemester> prog_week, list<int> list_id_promo, int num_week, int nb_course_tot) {
     int nb_course_already_schedule = 0;
-    int cmpt = 0;
-//    //On regarde combien de cours n'ont pas pu être donnée la semaine d'avant pour les promos concernées
-//    for(list<courseNotSchedule>::iterator it=_course_not_schedule.begin() ; it!=_course_not_schedule.end() ; it++) {
-//        for(list<int>::iterator it_p=list_id_promo.begin() ; it_p!=list_id_promo.end() ; it_p++) {
-//            if ((*it)._id_promo == _promos[*it_p].get_id() && (*it)._num_week == num_week-1 && courseIsInWeek(prog_week, (*it)._id_course))
-//                nb_course_not_schedule++;
-//        }
-//    }
+
     for(list<progSemester>::iterator it=prog_week.begin() ; it!=prog_week.end() ; it++)
         for(list<int>::iterator it_p=list_id_promo.begin() ; it_p!=list_id_promo.end() ; it_p++) {
             //Compte le nombre de cours non placés
@@ -208,11 +201,6 @@ int School::nb_courses_to_schedule(list<progSemester> prog_week, list<int> list_
                 nb_course_already_schedule++;
         }
     }
-    //Si il y a eu un cours qui n'a pas pu être placé, on refait le calcul du nombre de cours à 
-    //essayer d'ajouter cette semaine
-//    if(nb_course_already_schedule_schedule > 0) {
-//        nb_course_tot = nb_course_tot - nb_course_already_schedule;
-//    }
     
     return nb_course_tot - nb_course_already_schedule;
 }
@@ -317,52 +305,6 @@ bool School::courseIsInWeek(list<progSemester> &prog_week, int id_course) {
 }
 
 
-//bool School::grantLecture(int id_prof, int id_promo, int id_course, int num_week) {
-//    
-//    int i;
-//    int nb_hour_course = _courses[id_course].get_lecture_size();
-//    bool course_add = false;
-//    
-//    //Si le cours n'a pas pu être programmé la semaine précédente déja
-//    if(isInCourseNotSchedule(id_prof, id_promo, num_week-1)) {
-//        addCourseNotSchedule(id_course, id_prof, id_promo, num_week);
-//        course_add = false;
-//    }
-//    
-//    //Si le cours est sur 4H on doit le faire commencer par un créneau pair
-//    else if (nb_hour_course==4) {
-//        for(i=0 ; i<22 ; i++) {
-//            //Si on est sur un créneau pair
-//            if(i%2 == 0) {
-//                //Si la classe et la promo sont libre sur les 2 créneaux qui s'enchaine
-//                if((_profs[id_prof].is_available(num_week, i)) && (_profs[id_prof].is_available(num_week, i+1)) &&
-//                        (_promos[id_promo].is_available(num_week, i)) &&  (_promos[id_promo].is_available(num_week, i+1))) {
-//                    _profs[id_prof].grant_lecture(_courses[id_course], _promos[id_promo].get_week(num_week), i);
-//                    _profs[id_prof].grant_lecture(_courses[id_course], _promos[id_promo].get_week(num_week), i+1);
-//                    course_add = true;
-//                    break;
-//                }
-//            }
-//        }
-//        //Si le cours de 4h n'a pas pu être créé
-//        if (!course_add) {
-//            //On ajoute le cours dans la liste des cours non placé
-//            addCourseNotSchedule(id_course, id_prof, id_promo, num_week);
-//            course_add = false;
-//        }
-//    }
-//    else {
-//        for(i=0 ; i<22 ; i++) {
-//            if((_profs[id_prof].is_available(num_week, i)) && (_promos[id_promo].is_available(num_week, i))) {
-//                _profs[id_prof].grant_lecture(_courses[id_course], _promos[id_promo].get_week(num_week), i);
-//                course_add = true;
-//                break;
-//            }
-//        }
-//    }
-//    
-//    return course_add;
-//}
 bool School::grantLecture(int id_prof, int id_promo, int id_course, int num_week) {
     
     int i;
@@ -435,8 +377,6 @@ bool School::grantLecture(int id_prof, int id_promo, int id_course, int num_week
 
 //Méthode pour ajouter un cours non placé dans la liste de courseNotSchedule
 void School::addCourseNotSchedule(int id_course, int id_prof, int id_promo, int num_week) {
-//    cout << "Pas de créneau de 4h disponnible pour le cours " << id_course ;
-//    cout << " avec le prof " << id_prof << " pour la promo " << id_promo << endl;
     //On ajoute le cours avec le prof promo semaine dans la liste des cours qui n'ont pas pu être placé.
     courseNotSchedule c;
     c._id_course = id_course;

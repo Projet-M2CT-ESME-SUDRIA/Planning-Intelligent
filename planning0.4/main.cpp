@@ -18,16 +18,12 @@ void test3() {
     
     School s(14);
     
-    //s.display();
-    
     s.nb_prof_ok();
     s.nb_lectures_ok();
     
     s.divideCourses();
     
-    //s.display_schedule_promos();
     //s.moveCourse();
-    //s.write_schedule_file();
     return;
                 
 }
