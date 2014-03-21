@@ -114,7 +114,12 @@ public:
     
     //Routine 3 : déplacement d'un cours
     void moveCourse();
+    void moveACourse(int id_promo);
+    void moveForAddCourse();
     int selectionClasse();
+    int selectCourseToAdd();
+    void getIdProfPromoNewCours(int new_course, int &id_promo, int &id_prof, int &id_course);
+    void removeCourseFromListe(int new_course);
     void selectionCourseToMove(int &num_week_start, int &num_slot_start);
     bool courseInSelection(int id_promo, int num_week_start, int num_slot_start);
     void courseNewPlace(int id_promo, int id_prof, int id_course, std::list<possibleSlots> listNewSlots, int newSlot);
