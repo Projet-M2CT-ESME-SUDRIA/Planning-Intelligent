@@ -59,6 +59,7 @@ public:
     void parse_promos();
     void new_promo(std::string line);
     void fill_list_promo();
+    void reinitialise();
     
     //Affichage
     void display();
@@ -94,7 +95,7 @@ public:
     std::list<int> getProfWeek(std::list<progSemester> prog_week);
     bool prof_in_list(std::list<int>list_id_prof_week, int id_prof);
     void addCoursePromo(std::list<int> list_id_promo, std::list<progSemester> &prog_week, std::list<int> list_id_prof, int num_week);
-    int nb_courses_to_schedule(std::list<int> list_id_promo, int num_week, int nb_course_tot);
+    int nb_courses_to_schedule(std::list<progSemester> prog_week, std::list<int> list_id_promo, int num_week, int nb_course_tot);
     void best_connection(std::list<progSemester> &prog_week, std::list<int> id_profs, std::list<int> id_promos, int num_week, int &prof_index, int &promo_index);
     bool isInCourseNotSchedule(int id_prof, int id_promo,int num_week);
     int nb_connections(int id_prof, int id_promo, int num_week, std::list<progSemester> &prog_week);

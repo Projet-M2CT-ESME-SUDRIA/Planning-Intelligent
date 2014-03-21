@@ -156,11 +156,15 @@ bool School::prof_in_list(list<int>list_id_prof_week, int id_prof) {
 
 void School::addCoursePromo(list<int> list_id_promo, list<progSemester> &prog_week, list<int> list_id_prof, int num_week) {
     int i;
-    int nb_course_tot = list_id_promo.size() * prog_week.size();
+    int nb_course_tot = (list_id_promo.size() * prog_week.size());
     //Id des profs et de la promo que l'on va ajouter, ayant le moins de créneaux en commun
     int profToAdd = -1, promoToAdd = -1;
     
-    nb_course_tot = nb_courses_to_schedule(list_id_promo, num_week, nb_course_tot);
+    cout << "TEST : " << prog_week.size() << endl;
+    
+    nb_course_tot = nb_courses_to_schedule(prog_week, list_id_promo, num_week, nb_course_tot);
+    
+    cout << "TEST nb course to schedule : " << nb_course_tot << endl;
     
     //On va devoir placer (nombre promo * nombre de cours sur la semaine) cours
     for(i = 0 ; i < nb_course_tot ; i++) {
@@ -174,6 +178,11 @@ void School::addCoursePromo(list<int> list_id_promo, list<progSemester> &prog_we
         }
         
         else {
+            display_schedule_promos();
+            cout << "Course week : " << endl;
+            for(list<progSemester>::iterator it=prog_week.begin() ; it!=prog_week.end() ; it++) {
+                cout << "\t" << (*it)._id_course << endl;
+            }
             cout << "ERREUR : " << endl;
             cout << "Semaine : " << num_week << endl;
             cout << i  << " sur " << nb_course_tot << endl;
@@ -185,22 +194,30 @@ void School::addCoursePromo(list<int> list_id_promo, list<progSemester> &prog_we
 
 //Fonction permettant de calculer le nombre de cours à placé en fonction des cours qui n'ont pas pu être
 //la semaine précédente
-int School::nb_courses_to_schedule(list<int> list_id_promo, int num_week, int nb_course_tot) {
-    int nb_course_not_schedule = 0;
-    //On regarde combien de cours n'ont pas pu être donnée la semaine d'avant pour les promos concernées
-    for(list<courseNotSchedule>::iterator it=_course_not_schedule.begin() ; it!=_course_not_schedule.end() ; it++) {
+int School::nb_courses_to_schedule(list<progSemester> prog_week, list<int> list_id_promo, int num_week, int nb_course_tot) {
+    int nb_course_already_schedule = 0;
+    int cmpt = 0;
+//    //On regarde combien de cours n'ont pas pu être donnée la semaine d'avant pour les promos concernées
+//    for(list<courseNotSchedule>::iterator it=_course_not_schedule.begin() ; it!=_course_not_schedule.end() ; it++) {
+//        for(list<int>::iterator it_p=list_id_promo.begin() ; it_p!=list_id_promo.end() ; it_p++) {
+//            if ((*it)._id_promo == _promos[*it_p].get_id() && (*it)._num_week == num_week-1 && courseIsInWeek(prog_week, (*it)._id_course))
+//                nb_course_not_schedule++;
+//        }
+//    }
+    for(list<progSemester>::iterator it=prog_week.begin() ; it!=prog_week.end() ; it++)
         for(list<int>::iterator it_p=list_id_promo.begin() ; it_p!=list_id_promo.end() ; it_p++) {
-            if ((*it)._id_promo == _profs[*it_p].get_id() && (*it)._num_week == num_week-1)
-                nb_course_not_schedule++;
+            //Compte le nombre de cours non placés
+            if(_promos[*it_p].has_course_received((*it)._id_course, num_week)) {
+                nb_course_already_schedule++;
         }
     }
     //Si il y a eu un cours qui n'a pas pu être placé, on refait le calcul du nombre de cours à 
     //essayer d'ajouter cette semaine
-    if(nb_course_not_schedule > 0) {
-        nb_course_tot -= nb_course_tot - nb_course_not_schedule;
-    }
+//    if(nb_course_already_schedule_schedule > 0) {
+//        nb_course_tot = nb_course_tot - nb_course_already_schedule;
+//    }
     
-    return nb_course_tot;
+    return nb_course_tot - nb_course_already_schedule;
 }
 
 
@@ -303,12 +320,60 @@ bool School::courseIsInWeek(list<progSemester> &prog_week, int id_course) {
 }
 
 
+//bool School::grantLecture(int id_prof, int id_promo, int id_course, int num_week) {
+//    
+//    int i;
+//    int nb_hour_course = _courses[id_course].get_lecture_size();
+//    bool course_add = false;
+//    
+//    //Si le cours n'a pas pu être programmé la semaine précédente déja
+//    if(isInCourseNotSchedule(id_prof, id_promo, num_week-1)) {
+//        addCourseNotSchedule(id_course, id_prof, id_promo, num_week);
+//        course_add = false;
+//    }
+//    
+//    //Si le cours est sur 4H on doit le faire commencer par un créneau pair
+//    else if (nb_hour_course==4) {
+//        for(i=0 ; i<22 ; i++) {
+//            //Si on est sur un créneau pair
+//            if(i%2 == 0) {
+//                //Si la classe et la promo sont libre sur les 2 créneaux qui s'enchaine
+//                if((_profs[id_prof].is_available(num_week, i)) && (_profs[id_prof].is_available(num_week, i+1)) &&
+//                        (_promos[id_promo].is_available(num_week, i)) &&  (_promos[id_promo].is_available(num_week, i+1))) {
+//                    _profs[id_prof].grant_lecture(_courses[id_course], _promos[id_promo].get_week(num_week), i);
+//                    _profs[id_prof].grant_lecture(_courses[id_course], _promos[id_promo].get_week(num_week), i+1);
+//                    course_add = true;
+//                    break;
+//                }
+//            }
+//        }
+//        //Si le cours de 4h n'a pas pu être créé
+//        if (!course_add) {
+//            //On ajoute le cours dans la liste des cours non placé
+//            addCourseNotSchedule(id_course, id_prof, id_promo, num_week);
+//            course_add = false;
+//        }
+//    }
+//    else {
+//        for(i=0 ; i<22 ; i++) {
+//            if((_profs[id_prof].is_available(num_week, i)) && (_promos[id_promo].is_available(num_week, i))) {
+//                _profs[id_prof].grant_lecture(_courses[id_course], _promos[id_promo].get_week(num_week), i);
+//                course_add = true;
+//                break;
+//            }
+//        }
+//    }
+//    
+//    return course_add;
+//}
 bool School::grantLecture(int id_prof, int id_promo, int id_course, int num_week) {
     
     int i;
     int nb_hour_course = _courses[id_course].get_lecture_size();
     bool course_add = false;
-    
+
+    list<int> commonSlots;
+
     //Si le cours n'a pas pu être programmé la semaine précédente déja
     if(isInCourseNotSchedule(id_prof, id_promo, num_week-1)) {
         addCourseNotSchedule(id_course, id_prof, id_promo, num_week);
@@ -320,30 +385,51 @@ bool School::grantLecture(int id_prof, int id_promo, int id_course, int num_week
         for(i=0 ; i<22 ; i++) {
             //Si on est sur un créneau pair
             if(i%2 == 0) {
-                //Si la classe et la promo sont libre sur les 2 créneaux qui s'enchaine
+                //Si la classe et la promo sont libres sur les 2 créneaux qui s'enchainent
                 if((_profs[id_prof].is_available(num_week, i)) && (_profs[id_prof].is_available(num_week, i+1)) &&
-                        (_promos[id_promo].is_available(num_week, i)) &&  (_promos[id_promo].is_available(num_week, i+1))) {
-                    _profs[id_prof].grant_lecture(_courses[id_course], _promos[id_promo].get_week(num_week), i);
-                    _profs[id_prof].grant_lecture(_courses[id_course], _promos[id_promo].get_week(num_week), i+1);
-                    course_add = true;
-                    break;
+                (_promos[id_promo].is_available(num_week, i)) &&  (_promos[id_promo].is_available(num_week, i+1))) {
+
+                    commonSlots.push_back(i);
                 }
             }
         }
+
+        int randSlot, s;
+
+        if(!commonSlots.empty()) {
+            s=commonSlots.size();
+            randSlot = at(commonSlots, rand()%s);
+
+            _profs[id_prof].grant_lecture(_courses[id_course], _promos[id_promo].get_week(num_week), randSlot);
+            _profs[id_prof].grant_lecture(_courses[id_course], _promos[id_promo].get_week(num_week), randSlot+1);
+            course_add = true;
+        }
+
+        else
+            course_add=false;
+
         //Si le cours de 4h n'a pas pu être créé
         if (!course_add) {
             //On ajoute le cours dans la liste des cours non placé
             addCourseNotSchedule(id_course, id_prof, id_promo, num_week);
-            course_add = false;
         }
     }
     else {
         for(i=0 ; i<22 ; i++) {
             if((_profs[id_prof].is_available(num_week, i)) && (_promos[id_promo].is_available(num_week, i))) {
-                _profs[id_prof].grant_lecture(_courses[id_course], _promos[id_promo].get_week(num_week), i);
-                course_add = true;
-                break;
+                
+                commonSlots.push_back(i);
             }
+        }
+
+        int randSlot, s;
+
+        if(!commonSlots.empty()) {
+            s=commonSlots.size();
+            randSlot = at(commonSlots, rand()%s);
+
+            _profs[id_prof].grant_lecture(_courses[id_course], _promos[id_promo].get_week(num_week), randSlot);
+            course_add = true;
         }
     }
     
@@ -404,9 +490,9 @@ void School::previousWeek(list<progSemester> &prog_week, list<int> id_promo, int
         }
         
     }
-        
 }
 
+//Méthode pour savoir si la promotion à déja eu le cours la semaine d'avant avant de l'ajouter avec previous week
 void School::promoAsCourseBefore(progSemester it_prog, list<int> id_promo, int num_week, int &cmpt_course_add_promo, bool &new_course_week) {
     
     int nb_course_add = 0;
@@ -429,6 +515,7 @@ void School::promoAsCourseBefore(progSemester it_prog, list<int> id_promo, int n
     }
 }
 
+//Méthode pour ajouter les cours avec les cours de la semaine d'avant
 void School::addCourseWithPreviousWeek(int it_promo, progSemester it_prog, int num_week, int &cmpt_course_add_promo) {
     int id_prof = _promos[it_promo].get_id_prof_of_course(it_prog._id_course, num_week-1);
     int index = _promos[it_promo].get_course_index(it_prog._id_course, num_week-1);

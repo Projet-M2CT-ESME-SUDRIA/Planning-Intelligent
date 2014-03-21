@@ -9,6 +9,7 @@
 #include <iostream>
 #include "parseFile.h"
 #include "school.h"
+#include <time.h>
 
 
 using namespace std;
@@ -25,15 +26,16 @@ void test3() {
     s.divideCourses();
     
     s.display_schedule_promos();
-    s.moveCourse();
+    //s.moveCourse();
     s.write_schedule_file();
-    
+    cout << "TOUT OK" << endl;
     return;
                 
 }
 
 int main(int argc, char* argv[]) {
-   test3(); 
-   
-   return 0;
+
+    srand(time(NULL));
+    test3(); 
+    return 0;
 }

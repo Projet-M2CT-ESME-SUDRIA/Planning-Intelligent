@@ -10,6 +10,8 @@
 #include <iostream>
 #include <fstream>
 
+#define NB_ITERATE 100
+
 using namespace std;
 
 
@@ -159,6 +161,23 @@ void School::fill_list_promo(){
     _list_promos.sort();
 }
 
+//Méthode pour réinitialiser toutes les listes
+void School::reinitialise() {
+    _course_not_schedule.clear();
+    _list_promos.clear();
+    _profs.clear();
+    _promos.clear();
+    
+    Prof::_static_id =0;
+    Promo::_static_id = 0;
+    
+
+    parse_profs();
+    parse_promos();
+    fill_list_promo();
+ 
+}
+
 //Affichage du contenu des map
 void School::display(){
     
@@ -210,7 +229,7 @@ void School::display_schedule_promos() {
     }
     
     for(int p= 0 ; p!=_profs.size() ; p++){
-        cout <<"Prof " << _profs[p].get_id() << " : " << endl;
+        cout <<"Prof " << _profs[p].get_id() << " : " << _profs[p].get_name() << endl;
         for (int j = 0; j < 14; j++) {
             for (int k = 0; k < 22; k++) {
                 cout << _profs[p].is_available(j,k);
@@ -320,19 +339,27 @@ void School::divideCourses(){
     list<int> id_courses;
     list<progSemester> prog;
     
-    //Parcourt la liste des promotions (B1,B2...) de l'école, pour récupérer le programme de l'année. 
-    for(list<int>::iterator it_list = _list_promos.begin() ; it_list!=_list_promos.end() ; it_list++){
-        for(map<int, Promo>::iterator it_promo = _promos.begin() ; it_promo != _promos.end() ; it_promo++){
-            if(*it_list == (*it_promo).second.get_id_promo()) {
-                id_courses = (*it_promo).second.get_id_courses();
-                break;
+    int cmpt_iterate = 0;
+    
+    do {
+        reinitialise();
+        //Parcourt la liste des promotions (B1,B2...) de l'école, pour récupérer le programme de l'année. 
+        for(list<int>::iterator it_list = _list_promos.begin() ; it_list!=_list_promos.end() ; it_list++){
+            for(map<int, Promo>::iterator it_promo = _promos.begin() ; it_promo != _promos.end() ; it_promo++){
+                if(*it_list == (*it_promo).second.get_id_promo()) {
+                    id_courses = (*it_promo).second.get_id_courses();
+                    break;
+                }
             }
+
+            //Routine 1 : répartition des cours d'une promotion sur le semestre
+            give_courses_semester(id_courses, prog);
+
+            //Routine 2 : répartition des cours de l'ensemble des classes d'une promotion, semaine par semaine
+            give_courses_promo(*it_list, prog);
         }
         
-        //Routine 1 : répartition des cours d'une promotion sur le semestre
-        give_courses_semester(id_courses, prog);
+        cmpt_iterate ++;
         
-        //Routine 2 : répartition des cours de l'ensemble des classes d'une promotion, semaine par semaine
-        give_courses_promo(*it_list, prog);
-    }
+    }while(_course_not_schedule.size() > 0 || cmpt_iterate > NB_ITERATE);
 }
