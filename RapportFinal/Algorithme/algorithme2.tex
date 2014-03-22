@@ -1,0 +1,133 @@
+\subsection{Répartion des cours sur leurs créneaux}
+
+A partir de l'emploi du temps du semestre, nous allons planifier les cours sur les créneaux des classes. A la fin de chaque semaine, les classes d'une même promotion doivent être au même point du programme. Ainsi, l'emploi du temps est réalisé en parallèle pour chaque promotion semaine par semaine.
+
+Pour chacune des semaines, nous allons récupérer la liste des cours à dispenser depuis l'emploi du temps semestriel. A partir des semaines de début et de fin de cours, nous en déduisons s'il doit être donné sur cette semaine.
+
+Avec ce programme, nous allons pouvoir commencer à placer les cours sur les différents créneaux des classes. Cela va être fait en trois étapes : \\
+\begin{itemize}
+\item Si le cours a déjà été placé à la semaine précédente
+\item La récupération de la liste des professeurs pouvant enseigner les cours de la semaine
+\item Le placement des nouveaux cours du semestre\\
+\end{itemize}
+
+Dans le cas où un cours n'a pu être placé faute de créneaux disponibles, nous avons décidé de le mettre dans une liste contenant l'ensemble des cours non placés et de ne pas tenter de le replacer sur les semaines suivantes. Ainsi cette liste contiendra l'identifiant du cours, l'identifiant du professeur et les semaines où le cours n'a pu être placé.
+
+\begin{algorithm}
+\caption {Algorithme principal de la répartition des cours sur les créneaux des classes}
+\begin{algorithmic}
+\REQUIRE le programme du semaine $prog$
+\FORALL{$semaine$ du semestre}
+\STATE $progSemaine \leftarrow$ getProgrammeSemaine($prog, semaine$)
+\STATE placementAncienCours($progSemaine, listeClasses, semaine$)
+\IF {il y a des cours à placer encore dans la semaine}
+\STATE $profSemaine \leftarrow$ getProfSemaine($progSemaine$)
+\STATE placementNouveauCours($listeCalsses, progSemaine, profSemaine, semaine$)
+\ENDIF
+\IF {une erreur est survenu dans la réalisation du planning}
+\RETURN 0
+\ENDIF
+\ENDFOR
+\RETURN 1
+\end{algorithmic}
+\end{algorithm}
+
+\newpage
+
+\begin{algorithm}
+\caption{Méthode pour récupérer le programme d'une semaine}
+\begin{algorithmic}
+\REQUIRE le programme du semaine $prog$ et la semaine du semestre $semaine$
+\FORALL {$cours$ du programme}
+\IF {semaineDebut de $cours \leq semaine  \AND $ semaineFin de $cours > semaine$}
+\STATE $progSemaine \leftarrow$ pushback $cours$
+\ENDIF
+\ENDFOR
+\RETURN $progSemaine$
+\end{algorithmic}
+\end{algorithm}
+
+\subsubsection{Placement de cours déjà fixé la semaine précédente}
+
+Après avoir récupéré le programme de la semaine, nous vérifions si l'un des cours a déjà été placé la semaine précédente. Si c'est le cas, nous allons vérifier que le professeur ayant donné le cours est toujours disponible sur le créneau et nous plaçons le cours.\\
+
+Dans le cas où le cours a pu être redonner pour toutes les classes de la promotion, nous pouvons supprimer le cours dans le programme de la semaine. Sinon, soit il s'agit d'un nouveau cours, soit toutes les classes ne l'ont pas reçu. Ce dernier cas arrive lorsqu'un professeur n'est plus disponible ou quand le cours n'a pu être placé pour toutes les classes de la promotion.\\
+
+Ceci va permettre à une classe d'avoir le même cours sur le même créneaux avec le même professeur semaine après semaine.
+
+\begin{algorithm}
+\caption{Méthode pour placer les cours précédemment planifier}
+\begin{algorithmic}
+\REQUIRE le programme de la semaine $prog$, la liste des classes $classes$, la semaine du semestre $semaine$
+\STATE $nbCourseAjout \leftarrow 0$
+\STATE $nouveauCours \leftarrow false$
+\IF {La première semaine à déjà été planifié}
+\FORALL {$cours$ du programme de la semaine}
+\STATE coursDejaProgrammeAvant($cours, classes, nbCoursAjout, nouveauCours$)
+\IF {$nbCoursAjout = $nombre $classes$}
+\STATE $coursASupprimer \leftarrow$ pushback $cours$
+\ELSE 
+\STATE $nouveauCours \leftarrow faux$
+\ENDIF
+\STATE $nbCourseAjout \leftarrow 0$
+\ENDFOR
+\FORALL {$coursASupprimer$}
+\STATE $progSemestre \leftarrow$ supprimer $progSemestre(coursASupprimer)$
+\ENDFOR
+\ENDIF
+\end{algorithmic}
+\end{algorithm}
+
+
+\begin{algorithm}
+\caption{Méthode pour savoir si un cours a déjà été programmé avant}
+\begin{algorithmic}
+\REQUIRE le cours de la semaine $cours$, la liste des classe $classes$ , la semaine du semestre $semaine$
+\FORALL {$classes$}
+\IF {$classes$ a reçu le cours la semaine $semaine -1$}
+\STATE ajoutDuCours($classes, cours, semaine$)
+\STATE $nbCoursAjoute \leftarrow nbCoursAjoute + 1$
+\ENDIF
+\ENDFOR
+\IF {$nbCoursAjoute = $nombre de $classes$}
+\STATE $nouveauCours \leftarrow faux$
+\ELSE
+\STATE $nouveauCours \leftarrow vrai$ 
+\ENDIF
+\end{algorithmic}
+\end{algorithm}
+
+
+\begin{algorithm}
+\caption{Méthode pour ajouter le cours par rapport à la semaine d'avant}
+\begin{algorithmic}
+\REQUIRE la classe $classe$, la matière $cours$, la semaine du semestre $semaine$
+\STATE $idProf \leftarrow $identifiant du professeur donnant $cours$ la $semaine - 1$
+\STATE $creneau \leftarrow $créneau de $cours$ la $semaine - 1$
+\IF {$cours$ est sur 4 heures}
+\IF {$prof$ est disponible à $semaine, creneau \AND prof$ est disponible $semaine, créneau +1 \AND classe$ est disponible à $semaine, créneau \AND classe$ est disponible $semaine, creneau +1$}
+\STATE planification $cours$ avec $prof$ sur $semaine$ et $creneau$
+\STATE planification $cours$ avec $prof$ sur $semaine$ et $creneau +1$
+\ENDIF
+\ELSE
+\IF {$prof$ est disponible à $semaine, creneau \AND$ $prof$ est disponible $semaine, créneau +1$}
+\STATE planification $cours$ avec $prof$ sur $semaine$ et $creneau$
+\ENDIF
+\ENDIF
+\end{algorithmic}
+\end{algorithm}
+
+\newpage
+
+\subsubsection{Planification des nouveaux cours du semestre}
+
+A partir du programme du semestre, nous récupérons l'ensemble des professeurs pouvant enseigner la liste des matières. Tous les professeurs ne se verront pas forcément attribuer un cours car plusieurs professeurs peuvent enseigner le même cours.\\
+
+Pour tous les cours restant à planifier, nous allons à chaque fois trouver le couple promotion-professeur ayant le moins de créneaux en communs. En effet si nous plaçons des couples ayant plus de disponibilités avant un couple qui en a moins, il pourrait bloquer l'ensemble des disponibilités de ce dernier.\\
+
+Ensuite, nous sélectionnons un créneaux aléatoirement parmi les choix possibles pour placer un cours. Nous réalisons un tirage aléatoire pour pouvoir essayer plusieurs combinaisons.\\
+
+Dans le cas d'un cours de 4 heures, il se peut que nous n'ayons aucun créneau permettant de mettre les 4 heures à la suite. Dans ce cas nous mettons le cours dans la liste des cours n'ayant pu être planifié. 
+Auquel cas, nous plaçons le cours de la classe sur le créneau en modifiant les disponibilités du professeurs. 
+
+
