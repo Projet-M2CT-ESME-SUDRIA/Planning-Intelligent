@@ -114,11 +114,20 @@ L'emploi du temps ayant le plus de cours placé sera l'emploi du temps final.
 \begin{algorithm}
 \caption{Principe général de conception des emplois du temps}
 \begin{algorithmic}
+\STATE $meilleurEDT \leftarrow 3000$
+\REPEAT
 \FORALL{$Promo$}
 \STATE $idCours \leftarrow$ liste de tous les cours que doivent suivre la promotion $Promo$
 \STATE $programmeSemestre \leftarrow $ repartitionCoursSemestre($idCours$)
-\STATE repartitionCoursPromotions($Promo, programmeSemestre$)
+\STATE $planningOk \leftarrow $repartitionCoursPromotions($Promo, programmeSemestre$)
 \ENDFOR
+\IF {$planningOk$}
+\IF {$nbCoursNonPlaces < meilleurEDT$}
+\STATE $meilleurEDT \leftarrow nbCoursNonPlaces$
+\STATE Ecriture des emploi du temps dans les fichiers
+\ENDIF
+\ENDIF
+\UNTIL {meilleurEDT > 0 \AND cmpt < nombreIteration}
 \end{algorithmic}
 \end{algorithm}
 

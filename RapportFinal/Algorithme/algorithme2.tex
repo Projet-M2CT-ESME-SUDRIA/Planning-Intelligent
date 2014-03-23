@@ -32,14 +32,12 @@ Dans le cas où un cours n'a pu être placé faute de créneaux disponibles, nou
 \end{algorithmic}
 \end{algorithm}
 
-\newpage
-
 \begin{algorithm}
 \caption{Méthode pour récupérer le programme d'une semaine}
 \begin{algorithmic}
 \REQUIRE le programme du semaine $prog$ et la semaine du semestre $semaine$
 \FORALL {$cours$ du programme}
-\IF {semaineDebut de $cours \leq semaine  \AND $ semaineFin de $cours > semaine$}
+\IF {semaineDebut de $cours \leq semaine \AND $ semaine fin de $cours > semaine$}
 \STATE $progSemaine \leftarrow$ pushback $cours$
 \ENDIF
 \ENDFOR
@@ -105,12 +103,12 @@ Ceci va permettre à une classe d'avoir le même cours sur le même créneaux av
 \STATE $idProf \leftarrow $identifiant du professeur donnant $cours$ la $semaine - 1$
 \STATE $creneau \leftarrow $créneau de $cours$ la $semaine - 1$
 \IF {$cours$ est sur 4 heures}
-\IF {$prof$ est disponible à $semaine, creneau \AND prof$ est disponible $semaine, créneau +1 \AND classe$ est disponible à $semaine, créneau \AND classe$ est disponible $semaine, creneau +1$}
+\IF {$prof$ est disponible à $semaine, creneau \AND prof$ est disponible $semaine, creneau + 1 \AND classe$ est disponible à $semaine, creneau \AND classe$ est disponible $semaine, creneau +1$}
 \STATE planification $cours$ avec $prof$ sur $semaine$ et $creneau$
 \STATE planification $cours$ avec $prof$ sur $semaine$ et $creneau +1$
 \ENDIF
 \ELSE
-\IF {$prof$ est disponible à $semaine, creneau \AND$ $prof$ est disponible $semaine, créneau +1$}
+\IF {$prof$ est disponible à $semaine, creneau \AND$ $prof$ est disponible $semaine, creneau + 1$}
 \STATE planification $cours$ avec $prof$ sur $semaine$ et $creneau$
 \ENDIF
 \ENDIF
@@ -129,5 +127,110 @@ Ensuite, nous sélectionnons un créneaux aléatoirement parmi les choix possibl
 
 Dans le cas d'un cours de 4 heures, il se peut que nous n'ayons aucun créneau permettant de mettre les 4 heures à la suite. Dans ce cas nous mettons le cours dans la liste des cours n'ayant pu être planifié. 
 Auquel cas, nous plaçons le cours de la classe sur le créneau en modifiant les disponibilités du professeurs. 
+
+\begin{algorithm}
+\caption {Méthode pour ajouter un nouveau cours}
+\begin{algorithmic}
+\REQUIRE $progSemaine, profSemaine, listClasses$
+\STATE $nbCours \leftarrow $ nombre de cours dans $progSemaine * $ nombre de classe dans $listClasses$
+\FOR {i := 0  \TO nbCours }
+\STATE meilleurConnexion($progSemaine, profSemaine, listClasses, semaine$)
+\IF {on trouve une connexion}
+\STATE ajoutCours($progSemaine, profAAjouter, classesAAjouter, semaine$)
+\ELSE
+\RETURN 0
+\ENDIF
+\ENDFOR
+\RETURN 1
+\end{algorithmic}
+\end{algorithm}
+
+\newpage
+
+\begin{algorithm}
+\caption {Méthode pour trouver la plus meilleur connexion}
+\begin{algorithmic}
+\REQUIRE $progSemaine, profSemaine, listClasses, semaine$
+\STATE $buf \leftarrow 23$
+\FORALL {$profSemaine$}
+\FORALL {$listClasses$}
+\STATE $nbConnections \leftarrow $ nbCreneauCommun($profSemaine, listClasses, semaine$)
+\IF {$nbConnections > 0 \AND nbConnections < buf$}
+\STATE $buf \leftarrow nbConnections$
+\STATE $profAAjouter \leftarrow profSemaine$
+\STATE $promoAAjouter \leftarrow listClasses$
+\ENDIF
+\ENDFOR
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+\caption {Méthode pour compter le nombre de connection}
+\begin{algorithmic}
+\REQUIRE $prof, classe, semaine, progSemaine$)
+\FORALL {$cours$ donnés par $prof$}
+\IF {$promo$ doit recevoir $cours$ sur $semaine$ \AND $cours$ n'a pas encore été placé pour $promo$ sur $semaine$}
+\STATE $coursPossible \leftarrow vrai$
+\STATE BREAK
+\ELSE
+\STATE $coursPossible \leftarrow faux$
+\ENDIF
+\ENDFOR
+\IF {$coursPossible$}
+\RETURN $nbConnection \leftarrow $ somme des disponibilité commune de $prof$ et $promo$
+\ENDIF
+\RETURN -1
+\end{algorithmic}
+\end{algorithm}
+
+\newpage
+
+\begin{algorithm}
+\caption {Méthode pour ajouter un cours à une classe}
+\begin{algorithmic}
+\REQUIRE $progSemaine, profAAjouter, classesAAjouter, semaine$
+\FORALL {$cours$ de $profAAjouter$}
+\IF {$promo$ doit recevoir $cours$ sur $semaine$ \AND $cours$ n'a pas encore été placé pour $promo$ sur $semaine$}
+\STATE creationCours($prof, promo, cours, semaine$)
+\STATE BREAK
+\ENDIF
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}
+
+\newpage
+
+\begin{algorithm}
+\caption {Méthode pour créer le cours à la classe}
+\begin{algorithmic}
+\IF {$cours$ n'a pas été programmé à $semaine -1$ pour $classes$}
+	\STATE ajout de $cours$ dans la liste des cours non planifié
+\ELSIF {$cours$ est sur 4 heures}
+	\FORALL {$creneau$}
+		\IF {$classe$ est libre à $semaine, creneau$ \AND $classe$ est libre à $semaine, creneau + 1$ \AND $prof$ est libre à 			$semaine, creneau$  \AND $prof$ est libre à $semaine, creneau+1$ }
+			\STATE $creneauxPossibles \leftarrow$ pushback $creneau$
+		\ENDIF
+	\ENDFOR
+	\IF {$creneauxPossibles$ n'est pas vide}
+		\STATE $creneau \leftarrow$ choix aléatoire dans $creneauxPossibles$
+		\STATE mise en place du cours et des données ($cours, classe, prof, semaine, creneau$)
+		\STATE mise en place du cours et des données ($cours, classe, prof, semaine, creneau +1$)
+	\ENDIF
+	\STATE ajout de $cours$ dans la liste des cours non planifié
+\ELSE
+	\FORALL {$creneau$}
+		\IF {$classe$ est libre à $semaine, creneau$ \AND $prof$ est libre à $semaine, creneau$}
+			\STATE $creneauxPossibles \leftarrow$ pushback $creneau$
+		\ENDIF
+	\STATE $creneau \leftarrow$ choix aléatoire dans $creneauxPossibles$
+	\STATE mise en place du cours et des données ($cours, classe, prof, semaine, creneau$)
+	\ENDFOR
+\ENDIF
+\end{algorithmic}
+\end{algorithm}
+
+
+
 
 
