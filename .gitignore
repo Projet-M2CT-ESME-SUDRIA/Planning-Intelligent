@@ -8,6 +8,8 @@
 *.out
 *.lof
 *.synctex.gz
+*.nav
+*.snm
 
 *.dep.inc
 *.DS_Store

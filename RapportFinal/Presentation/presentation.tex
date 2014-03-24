@@ -1,0 +1,98 @@
+\documentclass{beamer}
+
+\usepackage[frenchb]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\usetheme{Warsaw}
+
+\title{Réalisation d'un emploi du temps}
+\author{Corentin Coudray - Christophe Julien - Nöel Tran}
+\institute{ESME SUDRIA}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\section{Mise en forme des données}
+\begin{frame}
+5 fichiers d'informations : 
+\begin{itemize}
+\item Les professeurs
+\item Les cours
+\item Les classes
+\item Les emplois du temps générés
+\item La liste de cours non placé
+\end{itemize}
+\end{frame}
+
+\subsection{Les professeurs}
+\begin{frame}
+4 informations : 
+\begin{itemize}
+\item l'identifiant
+\item le nom
+\item ses disponibilités
+\item la liste des cours enseigné
+\end{itemize}
+\end{frame}
+
+\subsection{Les cours}
+\begin{frame}
+3 informations : 
+\begin{itemize}
+\item l'identifiant
+\item le nom
+\item le nombre d'heure sur le semestre
+\end{itemize}
+\end{frame}
+
+\subsection{Les classes}
+\begin{frame}
+5 informations : 
+\begin{itemize}
+\item l'identifiant
+\item le nom
+\item la promotion à laquelle elle appartient
+\item les cours à recevoir
+\item le nombre d'élève
+\end{itemize}
+\end{frame}
+
+\subsection{Les emplois du temps}
+\begin {frame}
+Chaque classe à 1 fichier d'emploi du temps.\\
+Il contient pour chaque créneau : 
+\begin {itemize}
+\item l'identifiant du cours
+\item l'identifiant du professeur
+\end{itemize}
+\end{frame}
+
+\subsection{Les cours non placés}
+\begin{frame}
+Les cours qui n'ont pu être placé seront listés dans un fichier.
+Chaque cours aura : 
+\begin{itemize}
+\item l'identifiant du cours
+\item l'identifiant de la promotion
+\item l'identifiant du professeur
+\item le numéro de la semaine
+\end{itemize}
+\end{frame}
+
+\section{Génération de l'emploi du temps}
+\begin {frame}
+Génération de l'emploi du temps à partir des fichiers d'entrés.
+
+3 étapes de conception : 
+\begin{itemize}
+\item les pré-traitements
+\item emploi du temps semestriel général
+\item emploi du temps spécifique pour chaque classe
+\end{itemize}
+\end{frame}
+
+\end{document}
