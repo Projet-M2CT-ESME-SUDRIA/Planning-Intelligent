@@ -1,28 +1,28 @@
 \subsection{Répartion des cours sur leurs créneaux}
 
-A partir de l'emploi du temps du semestre, nous allons planifier les cours sur les créneaux des classes. A la fin de chaque semaine, les classes d'une même promotion doivent être au même point du programme. Ainsi, l'emploi du temps est réalisé en parallèle pour chaque promotion semaine par semaine.
+Grâce à la répartition des matières sur le semestre, nous allons savoir quels sont les cours à organiser sur chaque semaine. Cette répartition a été effectuée avec un objectif majeur : maintenir un emploi du temps homogène de manière à ce que chaque semaine, toutes les classes d'une même promotion aient reçus les mêmes cours.
 
-Pour chacune des semaines, nous allons récupérer la liste des cours à dispenser depuis l'emploi du temps semestriel. A partir des semaines de début et de fin de cours, nous en déduisons s'il doit être donné sur cette semaine.
+Afin d'obtenir le meilleur emploi du temps possible, nous allons mettre en place un système de répartition aléatoire des cours. Le programme va réitérer cette fonction un certain nombre de fois, le nombre d'itération étant un paramètre modifiable. Le programme arrête d'itérer lorsqu'il trouve une solution parfaite (tous les cours placés correctement) ou lorsqu'il atteint le nombre d'itérations maximum. Il va alors générer les emplois du temps à partir de la solution retenue.
 
-Avec ce programme, nous allons pouvoir commencer à placer les cours sur les différents créneaux des classes. Cela va être fait en trois étapes : \\
+Cette fonction va récupérer pour chaque semaine la liste des cours à dispenser, et procéder au placement des cours, qui s'articule en deux étapes :\\
+
 \begin{itemize}
-\item Si le cours a déjà été placé à la semaine précédente
-\item La récupération de la liste des professeurs pouvant enseigner les cours de la semaine
-\item Le placement des nouveaux cours du semestre\\
+\item Copie des cours placés la semaine précédente et qui doivent encore l'être sur cette semaine
+\item Placement des nouveaux cours de la semaine après récupération des professeurs qualifiés pour les enseigner
 \end{itemize}
 
-Dans le cas où un cours n'a pu être placé faute de créneaux disponibles, nous avons décidé de le mettre dans une liste contenant l'ensemble des cours non placés et de ne pas tenter de le replacer sur les semaines suivantes. Ainsi cette liste contiendra l'identifiant du cours, l'identifiant du professeur et les semaines où le cours n'a pu être placé.
+Lorsqu'un cours ne peut être placé faute de disponibilité, il est ajouté à une liste dédiée aux cours non placés, et est retiré de la liste des cours à placer. Cette liste permet d'établir la qualité de la solution : plus elle est remplie, et plus la solution est mauvaise. Cette liste contiendra l'identifiant de la matière, l'identifiant du professeur et les semaines où le cours aurait dû être placé.
 
 \begin{algorithm}
 \caption {Algorithme principal de la répartition des cours sur les créneaux des classes}
 \begin{algorithmic}
-\REQUIRE le programme du semaine $prog$
-\FORALL{$semaine$ du semestre}
-\STATE $progSemaine \leftarrow$ getProgrammeSemaine($prog, semaine$)
-\STATE placementAncienCours($progSemaine, listeClasses, semaine$)
-\IF {il y a des cours à placer encore dans la semaine}
+\REQUIRE le programme de La semaine $prog$
+\FORALL{$numSemaine$ du semestre}
+\STATE $progSemaine \leftarrow$ getProgrammeSemaine($prog, numSemaine$)
+\STATE placementAncienCours($progSemaine, listeClasses, numSemaine$)
+\IF {il y a des nouveaux cours à placer dans la semaine}
 \STATE $profSemaine \leftarrow$ getProfSemaine($progSemaine$)
-\STATE placementNouveauCours($listeCalsses, progSemaine, profSemaine, semaine$)
+\STATE placementNouveauCours($listeClasses, progSemaine, profSemaine, numSemaine$)
 \ENDIF
 \IF {une erreur est survenu dans la réalisation du planning}
 \RETURN 0
@@ -35,9 +35,9 @@ Dans le cas où un cours n'a pu être placé faute de créneaux disponibles, nou
 \begin{algorithm}
 \caption{Méthode pour récupérer le programme d'une semaine}
 \begin{algorithmic}
-\REQUIRE le programme du semaine $prog$ et la semaine du semestre $semaine$
+\REQUIRE le programme de la semaine $prog$ et la semaine du semestre $numSemaine$
 \FORALL {$cours$ du programme}
-\IF {semaineDebut de $cours \leq semaine \AND $ semaine fin de $cours > semaine$}
+\IF {semaineDebut de $cours \leq numSemaine \AND $ semaine fin de $cours > numSemaine$}
 \STATE $progSemaine \leftarrow$ pushback $cours$
 \ENDIF
 \ENDFOR
@@ -47,19 +47,17 @@ Dans le cas où un cours n'a pu être placé faute de créneaux disponibles, nou
 
 \subsubsection{Placement de cours déjà fixé la semaine précédente}
 
-Après avoir récupéré le programme de la semaine, nous vérifions si l'un des cours a déjà été placé la semaine précédente. Si c'est le cas, nous allons vérifier que le professeur ayant donné le cours est toujours disponible sur le créneau et nous plaçons le cours.\\
+Lorsqu'on récupère le programme d'une semaine, la première étape consiste à vérifier si certains cours ont déjà été placés la semaine précédente, et le cas échéant à les copier dans l'emploi du temps de cette semaine, en vérifiant bien que le professeur est toujours disponible. Le cours sera ajouté à la liste des cours non placés si le professeur n'est plus disponible. Lorsqu'un cours a été placé pour toutes les classes d'une promotion, nous le supprimons de la liste des cours à dispenser. Dans le cas contraire, le cours est ajouté à la liste des cours non placés.
 
-Dans le cas où le cours a pu être redonner pour toutes les classes de la promotion, nous pouvons supprimer le cours dans le programme de la semaine. Sinon, soit il s'agit d'un nouveau cours, soit toutes les classes ne l'ont pas reçu. Ce dernier cas arrive lorsqu'un professeur n'est plus disponible ou quand le cours n'a pu être placé pour toutes les classes de la promotion.\\
-
-Ceci va permettre à une classe d'avoir le même cours sur le même créneaux avec le même professeur semaine après semaine.
+Ceci va permettre à une classe d'avoir le même cours sur le même créneau avec le même professeur d'une semaine à l'autre.
 
 \begin{algorithm}
-\caption{Méthode pour placer les cours précédemment planifier}
+\caption{Méthode pour placer les cours précédemment planifiés}
 \begin{algorithmic}
-\REQUIRE le programme de la semaine $prog$, la liste des classes $classes$, la semaine du semestre $semaine$
+\REQUIRE le programme $prog$ de la semaine, la liste des classes $classes$, la semaine $numSemaine$
 \STATE $nbCourseAjout \leftarrow 0$
 \STATE $nouveauCours \leftarrow false$
-\IF {La première semaine à déjà été planifié}
+\IF {La première semaine à déjà été planifiée}
 \FORALL {$cours$ du programme de la semaine}
 \STATE coursDejaProgrammeAvant($cours, classes, nbCoursAjout, nouveauCours$)
 \IF {$nbCoursAjout = $nombre $classes$}
@@ -80,10 +78,10 @@ Ceci va permettre à une classe d'avoir le même cours sur le même créneaux av
 \begin{algorithm}
 \caption{Méthode pour savoir si un cours a déjà été programmé avant}
 \begin{algorithmic}
-\REQUIRE le cours de la semaine $cours$, la liste des classe $classes$ , la semaine du semestre $semaine$
+\REQUIRE le cours de la semaine $cours$, la liste des classe $classes$ , la semaine du semestre $numSemaine$
 \FORALL {$classes$}
-\IF {$classes$ a reçu le cours la semaine $semaine -1$}
-\STATE ajoutDuCours($classes, cours, semaine$)
+\IF {$classes$ a reçu le cours la semaine $numSemaine -1$}
+\STATE ajoutDuCours($classes, cours, numSemaine$)
 \STATE $nbCoursAjoute \leftarrow nbCoursAjoute + 1$
 \ENDIF
 \ENDFOR
@@ -99,17 +97,17 @@ Ceci va permettre à une classe d'avoir le même cours sur le même créneaux av
 \begin{algorithm}
 \caption{Méthode pour ajouter le cours par rapport à la semaine d'avant}
 \begin{algorithmic}
-\REQUIRE la classe $classe$, la matière $cours$, la semaine du semestre $semaine$
-\STATE $idProf \leftarrow $identifiant du professeur donnant $cours$ la $semaine - 1$
-\STATE $creneau \leftarrow $créneau de $cours$ la $semaine - 1$
+\REQUIRE la classe $classe$, la matière $cours$, la semaine du semestre $numSemaine$
+\STATE $idProf \leftarrow $identifiant du professeur donnant $cours$ la $numSemaine - 1$
+\STATE $creneau \leftarrow $créneau de $cours$ la $numSemaine - 1$
 \IF {$cours$ est sur 4 heures}
-\IF {$prof$ est disponible à $semaine, creneau \AND prof$ est disponible $semaine, creneau + 1 \AND classe$ est disponible à $semaine, creneau \AND classe$ est disponible $semaine, creneau +1$}
-\STATE planification $cours$ avec $prof$ sur $semaine$ et $creneau$
-\STATE planification $cours$ avec $prof$ sur $semaine$ et $creneau +1$
+\IF {$prof$ est disponible à $numSemaine, creneau \AND prof$ est disponible $numSemaine, creneau + 1 \AND classe$ est disponible à $numSemaine, creneau \AND classe$ est disponible $numSemaine, creneau +1$}
+\STATE planification $cours$ avec $prof$ sur $numSemaine$ et $creneau$
+\STATE planification $cours$ avec $prof$ sur $numSemaine$ et $creneau +1$
 \ENDIF
 \ELSE
-\IF {$prof$ est disponible à $semaine, creneau \AND$ $prof$ est disponible $semaine, creneau + 1$}
-\STATE planification $cours$ avec $prof$ sur $semaine$ et $creneau$
+\IF {$prof$ est disponible à $numSemaine, creneau \AND$ $prof$ est disponible $numSemaine, creneau + 1$}
+\STATE planification $cours$ avec $prof$ sur $numSemaine$ et $creneau$
 \ENDIF
 \ENDIF
 \end{algorithmic}
@@ -119,24 +117,25 @@ Ceci va permettre à une classe d'avoir le même cours sur le même créneaux av
 
 \subsubsection{Planification des nouveaux cours du semestre}
 
-A partir du programme du semestre, nous récupérons l'ensemble des professeurs pouvant enseigner la liste des matières. Tous les professeurs ne se verront pas forcément attribuer un cours car plusieurs professeurs peuvent enseigner le même cours.\\
+Une fois que tous les cours de la semaine précédente ont été traités, nous pouvons nous occuper des nouveaux cours. Nous disposons de la liste des cours de la semaine dans laquelle il ne reste que les nouveaux cours. Nous commençons par récupérer l'ensemble des profs capables d'enseigner ces matières.\\
 
-Pour tous les cours restant à planifier, nous allons à chaque fois trouver le couple promotion-professeur ayant le moins de créneaux en communs. En effet si nous plaçons des couples ayant plus de disponibilités avant un couple qui en a moins, il pourrait bloquer l'ensemble des disponibilités de ce dernier.\\
+Nous procédons alors à la sélection du couple classe-professeur ayant le moins de créneaux en commun. Ce couple sera prioritaire sur les autres car c'est celui qui dispose du moins de créneau et qui est par conséquent le plus contraignant.\\
 
-Ensuite, nous sélectionnons un créneaux aléatoirement parmi les choix possibles pour placer un cours. Nous réalisons un tirage aléatoire pour pouvoir essayer plusieurs combinaisons.\\
+C'est maintenant qu'intervient le facteur aléatoire : nous allons répertorier les créneaux communs au professeur et à la classe, et en choisir un au hasard.\\
+
+Lorsqu'un cours n'a pas pu être ajouté à une classe, il est ajouté à la liste des cours non placés.
 
 Dans le cas d'un cours de 4 heures, il se peut que nous n'ayons aucun créneau permettant de mettre les 4 heures à la suite. Dans ce cas nous mettons le cours dans la liste des cours n'ayant pu être planifié. 
-Auquel cas, nous plaçons le cours de la classe sur le créneau en modifiant les disponibilités du professeurs. 
 
 \begin{algorithm}
 \caption {Méthode pour ajouter un nouveau cours}
 \begin{algorithmic}
 \REQUIRE $progSemaine, profSemaine, listClasses$
-\STATE $nbCours \leftarrow $ nombre de cours dans $progSemaine * $ nombre de classe dans $listClasses$
+\STATE $nbCours \leftarrow $ nombre de cours dans $progSemaine * $ nombre de classes dans $listClasses$
 \FOR {i := 0  \TO nbCours }
-\STATE meilleurConnexion($progSemaine, profSemaine, listClasses, semaine$)
+\STATE meilleureConnexion($progSemaine, profSemaine, listClasses, numSemaine$)
 \IF {on trouve une connexion}
-\STATE ajoutCours($progSemaine, profAAjouter, classesAAjouter, semaine$)
+\STATE ajoutCours($progSemaine, profAAjouter, classesAAjouter, numSemaine$)
 \ELSE
 \RETURN 0
 \ENDIF
@@ -148,13 +147,13 @@ Auquel cas, nous plaçons le cours de la classe sur le créneau en modifiant les
 \newpage
 
 \begin{algorithm}
-\caption {Méthode pour trouver la plus meilleur connexion}
+\caption {Méthode pour trouver la meilleure connexion}
 \begin{algorithmic}
-\REQUIRE $progSemaine, profSemaine, listClasses, semaine$
+\REQUIRE $progSemaine, profSemaine, listClasses, numSemaine$
 \STATE $buf \leftarrow 23$
 \FORALL {$profSemaine$}
 \FORALL {$listClasses$}
-\STATE $nbConnections \leftarrow $ nbCreneauCommun($profSemaine, listClasses, semaine$)
+\STATE $nbConnections \leftarrow $ nbCreneauxCommuns($profSemaine, listClasses, numSemaine$)
 \IF {$nbConnections > 0 \AND nbConnections < buf$}
 \STATE $buf \leftarrow nbConnections$
 \STATE $profAAjouter \leftarrow profSemaine$
@@ -166,11 +165,11 @@ Auquel cas, nous plaçons le cours de la classe sur le créneau en modifiant les
 \end{algorithm}
 
 \begin{algorithm}
-\caption {Méthode pour compter le nombre de connection}
+\caption {Méthode pour compter le nombre de créneaux communs}
 \begin{algorithmic}
-\REQUIRE $prof, classe, semaine, progSemaine$)
+\REQUIRE $prof, classe, numSemaine, progSemaine$)
 \FORALL {$cours$ donnés par $prof$}
-\IF {$promo$ doit recevoir $cours$ sur $semaine$ \AND $cours$ n'a pas encore été placé pour $promo$ sur $semaine$}
+\IF {$promo$ doit recevoir $cours$ sur $numSemaine$ \AND $cours$ n'a pas encore été placé pour $promo$ sur $numSemaine$}
 \STATE $coursPossible \leftarrow vrai$
 \STATE BREAK
 \ELSE
@@ -178,7 +177,7 @@ Auquel cas, nous plaçons le cours de la classe sur le créneau en modifiant les
 \ENDIF
 \ENDFOR
 \IF {$coursPossible$}
-\RETURN $nbConnection \leftarrow $ somme des disponibilité commune de $prof$ et $promo$
+\RETURN $nbConnection \leftarrow $ somme des disponibilités communes de $prof$ et $promo$
 \ENDIF
 \RETURN -1
 \end{algorithmic}
@@ -189,10 +188,10 @@ Auquel cas, nous plaçons le cours de la classe sur le créneau en modifiant les
 \begin{algorithm}
 \caption {Méthode pour ajouter un cours à une classe}
 \begin{algorithmic}
-\REQUIRE $progSemaine, profAAjouter, classesAAjouter, semaine$
+\REQUIRE $progSemaine, profAAjouter, classesAAjouter, numSemaine$
 \FORALL {$cours$ de $profAAjouter$}
-\IF {$promo$ doit recevoir $cours$ sur $semaine$ \AND $cours$ n'a pas encore été placé pour $promo$ sur $semaine$}
-\STATE creationCours($prof, promo, cours, semaine$)
+\IF {$promo$ doit recevoir $cours$ sur $numSemaine$ \AND $cours$ n'a pas encore été placé pour $promo$ sur $numSemaine$}
+\STATE creationCours($prof, promo, cours, numSemaine$)
 \STATE BREAK
 \ENDIF
 \ENDFOR
@@ -204,27 +203,27 @@ Auquel cas, nous plaçons le cours de la classe sur le créneau en modifiant les
 \begin{algorithm}
 \caption {Méthode pour créer le cours à la classe}
 \begin{algorithmic}
-\IF {$cours$ n'a pas été programmé à $semaine -1$ pour $classes$}
-	\STATE ajout de $cours$ dans la liste des cours non planifié
+\IF {$cours$ n'a pas été programmé à $numSemaine - 1$ pour $classes$}
+	\STATE ajout de $cours$ dans la liste des cours non planifiés
 \ELSIF {$cours$ est sur 4 heures}
 	\FORALL {$creneau$}
-		\IF {$classe$ est libre à $semaine, creneau$ \AND $classe$ est libre à $semaine, creneau + 1$ \AND $prof$ est libre à 			$semaine, creneau$  \AND $prof$ est libre à $semaine, creneau+1$ }
+		\IF {$classe$ est libre à $numSemaine, creneau$ \AND $classe$ est libre à $numSemaine, creneau + 1$ \AND $prof$ est libre à 			$numSemaine, creneau$  \AND $prof$ est libre à $numSemaine, creneau+1$ }
 			\STATE $creneauxPossibles \leftarrow$ pushback $creneau$
 		\ENDIF
 	\ENDFOR
 	\IF {$creneauxPossibles$ n'est pas vide}
 		\STATE $creneau \leftarrow$ choix aléatoire dans $creneauxPossibles$
-		\STATE mise en place du cours et des données ($cours, classe, prof, semaine, creneau$)
-		\STATE mise en place du cours et des données ($cours, classe, prof, semaine, creneau +1$)
+		\STATE mise en place du cours et des données ($cours, classe, prof, numSemaine, creneau$)
+		\STATE mise en place du cours et des données ($cours, classe, prof, numSemaine, creneau +1$)
 	\ENDIF
-	\STATE ajout de $cours$ dans la liste des cours non planifié
+	\STATE ajout de $cours$ dans la liste des cours non planifiés
 \ELSE
 	\FORALL {$creneau$}
-		\IF {$classe$ est libre à $semaine, creneau$ \AND $prof$ est libre à $semaine, creneau$}
+		\IF {$classe$ est libre à $numSemaine, creneau$ \AND $prof$ est libre à $numSemaine, creneau$}
 			\STATE $creneauxPossibles \leftarrow$ pushback $creneau$
 		\ENDIF
 	\STATE $creneau \leftarrow$ choix aléatoire dans $creneauxPossibles$
-	\STATE mise en place du cours et des données ($cours, classe, prof, semaine, creneau$)
+	\STATE mise en place du cours et des données ($cours, classe, prof, numSemaine, creneau$)
 	\ENDFOR
 \ENDIF
 \end{algorithmic}
