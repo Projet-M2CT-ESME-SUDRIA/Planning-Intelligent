@@ -42,7 +42,7 @@ Pour un cours de 4 heures, nous avons:
 $\frac{\sum_{i=0}^n dispo_{prof_i}}{2} > m$
 \end{center}
 
-Pour un cours dispensé 4h, le nombre de disponibilités nécessaires est doublé. Pour simplifier nos calculs, nous divisons par 2 le nombre de disponibilités trouvées pour un prof pour le comparer aux disponibilités nécessaires pour dispenser le cours.
+Pour un cours dispensé sur 4h, le nombre de disponibilités nécessaire est doublé. Pour simplifier nos calculs, nous divisons par 2 le nombre de disponibilités trouvées pour un professeur pour le comparer aux disponibilités nécessaires pour dispenser le cours.
 
 L'opération est répétée pour l'ensemble des cours. 
 
@@ -83,7 +83,7 @@ La seconde vérification porte sur le nombre d'heures de cours à dispenser à u
 $\sum_{i=0}^n nbHeures_{cours_i} \leq s*c*h$
 \end{center}
 
-Avec :\\
+Avec :
 \begin{itemize}
 \item $n$ le nombre de cours d'une classe
 \item $p$ la classe considérée
@@ -122,15 +122,17 @@ Afin d'optimiser la répartition des cours dans la semaine, nous répartissons a
 
 Pour se faire, nous déterminons la semaine à laquelle doit se dérouler le premier cours de chaque matière, ainsi que le nombre de semaines nécessaires. Nous pouvons alors répartir les cours sur chaque semaine à l'aide de la fonction de répartition aléatoire. Cette fonction sera rappelée jusqu'à trouver une solution dans laquelle tous les cours ont été placés correctement. En cas d'échec (aucune solution parfaite), le programme donnera la solution dans laquelle un minimum de cours n'ont pas été placés correctement. Ces cours pourront toutefois être placés manuellement par la suite.\\
 
+\newpage
+
 \begin{algorithm}
 \caption{Principe général de conception des emplois du temps}
 \begin{algorithmic}
 \STATE $meilleurEDT \leftarrow \infty$
 \REPEAT
 \FORALL{$Promo$}
-\STATE $idMatieres \leftarrow$ liste contenant les id des matières que doivent suivre la promotion $Promo$
+\STATE $idMatieres \leftarrow$ liste contenant les id des matières que doivent suivrex $Promo$
 \STATE $programmeSemestre \leftarrow $ liste contenant la répartition des $idMatieres$ sur le semestre
-\STATE $planningOk \leftarrow$ booléen indiquant si la génération de l'emploi du temps a rencontré des erreursgw
+\STATE $planningOk \leftarrow$ booléen indiquant si la génération de l'emploi du temps a rencontré des erreurs
 \ENDFOR
 \IF {$planningOk$}
 \IF {$nbCoursNonPlaces < meilleurEDT$}
@@ -152,13 +154,19 @@ La répartition se déroule en deux étapes :
 \item Le placement des matières sur le semestre\\
 \end{itemize}
 
-L'objectif est de répartir les cours sur le semestre de manière homogène. Il faut donc réussir à placer le maximum de matières les unes à la suite des autres. Pour se faire, nous trions les matières de la plus longue à la plus courte (en nombre de semaines), puis nous les plaçons les unes après les autres dans le semestre, en faisant en sorte de les placer à la suite d'une autre matière dès que possible.\\
+L'objectif est de répartir les cours sur le semestre de manière homogène. Il faut donc réussir à placer le maximum de matières les unes à la suite des autres. Pour se faire, nous trions les matières de la plus longue à la plus courte (en nombre de semaines), puis nous les plaçons les unes après les autres dans le semestre, en faisant en sorte de les placer à la suite d'une autre matière dès que possible.
+
+\begin{center}
+\includegraphics [width=160mm, height=60mm]{RepartitionSemestre2.png}
+\end{center}
 
 Un cours de 4 heures impose plus de contraintes. En effet, il s'agit d'un cours où le professeur et la classe doivent avoir en commun deux créneaux libres consécutifs dans la même demi-journée. C'est pourquoi un cours de 4 heures doit être planifié sur le semestre avant un cours de 2 heures.\\
 
-Pour se faire, les matières vont être séparées en deux listes : une pour les cours de 4 heures et une autre pour les cours de 2 heures, et nous effectuons les répartitions sur le semestre comme expliqué précédemment.
+Pour se faire, les matières vont être séparées en deux listes : une pour les cours de 4 heures et une autre pour les cours de 2 heures, et nous effectuons les répartitions sur le semestre comme expliqué précédemment.\\
 
-IMAGE
+\begin{center}
+\includegraphics [width=150mm, height=60mm]{RepartitionSemestre.png}
+\end{center}
 
 Pour chaque matière, nous avons besoin des informations suivantes :
 \begin{itemize}
@@ -229,7 +237,7 @@ Pour chaque matière, nous avons besoin des informations suivantes :
 \end{algorithmic}
 \end{algorithm}
 
-Après avoir réalisé cet emploi du temps, nous pouvons commencer à placer les cours sur les créneaux des classes concernées
+Après avoir réalisé cet emploi du temps, nous pouvons commencer à placer les cours sur les créneaux des classes concernées.
 
 \input{algorithme2.tex}
 \input{algorithme3.tex}
