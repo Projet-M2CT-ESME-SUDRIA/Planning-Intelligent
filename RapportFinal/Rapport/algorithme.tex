@@ -1,28 +1,3 @@
-\documentclass[12pt,a4paper,french]{article}
-
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage{fullpage}
-\usepackage[french]{babel} 
-\usepackage[official]{eurosym}
-\usepackage{txfonts}
-\usepackage{graphicx}
-\usepackage{lastpage}
-\usepackage{fancyhdr}
-\usepackage{titlesec}
-\usepackage{color}
-\usepackage{setspace}
-\usepackage[nottoc, notlof, notlot]{tocbibind}
-\usepackage{hyperref}
-\usepackage[french,ruled,vlined]{algorithm2e}
-\usepackage{algorithmic}
-
-\begin{document}
-
-\title{Algorithmes -- Emploi du temps}
-\author{Coudray -- Julien -- Tran}
-\date{\today}
-\maketitle
 
 \section{Pré-traitements}
 Avant de réaliser l'emploi du temps, nous procédons à des vérifications sur les données d'entrées afin de détecter toutes les incohérences. Ainsi, nous éliminons au préalable une partie des traitements qui n'aboutiront pas.
@@ -49,7 +24,7 @@ L'opération est répétée pour l'ensemble des cours.
 \newpage
 
 \begin{algorithm}
-\caption{Pré-traitement nombre de professeurs}
+\caption{Pré-traitement du nombre de professeurs}
 \begin{algorithmic}
 \FORALL{$Cours$}
 \STATE $idCours \leftarrow$ identifiant de $Cours$
@@ -86,19 +61,18 @@ $\sum_{i=0}^n nbHeures_{cours_i} \leq s*c*h$
 Avec :
 \begin{itemize}
 \item $n$ le nombre de cours d'une classe
-\item $p$ la classe considérée
 \item $s$ le nombre de semaines du semestre
 \item $c$ le nombre de créneaux sur une semaine
 \item $h$ le nombre d'heures d'un créneau
 \end{itemize}
 
 \begin{algorithm}
-\caption{Pré-traitement nombre d'heures sur le semestre}
+\caption{Pré-traitement du nombre d'heures sur le semestre}
 \begin{algorithmic}
 \FORALL{$Classes$}
 \STATE $listCours \leftarrow$ ensemble des cours que suit une classe
 \FORALL {$cours$ in $listCours$}
-\STATE $nbHours \leftarrow nbHours +$ nombre d'heures du cours $cours$
+\STATE $nbHours \leftarrow nbHours $ + nombre d'heures du cours $cours$
 \ENDFOR
 \IF {$nbHours$ > (nombre de semaines du semestre * nombre de créneaux par semaine * nombre d'heures par créneau)}
 \STATE display(Erreur, trop d'heures pour la classe $Classes$)
@@ -113,7 +87,7 @@ Une fois ces pré-traitements réalisés, nous pouvons commencer la conception d
 
 \newpage
 \section{Réalisation de l'emploi du temps}
-Il est difficile de trouver un ordonnancement en résolution exacte, donc pour faciliter la génération de l'emploi du temps, nous avons mis en place une fonction de répartition aléatoire des cours dans la semaine. Cette fonction est rappelée un certain nombre de fois (nombre d'itérations à définir), mais le programme s'arrête si une solution est trouvée avant la dernière itération.\\
+Il est difficile de trouver une solution exacte pour un problème d'ordonnancement, donc pour faciliter la génération de l'emploi du temps, nous avons mis en place une fonction de répartition aléatoire des cours dans la semaine. Cette fonction est rappelée un certain nombre de fois (nombre d'itérations à définir), mais le programme s'arrête si une solution est trouvée avant la dernière itération.\\
 
 Afin de clarifier l'explication, nous rappelons que le programme de l'année est un ensemble de matières (Algèbre, Analyse, Electricité, etc.), et chaque matière est un ensemble de cours (Algèbre : 14 cours de 2h, Analyse 12 cours de 2h, etc.), répartis sur les créneaux de la semaine. De plus, chaque promotion (B1, B2, B3, etc.) est constituée d'un certain nombre de classes (B1A, B2C, M1B, etc.).
 Enfin, un créneau correspond à 2h dans la semaine (Lundi 8h30-10h30, Mercredi 14h-16h, etc.), un cours de 2h se place donc sur un créneau, et un cours de 4h sur 2 créneaux.\\
@@ -241,5 +215,3 @@ Après avoir réalisé cet emploi du temps, nous pouvons commencer à placer les
 
 \input{algorithme2.tex}
 \input{algorithme3.tex}
-
-\end{document}
