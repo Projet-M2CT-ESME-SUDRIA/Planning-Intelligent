@@ -52,9 +52,9 @@
 \begin{titlepage}
 	\begin{center}
 		\begin{spacing}{2}
-		{ \Huge{ P.I. : PLANNING INTELLIGENT}}\\[1cm]
+		{ \Huge{ RÉSOLUTION APPROCHÉE DU PROBLÈME D’ORDONNANCEMENT}}\\[1cm]
 		\end{spacing}
-		{ \Large{Rapport de mi-projet}}\\[10cm]
+		{ \Large{Rapport de projet}}\\[10cm]
 		
 		\textbf{Auteurs} : 
 			Corentin COUDRAY \\
@@ -411,52 +411,12 @@ Le bloc "Stands" représente les relations de $n$ à $n$ entre les matières ("C
 Chaque salle va avoir un type spécifique correspondant aux différents types de cours (cours classe entière, TP, cours de demi classe).
 
 \newpage
-\section{Etapes de résolution}
-\subsection{Simplification du problème}
-Comme expliqué précédemment, nous avons décidé de commencer notre projet en le réduisant au maximum, puis nous rajouterons des paramètres au fur et à mesure que le projet avance afin de se rapprocher petit à petit des conditions réelles.\\
+\section{Simplification du problème}
+Afin de simplifier le problème, nous avons décidé de le résoudre sans tenir compte des contraintes imposées par les classes de M2. 
+En effet, contrairement aux autres promotions, la M2 est composée de 4 classes ayant des programmes différents. Chacune de ces classes étant elles-même séparées en plusieurs spécialités ayant un tronc commun et un programme spécialisé.
+Par conséquent nous avons décidé de commencer le résolution du problème en se focalisant sur les promotions ayant un programme unique.\\
 
-Cette manière de procéder nous permet de nous concentrer sur une seule contrainte à la fois, et donc d'optimiser la résolution de celle-ci.\\
-
-Nous allons donc commencer par considérer le cas d'une promotion, avec une seule classe, sur un semestre.\\
-
-Le problème peut alors se fragmenter en plusieurs points :
-\begin{itemize}
-\item répartir l'ensemble des cours sur les différentes semaines du semestre
-\item répartir les cours sur les différents créneaux d'une semaine
-\item éviter que plusieurs cours se superposent : 
-	\begin{itemize} 
-	\item[$\bullet$] une classe ne doit pas recevoir plus d'un cours sur un même créneau
-	\item[$\bullet$] plusieurs professeurs ne peuvent pas donner de cours sur un même créneau
-	\end{itemize}
-\item tenir compte des disponibilités des professeurs et de la classe lors de l'attribution d'un nouveau cours
-\item répartir en priorité les professeurs dont les disponibilités sont les moindres
-\item mettre à jour les disponibilités de chaque protagoniste dès l'ajout d'un cours
-\item lorsqu'un cours est présent sur plusieurs semaines consécutives, il doit se retrouver sur le même créneau.
-\end {itemize}
-
-\subsection{Considération de l'ensemble des classes d'une promotion}
-Lorsque nous aurons trouvé l'algorithme répondant à ces critères, nous pourrons considérer toutes les classes de la promotion.\\
-
-De nouvelles contraintes se posent :
-\begin{itemize}
-\item un professeur ne peut pas dispenser un même cours à deux classes différentes sur un même créneau
-\item vérifier que pour une matière donnée, l'ensemble des créneaux des professeurs qualifiés soit suffisant pour donner tous les cours
-\item la répartition du programme doit être homogène : toutes les classes doivent recevoir les mêmes cours sur une même semaine
-\end{itemize}
-
-\subsection{Considération de l'ensemble des promotions}
-Ensuite nous pourrons considérer la totalité des promotions. Il n'y a pas réellement de nouvelle contrainte, mais c'est à ce stade que l'algorithme de résolution va réellement être mis à l'épreuve, et que le temps d'exécution du programme va vraiment augmenter.
-
-\subsection{Considération des salles}
-Nous rajoutons ensuite la contrainte des salles. Ce nouveau paramètre va énormément compliquer le problème :
-\begin{itemize}
-\item vérifier qu'une salle ne reçoit qu'un seul cours par créneau
-\item vérifier qu'une salle a la capacité suffisante pour accueillir tous les élèves d'un cours donné
-\item vérifier qu'une salle contient les équipements adaptés au cours
-\end{itemize}
-
-\subsection{Cas réel}
-Enfin, les enseignants de l'ESME peuvent dispenser des cours dans les locaux d'Ivry-sur-Seine et de Montparnasse. Pour des raisons de timing, les professeurs ne doivent pas avoir de cours à donner dans les deux locaux sur une même demi-journée. Il faut donc introduire ce paramètre dans l'attribution des cours, ce qui va restreindre davantage le nombre de solutions du problème.
+De plus, nous avons décidé de nous affranchir des contraintes relatives aux salles, notamment en ce qui concerne la distinction entre les locaux de Montparnasse et d'Ivry-sur-Seine.\\
 
 \newpage
 
@@ -466,7 +426,14 @@ Enfin, les enseignants de l'ESME peuvent dispenser des cours dans les locaux d'I
 
 Le problème étant vraisemblablement Np-difficile, nous doutons de la possibilité d'établir un algorithme de résolution exacte dans un temps raisonnable, étant donnée la taille des instances que nous avons observées. Nous avons considéré qu'une approche heuristique (voire métaheuristique), offrant une solution réalisable mais non nécessairement optimale, serait plus appropriée pour des raisons pratiques évidentes.\\
 
-Par ailleurs, au regard du nombre de contraintes associées au problème, nous devrons commencer par une définition simplifiée d'une "instance" du problème, en écartant un maximum de contraintes pour établir un cadre de résolution théorique clair : nous l'enrichirons tout au long de notre projet. La version tant théorique que logicielle présentée dans ce rapport reflète l'état de notre avancée et est de ce fait partielle.\\
+Le temps nous faisant défaut, nous n'avons pas pu implémenter les contraintes liées à la M2 et résoudre le problème des salles et des locaux.\\
+
+Par ailleurs, les TPs posent problème parce que cela revient à avoir plusieurs cours sur un même créneau et d'avoir plusieurs fois le même cours dans la semaine.\\
+
+Pour résoudre ce problème, on envisage plusieurs méthodes. La première serait de créer une exception. La seconde serait de généraliser l'ensemble des TPs en un cours unique, tout en affichant la rotation des séries au niveau de l'interface.\\
+
+Concernant le problème des salles, à partir de l'emploi du temps que nous avons créé, nous pouvons allouer à chaque créneau une salle aléatoirement jusqu'avoir répartition possible.
+
 
 \newpage
 \section{Conclusion}
