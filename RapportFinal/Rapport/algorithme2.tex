@@ -8,10 +8,12 @@ Cette fonction va récupérer pour chaque semaine la liste des cours à dispense
 
 \begin{itemize}
 \item Copie des cours placés la semaine précédente et qui doivent encore l'être sur cette semaine
-\item Placement des nouveaux cours de la semaine après récupération des professeurs qualifiés pour les enseigner
+\item Placement des nouveaux cours de la semaine après récupération des professeurs qualifiés pour les enseigner\\
 \end{itemize}
 
 Lorsqu'un cours ne peut être placé faute de disponibilité, il est ajouté à une liste dédiée aux cours non placés, et est retiré de la liste des cours à placer. Cette liste permet d'établir la qualité de la solution : plus elle est remplie, et plus la solution est mauvaise. Cette liste contiendra l'identifiant de la matière, l'identifiant du professeur et les semaines où le cours aurait dû être placé.
+
+\newpage
 
 \begin{algorithm}
 \caption {Algorithme principal de la répartition des cours sur les créneaux des classes}
@@ -47,9 +49,7 @@ Lorsqu'un cours ne peut être placé faute de disponibilité, il est ajouté à 
 
 \subsubsection{Placement de cours déjà fixé la semaine précédente}
 
-Lorsqu'on récupère le programme d'une semaine, la première étape consiste à vérifier si certains cours ont déjà été placés la semaine précédente, et le cas échéant à les copier dans l'emploi du temps de cette semaine, en vérifiant bien que le professeur est toujours disponible. Le cours sera ajouté à la liste des cours non placés si le professeur n'est plus disponible. Lorsqu'un cours a été placé pour toutes les classes d'une promotion, nous le supprimons de la liste des cours à dispenser. Dans le cas contraire, le cours est ajouté à la liste des cours non placés.
-
-Ceci va permettre à une classe d'avoir le même cours sur le même créneau avec le même professeur d'une semaine à l'autre.
+Lorsqu'on récupère le programme d'une semaine, la première étape consiste à vérifier si certains cours ont déjà été placés la semaine précédente, et le cas échéant à les copier dans l'emploi du temps de cette semaine, en vérifiant bien que le professeur est toujours disponible. Le cours sera ajouté à la liste des cours non placés si le professeur n'est plus disponible. Lorsqu'un cours a été placé pour toutes les classes d'une promotion, nous le supprimons de la liste des cours à dispenser. Dans le cas contraire, le cours est ajouté à la liste des cours non placés. Ceci va permettre à une classe d'avoir le même cours sur le même créneau avec le même professeur d'une semaine à l'autre.
 
 \begin{algorithm}
 \caption{Méthode pour placer les cours précédemment planifiés}
@@ -73,7 +73,6 @@ Ceci va permettre à une classe d'avoir le même cours sur le même créneau ave
 \ENDIF
 \end{algorithmic}
 \end{algorithm}
-
 
 \begin{algorithm}
 \caption{Méthode pour savoir si un cours a déjà été programmé avant}

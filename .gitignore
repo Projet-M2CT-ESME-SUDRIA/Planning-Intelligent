@@ -10,6 +10,7 @@
 *.synctex.gz
 *.nav
 *.snm
+*.loa
 
 *.dep.inc
 *.DS_Store

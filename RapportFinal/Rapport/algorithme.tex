@@ -66,6 +66,8 @@ Avec :
 \item $h$ le nombre d'heures d'un créneau
 \end{itemize}
 
+\newpage
+
 \begin{algorithm}
 \caption{Pré-traitement du nombre d'heures sur le semestre}
 \begin{algorithmic}
@@ -130,17 +132,30 @@ La répartition se déroule en deux étapes :
 
 L'objectif est de répartir les cours sur le semestre de manière homogène. Il faut donc réussir à placer le maximum de matières les unes à la suite des autres. Pour se faire, nous trions les matières de la plus longue à la plus courte (en nombre de semaines), puis nous les plaçons les unes après les autres dans le semestre, en faisant en sorte de les placer à la suite d'une autre matière dès que possible.
 
-\begin{center}
-\includegraphics [width=160mm, height=60mm]{RepartitionSemestre2.png}
-\end{center}
+\newpage
+
+\begin{figure}[! ht ]
+    \centering
+    \begin{minipage}[t]{14 cm}
+        \centering
+            \includegraphics [width=160mm, height=60mm]{RepartitionSemestre2.png}
+        \caption {Ajout d'un cours à la suite d'un autre sur le semestre}
+    \end{minipage}
+\end{figure}
 
 Un cours de 4 heures impose plus de contraintes. En effet, il s'agit d'un cours où le professeur et la classe doivent avoir en commun deux créneaux libres consécutifs dans la même demi-journée. C'est pourquoi un cours de 4 heures doit être planifié sur le semestre avant un cours de 2 heures.\\
 
 Pour se faire, les matières vont être séparées en deux listes : une pour les cours de 4 heures et une autre pour les cours de 2 heures, et nous effectuons les répartitions sur le semestre comme expliqué précédemment.\\
 
-\begin{center}
-\includegraphics [width=150mm, height=60mm]{RepartitionSemestre.png}
-\end{center}
+\begin{figure}[! ht ]
+    \centering
+    \begin{minipage}[t]{14 cm}
+        \centering
+            \includegraphics [width=160mm, height=60mm]{RepartitionSemestre.png}
+        \caption {Modélisation du planning du semestre}
+    \end{minipage}
+\end{figure}
+
 
 Pour chaque matière, nous avons besoin des informations suivantes :
 \begin{itemize}

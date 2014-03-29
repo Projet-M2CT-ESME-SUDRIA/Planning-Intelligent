@@ -61,7 +61,7 @@
 			Christophe JULIEN \\
 			Khanh An Noël TRAN \\ 
 		\textbf{Groupe} : M2\_9\\
-		\textbf{Date} : 13/12/2013\\[2 cm]
+		\textbf{Date} : 03/04/2014\\[2 cm]
 	\end{center}	
 	% Bas de page %
 	\vfill 
@@ -89,9 +89,7 @@ La planification sous contraintes est la discipline des mathématiques appliqué
 
 La réalisation d'une planification est longue et périlleuse. Il est très difficile de concilier l'ensemble des contraintes qui accompagnent cet ordonnancement et de leur organisation manière optimale. La mise en place d'un calendrier est souvent faite à la main ou de manière approximative avec d'autres applications.\\
 
-L'objectif de ce projet est donc de réaliser une application, permettant de générer une planification tenant compte de toutes les contraintes que l'on aura indiquées au préalable. Dans un premier temps, nous nous contenterons de générer un emploi du temps propre à l'école, quitte à élargir notre champ d'action si nous en avons le temps.\\
-
-Ce problème peut être généralisé à toutes les planifications horaires d'employés, comme dans les écoles, les hôpitaux et toutes autres entreprises ayant un roulement de personnel à organiser.
+L'objectif de ce projet est donc de réaliser une application, permettant de générer une planification tenant compte de toutes les contraintes que l'on aura indiquées au préalable. Dans un premier temps, nous nous contenterons de générer un emploi du temps propre à l'école, quitte à élargir notre champ d'action si nous en avons le temps.
 
 \newpage
 \section{Contexte}
@@ -351,10 +349,11 @@ Les données d'entrée à stocker dans les fichiers sont toutes celles que l'uti
 
 Chaque type de donnée est stockée dans un fichier séparé. Au sein du fichier, une ligne contient tous les paramètres d'un seul élément. Les données seront donc récupérées lignes par ligne à chaque exécution du programme.\\
 
-Les données en sortie du problème, c'est à dire les emplois du temps de chaque éléments (classes, profs, salles) seront également dans des fichiers externe.
+Les données en sortie du problème, c'est à dire les emplois du temps de chaque éléments (classes, profs, salles) seront également dans des fichiers externes.
 
 \subsection{Diagrammes de classes}
 Ce diagramme représente les liens entre les différentes classes de notre programme avec les simplifications que nous avons décidé de réaliser dans un premier temps.\\
+\newpage
 \begin{figure}[! ht ]
     \centering
     \begin{minipage}[t]{14 cm}
@@ -386,6 +385,7 @@ Le bloc "Teaches" représente les relations de $n$ à $n$ entre
 	\end{itemize}
 \end{itemize}
 
+\newpage
 
 \paragraph{}
 Ce second diagramme est une ébauche du diagramme des classes final sous réserve de modifications lorsque nous ajouterons les salles à notre problème.\\
@@ -424,34 +424,31 @@ De plus, nous avons décidé de nous affranchir des contraintes relatives aux sa
 
 \section{Discussions}
 
-Le problème étant vraisemblablement Np-difficile, nous doutons de la possibilité d'établir un algorithme de résolution exacte dans un temps raisonnable, étant donnée la taille des instances que nous avons observées. Nous avons considéré qu'une approche heuristique (voire métaheuristique), offrant une solution réalisable mais non nécessairement optimale, serait plus appropriée pour des raisons pratiques évidentes.\\
+Le problème étant vraisemblablement Np-difficile, nous doutons de la possibilité d'établir un algorithme de résolution exacte dans un temps raisonnable, étant donnée la taille des instances que nous avons observées. Nous avons considéré qu'une approche heuristique (voire méta-heuristique), offrant une solution réalisable mais non nécessairement optimale, serait plus appropriée pour des raisons pratiques évidentes.\\
 
 Le temps nous faisant défaut, nous n'avons pas pu implémenter les contraintes liées à la M2 et résoudre le problème des salles et des locaux.\\
 
 Par ailleurs, les TPs posent problème parce que cela revient à avoir plusieurs cours sur un même créneau et d'avoir plusieurs fois le même cours dans la semaine.\\
+Le système des TP est un peu particulier : chaque série peut avoir 1 à 2 TP par semaine, et quoi qu'il arrive, il y aura toujours au moins une série de la classe dans chaque TP. Pour résoudre le problème des TP, on peut donc envisager de créer 2 sessions TP1 et TP2 à placer dans l'emploi du temps, et de réaliser la rotation des TP ultérieurement à l'aide d'un programme tiers.\\
 
-Pour résoudre ce problème, on envisage plusieurs méthodes. La première serait de créer une exception. La seconde serait de généraliser l'ensemble des TPs en un cours unique, tout en affichant la rotation des séries au niveau de l'interface.\\
-
-Concernant le problème des salles, à partir de l'emploi du temps que nous avons créé, nous pouvons allouer à chaque créneau une salle aléatoirement jusqu'avoir répartition possible.
+Concernant le problème des salles, à partir de l'emploi du temps que nous avons créé, nous pouvons allouer à chaque créneau une salle aléatoirement jusqu'à avoir une répartition possible.\\
 
 
 \newpage
 \section{Conclusion}
 
-Jusqu'à maintenant, nous avons mis en place un système permettant à l'utilisateur de saisir les données : il les rentre une à une dans la console, et elles sont automatiquement ajoutées dans un fichier externe. Celles-ci sont alors mises en relation par le programme au sein d'une architecture bien définie.\\
+A l'issue de ce projet, nous avons pu aboutir à une résolution heuristique du problème de planification dans le cadre de l'école.
+Même si cette solution n'est pas optimale, elle constitue tout de même une base solide pour établir les emplois du temps des 4 premières promotions de l'école.\\
 
-Pour des raisons pratiques, nous avons décidé de réduire le nombre de contraintes à considérer de manière à commencer avec une instance plus simple du problème.\\
+A partir de la saisie des données sur les professeurs, les promotions et les matières, le programme est capable de générer les emplois  du temps de chacune des classes et d'afficher les cours non placés le cas échéant, en proposant de les rajouter manuellement. Le programme propose également des fonctions de maintenance pour déplacer des cours en cas d'imprévu au fil de l'année.\\
 
-Nous avons également réalisé une ébauche du traitement de placement d'un cours. Pour cela, nous effectuons un pré-traitement permettant d'écarter les associations qui n'aboutiront pas pour éviter les calculs inutiles.\\
-
-Ainsi, toute l'architecture permettant la modélisation de l'emploi du temps est faite. Il nous faut maintenant mettre en place les algorithmes qui mèneront à l'ordonnancement des multiples éléments de l'école. Nous pourrons alors établir les différents emplois du temps. Pour se faire, il n'y aura qu'à modéliser les données de sortie.\\
-
-Enfin, le programme nécessitera des fonctions de maintenance pour mettre à jour l'emploi du temps tout au long de l'année.
-
+Dans l'état actuel des choses, les données d'entrée/sortie du programme sont stockées dans des fichiers textes, sans aucune mise en forme. Afin de rendre le programme compréhensible et ergonomique, une interface graphique est en cours de réalisation dans le cadre d'un projet de M1.\\
 
 \newpage
 \addcontentsline{toc}{section}{Table des figures}
 \listoffigures
+
+ \listofalgorithms
 
 \newpage
 \bibliographystyle{unsrt}
