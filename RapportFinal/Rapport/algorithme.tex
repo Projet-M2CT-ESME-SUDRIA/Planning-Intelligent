@@ -6,7 +6,7 @@ Avant de réaliser l'emploi du temps, nous procédons à des vérifications sur 
 La première vérification concerne le nombre de professeurs en entrée. Nous vérifions qu'il y a assez de professeurs pour dispenser les cours de chaque classe.
 Ainsi pour un cours donné, l'algorithme somme les disponibilités des professeurs puis compare le résultat au nombre de classe, en tenant compte du fait que pour des cours de 4h, le nombre de disponibilités nécessaire est doublé.\\
 
-Soit $n$ le nombre de professeurs pouvant donner un cours $c$ et $m$ le nombre de classe devant suivre ce cours.
+Soit $n$ le nombre de professeurs pouvant donner un cours $c$ et $m$ le nombre de classes devant suivre ce cours.
 Pour un cours de 2 heures, nous avons:
 \begin{center}
 $\sum_{i=0}^n dispo_{prof_i} > m$
@@ -43,7 +43,7 @@ L'opération est répétée pour l'ensemble des cours.
 \STATE $nbCreneaux \leftarrow nbCreneaux / 2$
 \ENDIF
 \IF{$nbClasses > nbCreneaux$}
-\STATE display (Erreur sur le nombre de professeurs pour la promo $idPromo$)
+\STATE display (Erreur sur le nombre de professeurs pour la promotion $idPromo$)
 \STATE EXIT FAILURE
 \ENDIF
 \ENDFOR
@@ -91,12 +91,12 @@ Une fois ces pré-traitements réalisés, nous pouvons commencer la conception d
 \section{Réalisation de l'emploi du temps}
 Il est difficile de trouver une solution exacte pour un problème d'ordonnancement, donc pour faciliter la génération de l'emploi du temps, nous avons mis en place une fonction de répartition aléatoire des cours dans la semaine. Cette fonction est rappelée un certain nombre de fois (nombre d'itérations à définir), mais le programme s'arrête si une solution est trouvée avant la dernière itération.\\
 
-Afin de clarifier l'explication, nous rappelons que le programme de l'année est un ensemble de matières (Algèbre, Analyse, Electricité, etc.), et chaque matière est un ensemble de cours (Algèbre : 14 cours de 2h, Analyse 12 cours de 2h, etc.), répartis sur les créneaux de la semaine. De plus, chaque promotion (B1, B2, B3, etc.) est constituée d'un certain nombre de classes (B1A, B2C, M1B, etc.).
+Afin de clarifier l'explication, nous rappelons que le programme de l'année est un ensemble de matières (Algèbre, Analyse, Electricité, etc.), et que chaque matière est un ensemble de cours (Algèbre : 14 cours de 2h, Analyse 12 cours de 2h, etc.), répartis sur les créneaux de la semaine. De plus, chaque promotion (B1, B2, B3, etc.) est constituée d'un certain nombre de classes (B1A, B2C, M1B, etc.).
 Enfin, un créneau correspond à 2h dans la semaine (Lundi 8h30-10h30, Mercredi 14h-16h, etc.), un cours de 2h se place donc sur un créneau, et un cours de 4h sur 2 créneaux.\\
 
 Afin d'optimiser la répartition des cours dans la semaine, nous répartissons au préalable les matières du programme, et les enseignants correspondant sur le semestre, et ce pour chaque promotion. Ainsi, chaque classe d'une même promotion suivra les mêmes cours chaque semaine, ce qui garantit l'homogénéité de l'emploi du temps.\\
 
-Pour se faire, nous déterminons la semaine à laquelle doit se dérouler le premier cours de chaque matière, ainsi que le nombre de semaines nécessaires. Nous pouvons alors répartir les cours sur chaque semaine à l'aide de la fonction de répartition aléatoire. Cette fonction sera rappelée jusqu'à trouver une solution dans laquelle tous les cours ont été placés correctement. En cas d'échec (aucune solution parfaite), le programme donnera la solution dans laquelle un minimum de cours n'ont pas été placés correctement. Ces cours pourront toutefois être placés manuellement par la suite.\\
+Pour ce faire, nous déterminons la semaine à laquelle doit se dérouler le premier cours de chaque matière, ainsi que le nombre de semaines nécessaires. Nous pouvons alors répartir les cours sur chaque semaine à l'aide de la fonction de répartition aléatoire. Cette fonction sera rappelée jusqu'à trouver une solution dans laquelle tous les cours ont été placés correctement. En cas d'échec (aucune solution parfaite), le programme donnera la solution dans laquelle un minimum de cours n'ont pas été placés correctement. Ces cours pourront toutefois être placés manuellement par la suite.\\
 
 \newpage
 
@@ -130,7 +130,7 @@ La répartition se déroule en deux étapes :
 \item Le placement des matières sur le semestre\\
 \end{itemize}
 
-L'objectif est de répartir les cours sur le semestre de manière homogène. Il faut donc réussir à placer le maximum de matières les unes à la suite des autres. Pour se faire, nous trions les matières de la plus longue à la plus courte (en nombre de semaines), puis nous les plaçons les unes après les autres dans le semestre, en faisant en sorte de les placer à la suite d'une autre matière dès que possible.
+L'objectif est de répartir les cours sur le semestre de manière homogène. Il faut donc réussir à placer le maximum de matières les unes à la suite des autres. Pour ce faire, nous trions les matières de la plus longue à la plus courte (en nombre de semaines), puis nous les plaçons les unes après les autres dans le semestre, en faisant en sorte de les placer à la suite d'une autre matière dès que possible.
 
 \newpage
 
@@ -145,7 +145,7 @@ L'objectif est de répartir les cours sur le semestre de manière homogène. Il 
 
 Un cours de 4 heures impose plus de contraintes. En effet, il s'agit d'un cours où le professeur et la classe doivent avoir en commun deux créneaux libres consécutifs dans la même demi-journée. C'est pourquoi un cours de 4 heures doit être planifié sur le semestre avant un cours de 2 heures.\\
 
-Pour se faire, les matières vont être séparées en deux listes : une pour les cours de 4 heures et une autre pour les cours de 2 heures, et nous effectuons les répartitions sur le semestre comme expliqué précédemment.\\
+Pour ce faire, les matières sont séparées en deux listes : une pour les cours de 4 heures et une autre pour les cours de 2 heures, et nous effectuons les répartitions sur le semestre comme expliqué précédemment.\\
 
 \begin{figure}[! ht ]
     \centering
@@ -160,7 +160,7 @@ Pour se faire, les matières vont être séparées en deux listes : une pour les
 Pour chaque matière, nous avons besoin des informations suivantes :
 \begin{itemize}
 \item L'identifiant de la matière
-\item Le numéro de la semaine dans laquelle sera donné premier cours
+\item Le numéro de la semaine dans laquelle sera donné le premier cours
 \item Le nombre de semaines nécessaires pour enseigner l'ensemble de la matière
 \item La matière qui la suit, s'il y en a une
 \end{itemize}

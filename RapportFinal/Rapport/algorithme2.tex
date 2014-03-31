@@ -57,7 +57,7 @@ Lorsqu'on récupère le programme d'une semaine, la première étape consiste à
 \REQUIRE le programme $prog$ de la semaine, la liste des classes $classes$, la semaine $numSemaine$
 \STATE $nbCourseAjout \leftarrow 0$
 \STATE $nouveauCours \leftarrow false$
-\IF {La première semaine à déjà été planifiée}
+\IF {La première semaine a déjà été planifiée}
 \FORALL {$cours$ du programme de la semaine}
 \STATE coursDejaProgrammeAvant($cours, classes, nbCoursAjout, nouveauCours$)
 \IF {$nbCoursAjout = $nombre $classes$}
@@ -116,7 +116,7 @@ Lorsqu'on récupère le programme d'une semaine, la première étape consiste à
 
 \subsubsection{Planification des nouveaux cours du semestre}
 
-Une fois que tous les cours de la semaine précédente ont été traités, nous pouvons nous occuper des nouveaux cours. Nous disposons de la liste des cours de la semaine dans laquelle il ne reste que les nouveaux cours. Nous commençons par récupérer l'ensemble des profs capables d'enseigner ces matières.\\
+Une fois que tous les cours de la semaine précédente ont été traités, nous pouvons nous occuper des nouveaux cours. Nous disposons de la liste des cours de la semaine dans laquelle il ne reste que les nouveaux cours. Nous commençons par récupérer l'ensemble des professeurs capables d'enseigner ces matières.\\
 
 Nous procédons alors à la sélection du couple classe-professeur ayant le moins de créneaux en commun. Ce couple sera prioritaire sur les autres car c'est celui qui dispose du moins de créneau et qui est par conséquent le plus contraignant.\\
 
@@ -124,7 +124,7 @@ C'est maintenant qu'intervient le facteur aléatoire : nous allons répertorier 
 
 Lorsqu'un cours n'a pas pu être ajouté à une classe, il est ajouté à la liste des cours non placés.
 
-Dans le cas d'un cours de 4 heures, il se peut que nous n'ayons aucun créneau permettant de mettre les 4 heures à la suite. Dans ce cas nous mettons le cours dans la liste des cours n'ayant pu être planifié. 
+Dans le cas d'un cours de 4 heures, il se peut que nous n'ayons aucun créneau permettant de mettre les 4 heures à la suite. Dans ce cas nous mettons le cours dans la liste des cours n'ayant pu être planifiés. 
 
 \begin{algorithm}
 \caption {Méthode pour ajouter un nouveau cours}

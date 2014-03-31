@@ -87,17 +87,17 @@
 
 La planification sous contraintes est la discipline des mathématiques appliquées consistant à ordonner diverses séquences ou évènements dans un espace-temps limité. Ces planifications impliquent un grand nombre de contraintes, qu'elles soient liées aux disponibilités de personnes, d'emplacements ou à tout autre type de problème.\\
 
-La réalisation d'une planification est longue et périlleuse. Il est très difficile de concilier l'ensemble des contraintes qui accompagnent cet ordonnancement et de leur organisation manière optimale. La mise en place d'un calendrier est souvent faite à la main ou de manière approximative avec d'autres applications.\\
+La réalisation d'une planification est longue et périlleuse. Il est très difficile de concilier l'ensemble des contraintes qui accompagnent cet ordonnancement et de les organiser de manière optimale. La mise en place d'un calendrier est souvent faite à la main ou de manière approximative avec d'autres applications.\\
 
-L'objectif de ce projet est donc de réaliser une application, permettant de générer une planification tenant compte de toutes les contraintes que l'on aura indiquées au préalable. Dans un premier temps, nous nous contenterons de générer un emploi du temps propre à l'école, quitte à élargir notre champ d'action si nous en avons le temps.
+L'objectif de ce projet est donc de réaliser une application, permettant de générer une planification tenant compte de toutes les contraintes que l'on aura indiquées au préalable. 
 
 \newpage
 \section{Contexte}
 
-Ce sujet a été proposé dans le but d'alléger le travail de M. Maeso. En effet, chaque année, il doit créer manuellement l'intégralité des emplois du temps de l'école, en tenant compte de toutes les contraintes de disponibilités des professeurs, des salles, des élèves et des matières. L'application pourra lui faire gagner un temps non-négligeable dans son travail.
+Ce sujet a été proposé dans le but d'alléger le travail de M. Maeso, responsable administratif des études. En effet, chaque année, il doit créer manuellement l'intégralité des emplois du temps de l'école, en tenant compte de toutes les contraintes de disponibilités des professeurs, des salles, des élèves et des matières. L'application pourra lui faire gagner un temps non-négligeable dans son travail.
 
 \newpage
-\section{Revue littéraire}
+\section{Revue de littérature}
 
 Aujourd'hui, il existe déjà des systèmes de planification informatique, mais ils correspondent toujours à des cas bien spécifiques : organisation du personnel médical dans un hôpital, organisation du personnel dans une base militaire, etc. Mais il semble impossible à l'heure actuelle d'imaginer un logiciel générique permettant de lister des contraintes et d'élaborer le planning correspondant et adapté quel que soit le milieu professionnel.
 
@@ -107,12 +107,9 @@ En l'occurrence, nous avons trouvé quelques pistes de recherche :
 \begin{itemize}
 \item Algorithme des colonies de fourmis : cet algorithme est basé sur le comportement réel des fourmis, qui parviennent, par le biais de rétroactions, à trouver le chemin le plus court entre une source de nourriture et leur nid.
 \cite{02-algoFourmis}
-\item Recherche tabou : cet algorithme consiste à partir d'une position donnée, et à explorer ensuite le voisinage pour choisir la position qui minimise la fonction "objectif". Le mot "tabou" vient du fait qu'une fois une position écartée, nous ne pouvons plus y revenir. Cet algorithme procède donc par élimination jusqu'à trouver une solution convenable.
+\item Recherche tabou : cet algorithme consiste à partir d'une position donnée, à explorer le voisinage pour choisir la position qui minimise la fonction "objectif". Le mot "tabou" vient du fait qu'une fois une position écartée, nous ne pouvons plus y revenir. Cet algorithme procède donc par élimination jusqu'à trouver une solution convenable.
 \cite{03-algoTabou}
 \end{itemize}
-
-\paragraph{}
-Il existe probablement d'autres algorithmes de ce genre, dont nous aurons besoin pour aboutir à une solution convenable.
 
 \newpage
 \section{Cahier des charges}
@@ -124,21 +121,18 @@ Cela signifie qu'il n'existe pas de solution exacte, et qu'on ne peut les résou
 
 Même s'il n'existe pas de solution déterministe, nous pouvons malgré tout arriver à une solution "acceptable", c'est à dire répondant à l'ensemble des exigences du problème sans pour autant être optimale dans son organisation, en mettant en oeuvre des algorithmes de résolution rétroactifs.
 
-Le temps de résolution de ces problèmes augmente de manière exponentielle par rapport à l'augmentation des paramètres d'entrée. Nous devrons toujours se contenter d'une solution qui sera au mieux "satisfaisante".
+Le temps de résolution de ces problèmes augmente de manière exponentielle par rapport à l'augmentation des paramètres d'entrée. Nous devrons toujours nous contenter d'une solution qui sera au mieux "satisfaisante".
 \cite{01-npComplet}
 
 \subsection{Langage utilisé}
-Nous avons décidé de programmer ce projet en C++ car c'est un langage objet qui nous aidera à mieux organiser notre code, notamment grace au système de classes, au polymorphisme, et l'héritage, etc. De plus, il s'agit d'un langage que nous avons beaucoup pratiqué durant notre cursus.
+Nous avons décidé de programmer ce projet en C++ car c'est un langage objet qui permet de bien organiser son code, notamment grâce au système de classes, au polymorphisme, et l'héritage, etc. De plus, il s'agit d'un langage que nous avons beaucoup pratiqué durant notre cursus.
 Le Java répond également à ces critères, mais il est moins rapide, et un langage rapide est primordial pour une résolution raisonnable en temps de notre problème.
-
-\subsection{Simplification du problème}
-Le problème étant très conséquent et très complexe, nous avons décidé de réduire le nombre de facteurs à prendre en compte. C'est pourquoi, nous ne nous occupons pas des salles dans un premier temps et nous générons l'emploi du temps sur une seule semaine. Au fur et à mesure que notre solution se consolidera, nous rajouterons de nouveaux paramètres pour le rapprocher petit à petit du cas réel.
 
 \subsection{Interface graphique}
 Pour concentrer nos efforts sur la résolution du problème, nous avons également décidé de ne pas inclure l'interface graphique à notre projet, pour des raisons de temps. Cependant, nous pourrons mettre en place une petite interface utilisateur pour le programme qui gèrera les données.
 
 \subsection{Les données d'entrée du problème}
-Les données d'entrée du problème sont stockées dans des fichiers externes, car nous estimons que la nature et la quantité des données ne nécessitent pas de base de données. De plus, cela nous permet de vérifier facilement l'exactitude des données saisies lors de l'exécution du programme. Cela nous permet également de ne pas avoir à relancer le programme lorsque nous voulons modifier des données.
+Les données d'entrée du problème sont stockées dans des fichiers externes. En effet, la nature et la quantité des données ne nécessitent pas de base de données. Cette méthode rend facile la vésication de l'exactitude des données saisies lors de l'exécution du programme. Ainsi il n'est pas nécessaire de relancer le programme lorsque nous voulons modifier des données.
 
 Ce système permet également de mettre en place un archivage des données : l'utilisateur n'aura qu'à copier-coller les fichiers dans un dossier séparé.
 
@@ -158,7 +152,7 @@ Un professeur sera défini par :
 Une classe sera définie par:
 \begin{itemize}
 \item son nom
-\item le nombre d'élève
+\item le nombre d'élèves
 \item la liste des cours au programme
 \end{itemize}
 
@@ -174,7 +168,7 @@ Un cours sera défini par:
 Une salle sera définie par:
 \begin{itemize}
 \item son nom
-\item le nombre de place
+\item le nombre de places
 \item le type : salle de cours, salle de TP
 \end{itemize}
 
@@ -190,7 +184,7 @@ Une salle sera définie par:
 
 
 
-Dans l'ensemble de notre travail, un certain nombre de concepts mathématiques apparaîtront de manière récurrente. Cette section rappelle de façon formelle ces principes\footnote{Il faudrait s'assurer de l'exactitude des différentes définitions}.\\
+Dans l'ensemble de notre travail, un certain nombre de concepts mathématiques apparaîtront de manière récurrente. Cette section rappelle de façon formelle ces principes.\\
 
 Soit $\mathbb{E}$ un ensemble et  $\mathcal{R}$ une relation binaire sur les éléments de $\mathbb{E}$. 
 
@@ -220,16 +214,16 @@ Le problème de l'organisation l'emploi du temps est la donnée de :
 
 \end{enumerate} 
 
-\paragraph{Tâche : } Déterminer un ordre des $x_{i,j}$ ($i$ correspond un indice de matière, $j$ un indice de cours de la matière $X_{i}$) tel que les propriétés suivantes soient respectées.
+\paragraph{Tâche : } Déterminer un ordre des $x_{i,j}$ ($i$ correspond à un indice de matière, $j$ un indice de cours de la matière $X_{i}$) tel que les propriétés suivantes soient respectées :
 \begin{itemize}
-\item Tous les cours soient placés au sein des $k22$ blocs.
-\item l'ordre partiel sur les matières soit respecté
-\item l'ordre partiel sur les cours soit respecté
+\item Tous les cours sont placés au sein des $k22$ blocs.
+\item l'ordre partiel sur les matières est respecté
+\item l'ordre partiel sur les cours est respecté
 \item un cours ne peut avoir lieu plus d'une fois une même semaine quelle que soit la matière.
 \item un cours occupe un même bloc sur l'ensemble des $k22$ blocs.
 \end{itemize}   
 
-Nous introduisons un niveau de conflit compris entre $1$ et $n$. Il représente le nombre de profs disponibles pour enseigner une matière donnée\footnote{ce niveau de conflit peut vraisemblablement concerner les salles aussi}.
+Nous introduisons un niveau de conflit compris entre $1$ et $n$. Il représente le nombre de professeurs disponibles pour enseigner une matière donnée\footnote{ce niveau de conflit peut vraisemblablement concerner les salles aussi}.
 
 \newpage
 \section{Les acteurs}        
@@ -258,7 +252,7 @@ Le rôle du deuxième acteur est donc de gérer la maintenance de l'emploi du te
 \subsubsection{Objectif}
 L'objectif est de créer un emploi du temps à partir de données brutes entrées par l'utilisateur.
 
-\subsubsection{Acteurs}
+\subsubsection{Acteur}
 L'acteur est celui qui est chargé de la saisie des données.
         
 \subsubsection{Données échangées et description des enchaînements}    
@@ -267,8 +261,8 @@ L'acteur en question entre les différentes données propres aux professeurs, cl
 \begin{itemize}
 \item Pour chaque professeur, il doit entrer son nom, les matières que celui-ci enseigne et ses disponibilités dans la semaine. 
 \item Pour chaque matière, il doit entrer le nom de la matière, le programme qui devra être dispensé au cours de l'année (matières et nombre d'heures).
-\item Pour chaque classe, il doit préciser le nom de la classe, la promotion à laquelle elle appartient et le nombre d'élève que contient cette classe.
-\item Pour chaque salle, il doit entrer leur contenance et leur type (salle de TP info, salle de cours, etc.)
+\item Pour chaque classe, il doit préciser le nom de la classe, la promotion à laquelle elle appartient et le nombre d'élèves qu'elle contient.
+\item Pour chaque salle, il doit entrer leur contenance et leur type (salle de TP informatique, salle de cours, etc.)
 \end{itemize}
                     
 Une fois que toutes les données ont été entrées, le logiciel génère tous les emplois du temps de l'école. 
@@ -289,7 +283,7 @@ Une fois que toutes les données ont été entrées, le logiciel génère tous l
 \subsubsection{Objectif}
 Pour une raison ou pour une autre, l'utilisateur peut être amené à rajouter un évènement dans l'emploi du temps. Le logiciel doit donc le permettre en tenant  compte des évènements déjà placés et des contraintes que cela implique, sans avoir à générer à nouveau la totalité de l'emploi du temps. 
                 
-\subsubsection{Acteurs}
+\subsubsection{Acteur}
 Le seul acteur à intervenir dans ce cas est celui chargé de la maintenance.
             
 \subsubsection{Données échangées}
@@ -303,7 +297,7 @@ Pour placer un cours dans l'emploi du temps, le programme consulte les disponibi
                 
 \subsubsection{Description des enchaînements}        
 \subsubsubsection{Pré-condition}
-Lorsque l'utilisateur désire rajouter un évènement, il lui faut connaître les disponibilités de chaque entité, et savoir quelles classes sont concernées par l'évènement, si elles doivent recevoir l'évènement par classe ou par promo, etc.
+Lorsque l'utilisateur désire rajouter un évènement, il lui faut connaître les disponibilités de chaque entité, et savoir quelles classes sont concernées par l'évènement, si elles doivent recevoir l'évènement par classe ou par promotion, etc.
 
 \subsubsubsection{Séquence}
 L'utilisateur entre les disponibilités de chacun dans le programme, et celui-ci cherche les différents créneaux possibles pour placer le cours. L'utilisateur a alors deux possibilités : soit il laisse le programme placer automatiquement le cours, soit il demande au programme d'afficher la liste des créneaux disponibles afin de placer manuellement le cours. Celui-ci n'a alors qu'à choisir le créneau qui lui semble le plus adapté.
@@ -342,14 +336,14 @@ Enfin, il faut également préciser dans quel bâtiment se trouve la salle: dans
 
 \subsection{Les semaines}
 Chaque entité de notre emploi du temps (classes, professeurs, salles) doit être organisée dans le temps. Il faut donc leur attribuer un paramètre 'semaine', correspondant à leur planning d'occupation.
-Ces semaines sont être mises à jour à chaque fois qu'un nouveau cours sera ajouté au planning.
+Ces semaines sont mises à jour à chaque fois qu'un nouveau cours sera ajouté au planning.
 
 \subsection{Les fichiers externes}
 Les données d'entrée à stocker dans les fichiers sont toutes celles que l'utilisateur devra saisir pour lancer le programme. C'est à dire les données sur les professeurs (nom, disponibilités, matières), sur les matières (nom, nombre d'heures, promotions associées) et les salles (nom, capacité, type, bâtiment).\\
 
-Chaque type de donnée est stockée dans un fichier séparé. Au sein du fichier, une ligne contient tous les paramètres d'un seul élément. Les données seront donc récupérées lignes par ligne à chaque exécution du programme.\\
+Chaque type de donnée est stockée dans un fichier séparé. Au sein du fichier, une ligne contient tous les paramètres d'un seul élément. Les données seront donc récupérées ligne par ligne à chaque exécution du programme.\\
 
-Les données en sortie du problème, c'est à dire les emplois du temps de chaque éléments (classes, profs, salles) seront également dans des fichiers externes.
+Les données en sortie du problème, c'est à dire les emplois du temps de chaque éléments (classes, professeurs, salles) seront également dans des fichiers externes.
 
 \subsection{Diagrammes de classes}
 Ce diagramme représente les liens entre les différentes classes de notre programme avec les simplifications que nous avons décidé de réaliser dans un premier temps.\\
@@ -413,8 +407,8 @@ Chaque salle va avoir un type spécifique correspondant aux différents types de
 \newpage
 \section{Simplification du problème}
 Afin de simplifier le problème, nous avons décidé de le résoudre sans tenir compte des contraintes imposées par les classes de M2. 
-En effet, contrairement aux autres promotions, la M2 est composée de 4 classes ayant des programmes différents. Chacune de ces classes étant elles-même séparées en plusieurs spécialités ayant un tronc commun et un programme spécialisé.
-Par conséquent nous avons décidé de commencer le résolution du problème en se focalisant sur les promotions ayant un programme unique.\\
+En effet, contrairement aux autres promotions, la M2 est composée de 4 classes ayant des programmes différents. Chacune de ces classes étant elle-même séparée en plusieurs spécialités ayant un tronc commun et un programme spécialisé.
+Par conséquent nous avons décidé de commencer la résolution du problème en se focalisant sur les promotions ayant un programme unique.\\
 
 De plus, nous avons décidé de nous affranchir des contraintes relatives aux salles, notamment en ce qui concerne la distinction entre les locaux de Montparnasse et d'Ivry-sur-Seine.\\
 
