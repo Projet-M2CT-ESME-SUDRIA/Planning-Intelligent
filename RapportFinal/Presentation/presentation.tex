@@ -14,14 +14,11 @@
  
 \defbeamertemplate*{footline}{shadow theme}{%
 \leavevmode%
-\hbox{\begin{beamercolorbox}[wd=.46\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm plus1fil,rightskip=.3cm]{author in head/foot}%
-    \usebeamerfont{author in head/foot}\hfill\insertshortauthor
+\hbox{\begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm plus1fil,rightskip=.3cm]{author in head/foot}%
+\usebeamerfont{title in head/foot}\insertshorttitle\hfill%
 \end{beamercolorbox}%
-\begin{beamercolorbox}[wd=.46\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.2cm,rightskip=.3cm plus1fil]{title in head/foot}%
-    \usebeamerfont{title in head/foot}\insertshorttitle\hfill%
-\end{beamercolorbox}%
-\begin{beamercolorbox}[wd=.08\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.15cm,rightskip=.3cm plus1fil]{}%
-\hfill\insertframenumber\,/\,\inserttotalframenumber
+\begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.2cm,rightskip=.3cm plus1fil]{title in head/foot}%
+    \hfill\insertframenumber\,/\,\inserttotalframenumber
 \end{beamercolorbox}}%
 \vskip0pt%
 }
@@ -32,63 +29,71 @@
 \begin{frame}
 \titlepage
 \end{frame}
-
-\section{Introduction}
+\section{Noël TRAN}
+\subsection{Introduction}
 \begin{frame}
-Contexte : 
+\frametitle{Introduction}
+\begin{block}{Contexte}
 \begin{itemize}
 \item Emplois du temps réalisés manuellement
 \item Long et fastidieux\\
 \end{itemize}
-\end{frame}
+\end{block}
 
-\begin{frame}
-Objectifs :
+\begin{block}{Objectifs}
 \begin{itemize}
 \item Générer automatiquement les emplois du temps
 \item Apporter une solution possible
 \item Dans un temps acceptable
 \end{itemize}
+\end{block}
 \end{frame}
 
 \begin{frame}
-Problème de planification : 
+\frametitle{Introduction}
+\begin{block}{Problème de planification}
 \begin{itemize}
 \item Grand nombre de contraintes
 \item Infinité de combinaisons
 \item Peu de solution prenant en compte l'ensemble des contraintes
 \item Résolution dans le domaine de l'heuristique
 \end{itemize}
+\end{block}
 \end{frame}
 
 \begin{frame}
-Plan de développement \\
+\frametitle{Introduction}
+\begin{block}{Plan de développement}
 \begin{itemize}
 \item Mise en forme des données
 \item Contraintes et conventions
 \item Génération de l'emploi du temps
 \item Bilan
 \end{itemize}
+\end{block}
 \end{frame}
 
-\section{Mise en forme des données}
+\subsection{Mise en forme des données}
 \begin{frame}
-Données d'entrée : 
+\frametitle{Mise en forme des données}
+\begin{block}{Données d'entrée}
 \begin{itemize}
 \item Les professeurs
 \item Les cours
 \item Les classes
 \end{itemize}
+\end{block}
 \vspace{\baselineskip}
-Données de sortie :
+\begin{block}{Données de sortie}
 \begin{itemize}
 \item Les emplois du temps générés
 \item La liste des cours non placés
 \end{itemize}
+\end{block}
 \end{frame}
 
-\subsection{Gestion du temps}
 \begin{frame}
+\frametitle{Gestion du temps}
 Réalisation des emplois du temps par semestre\\
 \vspace{\baselineskip}
 Un semestre est représenté par :
@@ -104,18 +109,20 @@ Un semestre est représenté par :
 \end{center}
 \end{frame}
 
-\subsection{Les professeurs}
 \begin{frame} 
-Les professeurs ont 4 paramètres : 
+\frametitle{Les professeurs}
+\begin{block}{Paramètres du professeur}
 \begin{itemize}
 \item L'identifiant
 \item Le nom
 \item Les disponibilités
 \item La liste des cours enseignés
 \end{itemize}
+\end{block}
 \end{frame}
 
 \begin{frame}
+\frametitle{Les professeurs}
 11 demi-journées par semaine\\
 
 Prof disponible  $\rightarrow$ 1\\
@@ -127,9 +134,9 @@ Représentation des disponibilités d'un professeur sur les semaines:
 \end{itemize}
 \end{frame}
 
-\subsection{Les classes}
 \begin{frame}
-Les classes ont 5 paramètres : 
+\frametitle{Les classes}
+\begin{block}{Paramètre de la classe}
 \begin{itemize}
 \item L'identifiant
 \item Le nom
@@ -137,25 +144,27 @@ Les classes ont 5 paramètres :
 \item Les cours à recevoir
 \item Le nombre d'élèves\\
 \end{itemize}
+\end{block}
 \vspace{\baselineskip}
-Promotions constituées de $n$ classes
+$n$ classes par promotion
 \end{frame}
 
-\subsection{Les matières}
 \begin{frame}
-Les matières ont 4 paramètres : 
+\frametitle{Les matières}
+\begin{block}{Paramètre des matières}
 \begin{itemize}
 \item L'identifiant
 \item Le nom
 \item La promotion
 \item Le nombre d'heures sur le semestre\\
 \end{itemize}
+\end{block}
 \vspace{\baselineskip}
 Matière en commun à 2 promotions : Algèbre B1, Algèbre B2\\ 
 \end{frame}
 
-\subsection{Les emplois du temps}
 \begin {frame}
+\frametitle{Les emplois du temps}
 Un emploi du temps généré pour chaque classe : \\
 \begin{itemize}
 \item Contient l'ensemble des semaines du semestre
@@ -175,85 +184,86 @@ Un emploi du temps généré pour chaque classe : \\
 \end{center}
 \end{frame}
 
-\subsection{Les cours non placés}
 \begin{frame}
-Les cours qui n'ont pas pu être placés seront listés dans un fichier.
-Chaque cours aura : 
+\frametitle{Les cours non placés}
+\begin{block}{Chaque cours aura}
 \begin{itemize}
 \item La matière
 \item La classe
 \item Le professeur
 \item La semaine
 \end{itemize}
+\end{block}
+\vspace{0.6cm}
+Les cours qui n'ont pas pu être placés seront listés dans un fichier.
 \end{frame}
 
-
-
-\section{Contraintes et conventions}
-
-\subsection{Sur les professeurs}
+\section{Corentin COUDRAY}
+\subsection{Contraintes et conventions}
 \begin{frame}
-Contraintes sur les professeurs : 
+\frametitle{Les professeurs}
+\begin{block}{Contraintes sur les professeurs}
 \begin{itemize}
 \item Un seul cours par créneau
 \item Contraintes liées aux disponibilités
 \item Un seul professeur par matière et par classe
 \end{itemize}
+\end{block}
 \end{frame}
 
-\subsection{Sur les semaines}
 \begin{frame}
-Contraintes sur les semaines : 
+\frametitle{Les semaines}
+\begin{block}{Contraintes sur les semaines}
 \begin{itemize}
 \item Programme d'une semaine commun à chaque classe d'une même promotion
 \item Cours de 4 heures sur une même demi-journée
 \end{itemize}
+\end{block}
 \end{frame}
 
-\subsection{Sur les classes}
 \begin{frame}
-Contraintes sur les classes : 
+\frametitle{Les classes}
+\begin{block}{Contraintes sur les classes}
 \begin{itemize}
 \item Un seul cours par créneau
 \item Cours reportés sur le même créneau d'une semaine à l'autre
 \item Un seul cours du même type par semaine
 \item Pas de cours mélangeant plusieurs classes
 \end{itemize}
+\end{block}
 \end{frame}
 
-
-
-\section{Génération de l'emploi du temps}
+\subsection{Génération de l'emploi du temps}
 \begin {frame}
-Génération de l'emploi du temps à partir des données en entrée.
-
-3 étapes de conception : 
+\frametitle{Génération de l'emploi du temps}
+\begin{block}{3 étapes de conception}
 \begin{itemize}
-\item Les pré-traitements
+\item Pré-traitements
 \item Répartition du programme sur le semestre
 \item Emploi du temps spécifique à chaque classe
 \end{itemize}
+\end{block}
 \end{frame}
 
-\subsection{Pré-traitements}
 \begin{frame}
-Pré-traitement pour écarter les instances incohérentes\\
-\vspace{\baselineskip}
-Evaluation des critères suivants :
+\frametitle{Pré-traitements}
+\begin{block}{Evaluation des critères suivants}
 \begin {itemize}
 \item Nombre de professeurs
 \item Nombre d'heures de cours par promotion
 \end{itemize}
+\end{block}
 \end{frame}
 
 \begin{frame}
-Pour chaque matière :
+\frametitle{Pré-traitements}
+\begin{block}{Pour chaque matière}
 \begin{itemize}
 \item Calcule le nombre d'heures que peuvent donner les professeurs.
 \item Compare cette somme avec le nombre d'heures à dispenser
 \end{itemize}
-\vspace{\baselineskip}
-Exemple :\\
+\end{block}
+\vspace{\baselineskip}Exemple : \\
 Cours d'algèbre : 4 heures par semaine pour 6 promotions\\ 
 $\rightarrow$ 24 heures à dispenser\\
 Professeurs qualifiés : Dr Hagbe, 20 heures et M. Tort, 20 heures\\
@@ -261,85 +271,93 @@ $\rightarrow$ 40 heures de libre\\
 \end{frame}
 
 \begin{frame}
-Evaluation du nombre d'heures :\\
+\frametitle{Pré-traitements}
+\begin{block}{Evaluation du nombre d'heures}
 \begin{itemize}
 \item Calcule le temps nécessaire pour dispenser toutes les matières du programme
 \item Compare cette somme avec le nombre total d'heures du semestre
 \end{itemize}
+\end{block}
 \end{frame}
 
-
-\subsection{Répartition du programme sur le semestre}
 \begin{frame}
-Objectifs :
+\frametitle{Répartition du programme sur le semestre}
+\begin{block}{Objectifs}
 \begin{itemize}
 \item Déterminer un enchaînement logique des matières
 \item Garantir l'homogénéité des cours au sein d'une promotion
 \end{itemize}
+\end{block}
 \vspace{\baselineskip}
-Méthode :
+\begin{block}{Méthode}
 \begin{itemize}
 \item Traiter les promotions indépendamment les unes des autres
 \item Positionner les cours les plus volumineux au début du semestre
 \end{itemize}
+\end{block}
 \end{frame}
 
 \begin{frame}
-Tri des cours
 \begin{center}
 \includegraphics [width=117mm, height=60mm]{Dessin1.png}
 \end{center}
 \end{frame}
 
 \begin{frame}
-Mise en place des répartitions des cours sur le semestre
 \begin{center}
 \includegraphics [width=117mm, height=60mm]{RepartitionSemestre2.png}
 \end{center}
 \end{frame}
 
 \begin{frame}
-Répartition du programme sur le semestre
 \begin{center}
 \includegraphics [width=110mm, height=60mm]{RepartitionSemestre.png}
 \end{center}
 \end{frame}
 
-\subsection{Emploi du temps final}
-
+\section{Christophe JULIEN}
+\subsection{Génération de l'emploi du temps}
 \begin{frame}
-Principe :
+\frametitle{Emploi du temps final}
+\begin{block}{Principe}
 \begin{itemize}
 \item Fonction de répartition aléatoire des cours dans la semaine\\
 \item Génération de $n$ emplois du temps jusqu'à trouver une solution satisfaisante\\ 
 \item Création des emplois du temps par promotion
 \end{itemize}
+\end{block}
 \end{frame}
 
 \begin{frame}
-Création d'un emploi du temps :\\
+\frametitle{Emploi du temps final}
+\begin{block}{Création d'un emploi du temps}
 \begin{itemize}
 \item Semaine par semaine
 \item Pour toutes les classes de la promotion sélectionnée
 \end{itemize}
+\end{block}
 \end{frame}
 
 \begin{frame}
-Emploi du temps d'une semaine :
+\frametitle{Emploi du temps final}
+\begin{block}{Emploi du temps d'une semaine}
 \begin{itemize}
 \item Identification du couple classe-professeur ayant le moins de créneaux en commun
 \item Choix aléatoire de l'un de ces créneaux
 \item Placement effectif du cours dans l'emploi du temps de la classe
 \item Mise à jour des disponibilités du professeur
 \end{itemize}
+\end{block}
 \end{frame}
 
 \begin{frame}
-Enchaînement de semaines :
+\frametitle{Emploi du temps final}
+\begin{block}{Enchaînement de semaines}
 \begin{itemize}
 \item Copie des cours non terminés la semaine précédente
 \item Ajout des nouveaux cours de la même manière que précédemment
 \end{itemize}
+\end{block}
 \end{frame}
 
 \begin{frame}
@@ -367,37 +385,41 @@ Enchaînement de semaines :
 \end{frame}
 
 \begin{frame}
-Exceptions :
+\frametitle{Emploi du temps final}
+\begin{block}{Exceptions}
 \begin{itemize}
 \item Cours de 4h non placé sur une demi-journée
 \item Plus de créneau commun au professeur et à la promotion\\
 \end{itemize}
+\end{block}
+\vspace{0.6cm}
 Cours concernés ajoutés à la liste des cours non placés.
 \end{frame}
 
-\subsection{Déplacement de cours}
 \begin{frame}
-Deux types de déplacements :
+\frametitle{Déplacement de cours}
+\begin{block}{Deux types de déplacements}
 \begin{itemize}
 \item Placement d'un cours à partir de la liste des cours non placés
 \item Déplacement d'un cours pour assurer la maintenance de l'emploi du temps
 \end{itemize}
+\end{block}
 \end{frame}
 
-\section{Bilan}
-\subsection{Discussion}
+\subsection{Bilan}
 \begin{frame}
-Les améliorations possibles : 
+\frametitle{Discussion}
+\begin{block}{Les améliorations possibles}
 \begin{itemize}
 \item Les classes de M2
 \item Les salles et les locaux
 \item Les TP
 \end{itemize}
+\end{block}
 \end{frame}
 
-\subsection{Conclusion}
 \begin{frame}
-Conclusion :
+\frametitle {Conclusion}
 \begin{itemize}
 \item Méthode heuristique trouvant une solution\\
 \item Dans un temps correcte $\rightarrow$ 0,145 secondes\\
