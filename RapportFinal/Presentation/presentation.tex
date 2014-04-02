@@ -108,10 +108,10 @@ Un semestre est représenté par :
 \begin{frame} 
 Les professeurs ont 4 paramètres : 
 \begin{itemize}
-\item l'identifiant
-\item le nom
-\item ses disponibilités
-\item la liste des cours enseignés
+\item L'identifiant
+\item Le nom
+\item Les disponibilités
+\item La liste des cours enseignés
 \end{itemize}
 \end{frame}
 
@@ -131,11 +131,11 @@ Représentation des disponibilités d'un professeur sur les semaines:
 \begin{frame}
 Les classes ont 5 paramètres : 
 \begin{itemize}
-\item l'identifiant
-\item le nom
-\item la promotion à laquelle elle appartient
-\item les cours à recevoir
-\item le nombre d'élèves\\
+\item L'identifiant
+\item Le nom
+\item La promotion à laquelle elle appartient
+\item Les cours à recevoir
+\item Le nombre d'élèves\\
 \end{itemize}
 \vspace{\baselineskip}
 Promotions constituées de $n$ classes
@@ -145,10 +145,10 @@ Promotions constituées de $n$ classes
 \begin{frame}
 Les matières ont 4 paramètres : 
 \begin{itemize}
-\item l'identifiant
-\item le nom
-\item la promotion
-\item le nombre d'heures sur le semestre\\
+\item L'identifiant
+\item Le nom
+\item La promotion
+\item Le nombre d'heures sur le semestre\\
 \end{itemize}
 \vspace{\baselineskip}
 Matière en commun à 2 promotions : Algèbre B1, Algèbre B2\\ 
@@ -162,10 +162,17 @@ Un emploi du temps généré pour chaque classe : \\
 \item Chaque semaine contient les 22 créneaux
 \item Un créneau contient : 
 \begin {itemize}
-\item le cours
-\item le professeur
+\item Le cours
+\item Le professeur
+\item La salle
 \end{itemize}
 \end{itemize}
+\end{frame}
+
+\begin{frame}
+\begin{center}
+\includegraphics [width=110mm, height=45mm]{Dessin2.png}
+\end{center}
 \end{frame}
 
 \subsection{Les cours non placés}
@@ -173,10 +180,10 @@ Un emploi du temps généré pour chaque classe : \\
 Les cours qui n'ont pas pu être placés seront listés dans un fichier.
 Chaque cours aura : 
 \begin{itemize}
-\item le cours
-\item la promotion
-\item le professeur
-\item la semaine
+\item La matière
+\item La classe
+\item Le professeur
+\item La semaine
 \end{itemize}
 \end{frame}
 
@@ -186,6 +193,7 @@ Chaque cours aura :
 
 \subsection{Sur les professeurs}
 \begin{frame}
+Contraintes sur les professeurs : 
 \begin{itemize}
 \item Un seul cours par créneau
 \item Contraintes liées aux disponibilités
@@ -195,6 +203,7 @@ Chaque cours aura :
 
 \subsection{Sur les semaines}
 \begin{frame}
+Contraintes sur les semaines : 
 \begin{itemize}
 \item Programme d'une semaine commun à chaque classe d'une même promotion
 \item Cours de 4 heures sur une même demi-journée
@@ -203,6 +212,7 @@ Chaque cours aura :
 
 \subsection{Sur les classes}
 \begin{frame}
+Contraintes sur les classes : 
 \begin{itemize}
 \item Un seul cours par créneau
 \item Cours reportés sur le même créneau d'une semaine à l'autre
@@ -219,9 +229,9 @@ Génération de l'emploi du temps à partir des données en entrée.
 
 3 étapes de conception : 
 \begin{itemize}
-\item les pré-traitements
-\item répartition du programme sur le semestre
-\item emploi du temps spécifique à chaque classe
+\item Les pré-traitements
+\item Répartition du programme sur le semestre
+\item Emploi du temps spécifique à chaque classe
 \end{itemize}
 \end{frame}
 
@@ -231,8 +241,8 @@ Pré-traitement pour écarter les instances incohérentes\\
 \vspace{\baselineskip}
 Evaluation des critères suivants :
 \begin {itemize}
-\item nombre de professeurs
-\item nombre d'heures de cours par promotion
+\item Nombre de professeurs
+\item Nombre d'heures de cours par promotion
 \end{itemize}
 \end{frame}
 
@@ -275,7 +285,7 @@ Méthode :
 \end{frame}
 
 \begin{frame}
-Trie des cours
+Tri des cours
 \begin{center}
 \includegraphics [width=117mm, height=60mm]{Dessin1.png}
 \end{center}
@@ -300,7 +310,7 @@ Répartition du programme sur le semestre
 \begin{frame}
 Principe :
 \begin{itemize}
-\item Fonction de répartition aléatoire des cours dans la semaine.\\
+\item Fonction de répartition aléatoire des cours dans la semaine\\
 \item Génération de $n$ emplois du temps jusqu'à trouver une solution satisfaisante\\ 
 \item Création des emplois du temps par promotion
 \end{itemize}
@@ -317,7 +327,7 @@ Création d'un emploi du temps :\\
 \begin{frame}
 Emploi du temps d'une semaine :
 \begin{itemize}
-\item Identification du couple promotion-professeur ayant le moins de créneaux en commun
+\item Identification du couple classe-professeur ayant le moins de créneaux en commun
 \item Choix aléatoire de l'un de ces créneaux
 \item Placement effectif du cours dans l'emploi du temps de la classe
 \item Mise à jour des disponibilités du professeur
@@ -347,6 +357,12 @@ Enchaînement de semaines :
 \begin{frame}
 \begin{center}
 \includegraphics [width=110mm, height=45mm]{Dessin5.png}
+\end{center}
+\end{frame}
+
+\begin{frame}
+\begin{center}
+\includegraphics [width=110mm, height=45mm]{Dessin6.png}
 \end{center}
 \end{frame}
 
@@ -381,6 +397,7 @@ Les améliorations possibles :
 
 \subsection{Conclusion}
 \begin{frame}
+Conclusion :
 \begin{itemize}
 \item Méthode heuristique trouvant une solution\\
 \item Dans un temps correcte $\rightarrow$ 0,145 secondes\\
