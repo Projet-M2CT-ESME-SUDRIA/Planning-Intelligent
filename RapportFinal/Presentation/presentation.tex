@@ -11,8 +11,21 @@
 \author{Corentin Coudray - Christophe Julien - Noël Tran}
 \institute{ESME SUDRIA}
 \date{03 avril 2014}
+ 
+\defbeamertemplate*{footline}{shadow theme}{%
+\leavevmode%
+\hbox{\begin{beamercolorbox}[wd=.46\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm plus1fil,rightskip=.3cm]{author in head/foot}%
+    \usebeamerfont{author in head/foot}\hfill\insertshortauthor
+\end{beamercolorbox}%
+\begin{beamercolorbox}[wd=.46\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.2cm,rightskip=.3cm plus1fil]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\insertshorttitle\hfill%
+\end{beamercolorbox}%
+\begin{beamercolorbox}[wd=.08\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.15cm,rightskip=.3cm plus1fil]{}%
+\hfill\insertframenumber\,/\,\inserttotalframenumber
+\end{beamercolorbox}}%
+\vskip0pt%
+}
 
-\addtobeamertemplate{footline}{\hspace{0.2em}\insertframenumber\hspace{0.5em}}
   
 \begin{document}
 
@@ -48,8 +61,17 @@ Problème de planification :
 \end{itemize}
 \end{frame}
 
-\section{Mise en forme des données}
+\begin{frame}
+Plan de développement \\
+\begin{itemize}
+\item Mise en forme des données
+\item Contraintes et conventions
+\item Génération de l'emploi du temps
+\item Bilan
+\end{itemize}
+\end{frame}
 
+\section{Mise en forme des données}
 \begin{frame}
 Données d'entrée : 
 \begin{itemize}
@@ -58,7 +80,7 @@ Données d'entrée :
 \item Les classes
 \end{itemize}
 \vspace{\baselineskip}
-Données de sortie
+Données de sortie :
 \begin{itemize}
 \item Les emplois du temps générés
 \item La liste des cours non placés
@@ -134,8 +156,7 @@ Matière en commun à 2 promotions : Algèbre B1, Algèbre B2\\
 
 \subsection{Les emplois du temps}
 \begin {frame}
-Un emploi du temps généré pour chaque classe\\
-
+Un emploi du temps généré pour chaque classe : \\
 \begin{itemize}
 \item Contient l'ensemble des semaines du semestre
 \item Chaque semaine contient les 22 créneaux
@@ -149,7 +170,7 @@ Un emploi du temps généré pour chaque classe\\
 
 \subsection{Les cours non placés}
 \begin{frame}
-Les cours qui n'ont pas pu être placé seront listés dans un fichier.
+Les cours qui n'ont pas pu être placés seront listés dans un fichier.
 Chaque cours aura : 
 \begin{itemize}
 \item le cours
@@ -208,7 +229,7 @@ Génération de l'emploi du temps à partir des données en entrée.
 \begin{frame}
 Pré-traitement pour écarter les instances incohérentes\\
 \vspace{\baselineskip}
-Evaluation des critères suivant :
+Evaluation des critères suivants :
 \begin {itemize}
 \item nombre de professeurs
 \item nombre d'heures de cours par promotion
@@ -256,7 +277,7 @@ Méthode :
 \begin{frame}
 Trie des cours
 \begin{center}
-\includegraphics [width=117mm, height=60mm]{Dessin1.jpg}
+\includegraphics [width=117mm, height=60mm]{Dessin1.png}
 \end{center}
 \end{frame}
 
@@ -288,7 +309,7 @@ Principe :
 \begin{frame}
 Création d'un emploi du temps :\\
 \begin{itemize}
-\item Réalisé semaine par semaine
+\item Semaine par semaine
 \item Pour toutes les classes de la promotion sélectionnée
 \end{itemize}
 \end{frame}
